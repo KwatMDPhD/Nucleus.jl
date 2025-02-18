@@ -2,102 +2,88 @@ module ErrorMatrix
 
 using ..Omics
 
-function make()
+function fil!(E, bo_, p1_, p2)
 
-    Matrix{Int}(undef, 2, 2)
+    for id in eachindex(bo_)
 
-end
-
-function fil!(er, la_, pr_, th)
-
-    for id in eachindex(la_)
-
-        er[la_[id], pr_[id] < th ? 1 : 2] += 1
+        E[bo_[id] ? 2 : 1, p1_[id] < p2 ? 1 : 2] += 1
 
     end
 
 end
 
-function summarize(er, to = sum(er))
+function summarize(E, su = sum(E))
 
-    tn, fn, fp, tp = er
+    tn, fn, fp, tp = E
 
-    an = tn + fp
+    s0 = inv(tn + fp)
 
-    ap = fn + tp
+    s1 = inv(fn + tp)
 
-    tn / an, fn / ap, fp / an, tp / ap, tn / (tn + fn), tp / (tp + fp), (tn + tp) / to
+    pr = tp * s1
+
+    pp = tp / (tp + fp)
+
+    tn * s0,
+    fn * s1,
+    fp * s0,
+    pr,
+    tn / (tn + fn),
+    pp,
+    2.0 * pr * pp / (pr + pp),
+    (tn + tp) / su
 
 end
 
-function _make_axis(te)
+function make_axis(te)
 
-    Dict("title" => Dict("text" => te), "tickfont" => Dict("size" => Omics.Plot.S1))
+    Dict("title" => Dict("text" => te), "tickfont" => Dict("size" => 40))
 
 end
 
-function _make_annotation(yc, xc, te)
+function make_annotation(yc, xc, te, nu)
 
     Dict(
         "y" => yc,
         "x" => xc,
-        "text" => te,
-        "font" => Dict("size" => Omics.Plot.S2),
+        "text" => "$te $(Omics.Numbe.shorten(nu))",
+        "font" => Dict("size" => 24),
         "showarrow" => false,
     )
 
 end
 
-function plot(
-    ht,
-    er,
-    tn,
-    fn,
-    fp,
-    tp,
-    np,
-    pp,
-    ac;
-    ro_ = ("😵", "😊"),
-    co_ = ("👎 ", "👍"),
-    la = Dict{String, Any}(),
-)
+function plot(ht, E, tn, fn, fp, tp, np, pp, f1, ac; la = Dict{String, Any}())
+
+    yc_ = "❌", "✅"
+
+    xc_ = "👎 ", "👍"
 
     Omics.Plot.plot_heat_map(
         ht,
-        er;
-        ro_,
-        co_,
-        cl = Omics.Palette.fractionate(Omics.Palette.make(("#ffffff", Omics.Color.VI))),
+        E;
+        yc_,
+        xc_,
+        co = Omics.Coloring.fractionate(("#ffffff", Omics.Color.A2)),
         la = Omics.Dic.merge(
             Dict(
                 "title" => Dict("text" => "Error Matrix"),
-                "yaxis" => _make_axis("Actual"),
-                "xaxis" => _make_axis("Predicted"),
+                "yaxis" => make_axis("Actual"),
+                "xaxis" => make_axis("Predicted"),
                 "annotations" => (
-                    _make_annotation(
-                        ro_[1],
-                        co_[1],
-                        "$(er[1, 1])<br>TNR (Specificity) $(Omics.Numbe.shorten(tn))",
+                    make_annotation(yc_[1], xc_[1], "$(E[1, 1])<br>TNR (specificity)", tn),
+                    make_annotation(yc_[2], xc_[1], "$(E[2, 1])<br>FNR (type-2 error)", fn),
+                    make_annotation(yc_[1], xc_[2], "$(E[1, 2])<br>FPR (type-1 error)", fp),
+                    make_annotation(
+                        yc_[2],
+                        xc_[2],
+                        "$(E[2, 2])<br>TPR (sensitivity or recall)",
+                        tp,
                     ),
-                    _make_annotation(
-                        ro_[2],
-                        co_[1],
-                        "$(er[2, 1])<br>FNR (Type-2 Error) $(Omics.Numbe.shorten(fn))",
-                    ),
-                    _make_annotation(
-                        ro_[1],
-                        co_[2],
-                        "$(er[1, 2])<br>FPR (Type-1 Error) $(Omics.Numbe.shorten(fp))",
-                    ),
-                    _make_annotation(
-                        ro_[2],
-                        co_[2],
-                        "$(er[2, 2])<br>TPR (Sensitivity or Recall) $(Omics.Numbe.shorten(tp))",
-                    ),
-                    _make_annotation(0.5, 0, "NPV $(Omics.Numbe.shorten(np))"),
-                    _make_annotation(0.5, 1, "PPV (Precision) $(Omics.Numbe.shorten(pp))"),
-                    _make_annotation(0.5, 0.5, "Accuracy $(Omics.Numbe.shorten(ac))"),
+                    make_annotation(0.5, 0, "NPV", np),
+                    make_annotation(0.5, 1, "PPV (precision)", pp),
+                    make_annotation(0.75, 1, "F1", f1),
+                    make_annotation(0.5, 0.5, "Accuracy", ac),
                 ),
             ),
             la,

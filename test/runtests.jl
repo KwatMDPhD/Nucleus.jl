@@ -42,7 +42,7 @@ for na in (
     "Protein",
     "RangeNormalization",
     "RankNormalization",
-    #"ReceiverOperatingCharacteristic", # 3
+    "ReceiverOperatingCharacteristic",
     "Significance",
     "Strin",
     "Table",

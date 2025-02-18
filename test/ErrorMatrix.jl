@@ -4,19 +4,24 @@ using Omics
 
 # ---- #
 
-const ER = Omics.ErrorMatrix.make()
-
-const LA_ = [1, 1, 2, 2]
-
-const PR_ = [0, 0.4, 0.6, 1]
-
-# 8.041 ns (0 allocations: 0 bytes)
+# 8.000 ns (0 allocations: 0 bytes)
+# 9.300 ns (0 allocations: 0 bytes)
+# 5.958 ns (0 allocations: 0 bytes)
+# 9.041 ns (0 allocations: 0 bytes)
+# 8.000 ns (0 allocations: 0 bytes)
+# 9.050 ns (0 allocations: 0 bytes)
+# 7.958 ns (0 allocations: 0 bytes)
+# 9.009 ns (0 allocations: 0 bytes)
 # 6.000 ns (0 allocations: 0 bytes)
-# 8.042 ns (0 allocations: 0 bytes)
-# 8.042 ns (0 allocations: 0 bytes)
+# 9.000 ns (0 allocations: 0 bytes)
 # 6.000 ns (0 allocations: 0 bytes)
-# 6.000 ns (0 allocations: 0 bytes)
-for (th, re) in (
+# 9.041 ns (0 allocations: 0 bytes)
+
+const BO_ = [false, false, true, true]
+
+const P1_ = [0, 0.4, 0.6, 1]
+
+for (p2, re) in (
     (
         0.0,
         [
@@ -61,21 +66,16 @@ for (th, re) in (
     ),
 )
 
-    fill!(ER, 0)
+    E = zeros(Int, 2, 2)
 
-    Omics.ErrorMatrix.fil!(ER, LA_, PR_, th)
+    Omics.ErrorMatrix.fil!(E, BO_, P1_, p2)
 
-    @test ER == re
+    @test E == re
 
-    #@btime Omics.ErrorMatrix.fil!(ER, LA_, PR_, $th)
+    Omics.ErrorMatrix.plot("", E, Omics.ErrorMatrix.summarize(E)...)
+
+    #@btime Omics.ErrorMatrix.fil!($E, BO_, P1_, $p2)
+
+    #@btime Omics.ErrorMatrix.summarize($E)
 
 end
-
-# ---- #
-
-const EO = [
-    1 3
-    2 4
-]
-
-Omics.ErrorMatrix.plot("", EO, Omics.ErrorMatrix.summarize(EO)...)

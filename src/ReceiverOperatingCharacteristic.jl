@@ -2,48 +2,49 @@ module ReceiverOperatingCharacteristic
 
 using ..Omics
 
-function line(la_, pr_, th_ = Omics.Grid.make(pr_, 10); pl = true)
+function line(la_, p1_, p2_ = Omics.Grid.make(p1_, 10); pl = true)
 
-    ut = lastindex(th_)
+    um = lastindex(p2_)
 
-    fp_ = Vector{Float64}(undef, ut)
+    fp_ = Vector{Float64}(undef, um)
 
-    tp_ = Vector{Float64}(undef, ut)
+    tp_ = Vector{Float64}(undef, um)
 
-    er = Omics.ErrorMatrix.make()
+    E = Matrix{Int}(undef, 2, 2)
 
-    to = lastindex(la_)
+    su = lastindex(la_)
 
-    for it in 1:ut
+    for id in 1:um
 
-        th = th_[it]
+        p2 = p2_[id]
 
-        fill!(er, 0)
+        fill!(E, 0)
 
-        Omics.ErrorMatrix.fil!(er, la_, pr_, th)
+        Omics.ErrorMatrix.fil!(E, la_, p1_, p2)
 
-        tn, fn, fp, tp, np, pp, ac = Omics.ErrorMatrix.summarize(er, to)
+        tn, fn, fp, tp, np, pp, f1, ac = Omics.ErrorMatrix.summarize(E, su)
 
         if pl
 
             Omics.ErrorMatrix.plot(
                 "",
-                er,
+                E,
                 tn,
                 fn,
                 fp,
                 tp,
                 np,
                 pp,
+                f1,
                 ac;
-                la = Dict("title" => Dict("text" => "◑ $(Omics.Numbe.shorten(th))")),
+                la = Dict("title" => Dict("text" => "◑ $(Omics.Numbe.shorten(p2))")),
             )
 
         end
 
-        fp_[it] = fp
+        fp_[id] = fp
 
-        tp_[it] = tp
+        tp_[id] = tp
 
     end
 

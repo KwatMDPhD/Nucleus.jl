@@ -29,4 +29,4 @@ end
 
 # ---- #
 
-Omics.Ma.lo(map(ke -> Omics.Ma.ge(DI, ke), map(_ -> randstring('a':'b', 2), 1:1000)))
+Omics.Ma.lo(map(ke -> Omics.Ma.ge(DI, ke), map(_ -> randstring('a':'b', 2), 1:10000)))

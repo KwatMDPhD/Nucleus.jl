@@ -71,13 +71,13 @@ for (id, (nu_, N, u1, u2, u3, st)) in enumerate((
     R = Omics.Match.go(cor, nu_, N; u1, u2)
 
     Omics.MatchPlot.writ(
-        joinpath(homedir(), "Downloads", string(id)),
+        joinpath(tempdir(), string(id)),
         "Sample",
-        map(id -> "Sample $id", axes(N, 2)),
+        map(id -> "Sa$id", axes(N, 2)),
         "Target",
         nu_,
         "Feature",
-        map(id -> "Feature $id", axes(N, 1)),
+        map(id -> "Fe$id", axes(N, 1)),
         N,
         R;
         u1 = u3,
@@ -90,43 +90,48 @@ end
 
 seed!(20250217)
 
-const AA_ = Tuple{String, Vector{String}, Matrix{Float64}, Matrix{Float64}}[]
+const N4_ = rand(8)
+
+const BU_ = Tuple{String, Vector{String}, Matrix{Float64}, Matrix{Float64}}[]
+
+const XC_ = map(id -> "Sa$id", eachindex(N4_))
 
 for i1 in 1:2
 
-    N = randn(16, lastindex(N1_))
+    N = randn(16, lastindex(N4_))
 
-    R = Omics.Match.go(cor, N1_, N)
+    R = Omics.Match.go(cor, N4_, N)
 
-    na = "Set $i1"
+    ya = "Set $i1"
 
-    am_ = map(i2 -> "Feature $i1.$i2", axes(N, 1))
+    yc_ = map(i2 -> "Fe$i1.$i2", axes(N, 1))
 
     Omics.MatchPlot.writ(
-        joinpath(homedir(), "Downloads", na),
+        joinpath(tempdir(), ya),
         "Sample",
-        map(id -> "Sample $id", axes(N, 2)),
+        XC_,
         "Target",
-        N1_,
-        "Feature",
-        am_,
+        N4_,
+        ya,
+        yc_,
         N,
         R,
     )
 
-    push!(AA_, (na, am_, N, R))
+    push!(BU_, (ya, yc_, N, R))
 
 end
 
 Omics.MatchPlot.writ(
-    joinpath(homedir(), "Downloads", "Set.html"),
+    joinpath(tempdir(), "Set.html"),
     "Sample",
-    map(id -> "Sample $id", axes(N, 2)),
+    XC_,
     "Target",
-    N1_,
-    AA_,
+    N4_,
+    BU_,
     (
-        ("Set 1", ["Feature 1.4", "Feature 1.10"]),
-        ("Set 2", ["Feature 2.14", "Feature 2.13", "Feature 2.3"]),
+        ("Set 1", ["Fe1.7", "Fe1.16"]),
+        ("Set 1", ["Fe1.16", "Fe1.7"]),
+        ("Set 2", ["Fe2.3", "Fe2.5", "Fe2.11"]),
     ),
 )

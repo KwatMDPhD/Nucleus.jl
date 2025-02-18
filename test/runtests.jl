@@ -17,7 +17,7 @@ for na in (
     "Difference",
     "Distance",
     "Entropy",
-    #"ErrorMatrix", # 2
+    "ErrorMatrix",
     "Evidence",
     "Extreme",
     #"GEO", # 21

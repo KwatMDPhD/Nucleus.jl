@@ -26,9 +26,9 @@ const A4 = map(nu -> nu + 4.0, randn(20, 20))
 
 for (A_, re) in (((A1,), [1.0]), ((A1, A1), [1.0, 1.0]), ((A1, A1 * 2), [1, 0.5]))
 
-    @test Omics.MatrixFactorization._get_coefficient(A_) == re
+    @test Omics.MatrixFactorization.get_coefficient(A_) == re
 
-    #@btime Omics.MatrixFactorization._get_coefficient($A_)
+    @btime Omics.MatrixFactorization.get_coefficient($A_)
 
 end
 
@@ -38,7 +38,7 @@ function initialize(ar_...)
 
     seed!(20240427)
 
-    Omics.MatrixFactorization._initialize(ar_...)
+    Omics.MatrixFactorization.initialize(ar_...)
 
 end
 
@@ -50,7 +50,7 @@ for A in (A1, A2, A3, A4), fa in (1, 2, 4), nu in (2, 4, 8)
 
     @test isapprox(mean(A), mean(WH))
 
-    @info "$nu $(Omics.MatrixFactorization._get_objective(A, WH))"
+    @info "$nu $(Omics.MatrixFactorization.get_objective(A, WH))"
 
 end
 
@@ -87,7 +87,7 @@ for (id, A) in enumerate((A1, A2, A3, A4))
 
     H0 = initialize(NU, A)
 
-    W, H = Omics.MatrixFactorization.factorize(
+    W, H = Omics.MatrixFactorization.go(
         A,
         NU;
         init = :custom,
@@ -106,7 +106,7 @@ for (id, A) in enumerate((A1, A2, A3, A4))
 
     @test all(>=(0.0), H)
 
-    AWi = Omics.MatrixFactorization.solve_h(W, A)
+    AWi = Omics.MatrixFactorization.solve(W, A)
 
     Omics.Plot.plot_heat_map(joinpath(tempdir(), "$id.awi.html"), AWi)
 
@@ -114,20 +114,20 @@ for (id, A) in enumerate((A1, A2, A3, A4))
 
     @test isapprox(H, AWi; rtol = 1e-2)
 
-    #disable_logging(Warn)
-    #@btime Omics.MatrixFactorization.factorize(
-    #    $A,
-    #    NU;
-    #    init = :custom,
-    #    W0 = $W0,
-    #    H0 = $H0,
-    #    alg = :multmse,
-    #    tol = to,
-    #    maxiter = n2,
-    #)
-    #disable_logging(Debug)
+    disable_logging(Warn)
+    @btime Omics.MatrixFactorization.go(
+        $A,
+        NU;
+        init = :custom,
+        W0 = $W0,
+        H0 = $H0,
+        alg = :multmse,
+        tol = to,
+        maxiter = n2,
+    )
+    disable_logging(Debug)
 
-    #@btime Omics.MatrixFactorization.solve_h($W, $A)
+    @btime Omics.MatrixFactorization.solve($W, $A)
 
 end
 
@@ -166,7 +166,7 @@ for (i1, A) in enumerate((A1, A2, A3, A4))
 
     H0_ = map(A -> initialize(NU, A), A_)
 
-    W, H_ = Omics.MatrixFactorization.factorize_wide(A_, NU; W = W0, H_ = H0_, n2, to)
+    W, H_ = Omics.MatrixFactorization.go_wide(A_, NU; W = W0, H_ = H0_, n2, to)
 
     @test all(>=(0.0), W)
 
@@ -182,16 +182,9 @@ for (i1, A) in enumerate((A1, A2, A3, A4))
 
     end
 
-    #disable_logging(Warn)
-    #@btime Omics.MatrixFactorization.factorize_wide(
-    #    $[A],
-    #    NU;
-    #    W = $W0,
-    #    H_ = $[H0_[1]],
-    #    n2,
-    #    to,
-    #)
-    #disable_logging(Debug)
+    disable_logging(Warn)
+    @btime Omics.MatrixFactorization.go_wide($[A], NU; W = $W0, H_ = $[H0_[1]], n2, to)
+    disable_logging(Debug)
 
 end
 
@@ -201,7 +194,7 @@ seed!(20240427)
 
 A_ = (rand(20, 40), rand(20, 40), rand(20, 40))
 
-W, H_ = Omics.MatrixFactorization.factorize_wide(A_, 4; co_ = [2, 2, 2])
+W, H_ = Omics.MatrixFactorization.go_wide(A_, 4; co_ = [2, 2, 2])
 
 Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_w.html"), W)
 

@@ -81,6 +81,7 @@ function plot_heat_map(ht, nu; yc_ = (), xc_ = (), co = CO, la = Dict{String, An
                 "colorbar" => Dict(
                     "len" => 0.56,
                     "thickness" => 16,
+                    "outlinewidth" => 0,
                     "tickvals" => tick(filter(!isnan, nu)),
                     "tickfont" => Dict("size" => 16),
                 ),

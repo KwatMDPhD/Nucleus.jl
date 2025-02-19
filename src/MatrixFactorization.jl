@@ -24,7 +24,7 @@ function lo(bo, um, ob)
 
 end
 
-function factorize(A, um; ke_ar...)
+function go(A, um; ke_ar...)
 
     re = nnmf(A, um; ke_ar...)
 
@@ -34,7 +34,7 @@ function factorize(A, um; ke_ar...)
 
 end
 
-function _get_coefficient(A_)
+function get_coefficient(A_)
 
     um = lastindex(A_)
 
@@ -54,49 +54,89 @@ function _get_coefficient(A_)
 
 end
 
-function _initialize(A, nu::Integer)
+function get_scalar(A, um)
 
-    W = rand(size(A, 1), nu)
+    sqrt(mean(A) / um * lastindex(A))
+
+end
+
+function initialize(A, um::Integer)
+
+    W = rand(size(A, 1), um)
 
     foreach(Omics.RangeNormalization.do_sum!, eachcol(W))
 
-    fa = sqrt(mean(A) / nu * lastindex(A))
+    sc = get_scalar(A, um)
 
-    map!(nu -> nu * fa, W, W)
+    map!(um -> um * sc, W, W)
 
 end
 
-function _initialize(nu::Integer, A)
+function initialize(um::Integer, A)
 
-    H = rand(nu, size(A, 2))
+    H = rand(um, size(A, 2))
 
     foreach(Omics.RangeNormalization.do_sum!, eachrow(H))
 
-    fa = sqrt(mean(A) / nu * lastindex(A))
+    sc = get_scalar(A, um)
 
-    map!(nu -> nu * fa, H, H)
+    map!(um -> um * sc, H, H)
 
 end
 
-function _get_objective(A, WH)
+function get_objective(A, WH)
 
     0.5 * sqL2dist(A, WH)
 
 end
 
-function factorize_wide(
+function converged(W, Wp, H, Hp, to)
+
+    for ic in axes(W, 2)
+
+        wd = ws = hd = hs = 0
+
+        for i1 in axes(W, 1)
+
+            wd += (W[i1, ic] - Wp[i1, ic])^2
+
+            ws += (W[i1, ic] + Wp[i1, ic])^2
+
+        end
+
+        for i2 in axes(H, 2)
+
+            hd += (H[ic, i2] - Hp[ic, i2])^2
+
+            hs += (H[ic, i2] + Hp[ic, i2])^2
+
+        end
+
+        if to * sqrt(ws) < sqrt(wd) || to * sqrt(hs) < sqrt(hd)
+
+            return false
+
+        end
+
+    end
+
+    true
+
+end
+
+function go_wide(
     A_,
     u1;
-    W = _initialize(A_[1], u1),
-    H_ = [_initialize(u1, A) for A in A_],
-    co_ = _get_coefficient(A_),
+    W = initialize(A_[1], u1),
+    H_ = [initialize(u1, A) for A in A_],
+    co_ = get_coefficient(A_),
     n2 = 100,
     to = 0.01,
 )
 
     WH_ = map(H -> W * H, H_)
 
-    ob_ = map(_get_objective, A_, WH_)
+    ob_ = map(get_objective, A_, WH_)
 
     Wp = Matrix{Float64}(undef, size(W))
 
@@ -178,9 +218,9 @@ function factorize_wide(
 
         end
 
-        ob_ .= _get_objective.(A_, WH_)
+        ob_ .= get_objective.(A_, WH_)
 
-        bo = all(_has_converged(W, Wp, H_[ia], Hp_[ia], to) for ia in eachindex(A_))
+        bo = all(converged(W, Wp, H_[ia], Hp_[ia], to) for ia in eachindex(A_))
 
     end
 
@@ -190,41 +230,7 @@ function factorize_wide(
 
 end
 
-function _has_converged(W, Wp, H, Hp, to)
-
-    for ic in axes(W, 2)
-
-        wd = ws = hd = hs = 0
-
-        for i1 in axes(W, 1)
-
-            wd += (W[i1, ic] - Wp[i1, ic])^2
-
-            ws += (W[i1, ic] + Wp[i1, ic])^2
-
-        end
-
-        for i2 in axes(H, 2)
-
-            hd += (H[ic, i2] - Hp[ic, i2])^2
-
-            hs += (H[ic, i2] + Hp[ic, i2])^2
-
-        end
-
-        if to * sqrt(ws) < sqrt(wd) || to * sqrt(hs) < sqrt(hd)
-
-            return false
-
-        end
-
-    end
-
-    true
-
-end
-
-function solve_h(W, A)
+function solve(W, A)
 
     AWi = Matrix{Float64}(undef, size(W, 2), size(A, 2))
 

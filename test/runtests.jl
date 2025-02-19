@@ -21,7 +21,7 @@ for na in (
     "Evidence",
     "Extreme",
     #"GEO", # 21
-    #"GPSMap", # 11
+    "GPSMap",
     "Gene",
     "GeneralizedLinearModel",
     "Geometry",
@@ -45,6 +45,7 @@ for na in (
     "RankNormalization",
     "ReceiverOperatingCharacteristic",
     "Significance",
+    "SimultaneousMatrixFactorization",
     "Strin",
     "Table",
     "Target",

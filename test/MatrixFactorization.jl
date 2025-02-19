@@ -1,14 +1,12 @@
 using Random: seed!
 
-using StatsBase: mean
-
 using Test: @test
 
 using Omics
 
 # ---- #
 
-seed!(20240422)
+seed!(20250219)
 
 const A1 = map(nu -> nu + 4.0, randn(10, 10))
 
@@ -20,196 +18,94 @@ const A4 = map(nu -> nu + 4.0, randn(20, 20))
 
 # ---- #
 
-# 111.622 ns (2 allocations: 64 bytes)
-# 213.287 ns (2 allocations: 80 bytes)
-# 213.287 ns (2 allocations: 80 bytes)
+# 81.952 ns (2 allocations: 240 bytes)
+# 180.476 ns (2 allocations: 720 bytes)
+# 95.426 ns (2 allocations: 240 bytes)
+# 193.176 ns (2 allocations: 720 bytes)
+# 115.378 ns (2 allocations: 416 bytes)
+# 297.297 ns (2 allocations: 1.38 KiB)
+# 139.179 ns (2 allocations: 416 bytes)
+# 321.302 ns (2 allocations: 1.38 KiB)
 
-for (A_, re) in (((A1,), [1.0]), ((A1, A1), [1.0, 1.0]), ((A1, A1 * 2), [1, 0.5]))
+for A in (A1, A2, A3, A4), um in (2, 8)
 
-    @test Omics.MatrixFactorization.get_coefficient(A_) == re
+    A = A * rand() * 10.0
 
-    #@btime Omics.MatrixFactorization.get_coefficient($A_)
+    B =
+        Omics.MatrixFactorization.initialize(A, um) *
+        Omics.MatrixFactorization.initialize(um, A)
 
-end
+    #@btime Omics.MatrixFactorization.initialize($A, $um)
 
-# ---- #
-
-function initialize(ar_...)
-
-    seed!(20240427)
-
-    Omics.MatrixFactorization.initialize(ar_...)
-
-end
-
-# ---- #
-
-for A in (A1, A2, A3, A4), U1 in (2, 4, 8)
-
-    WH = initialize(A, U1) * initialize(U1, A)
-
-    @test isapprox(mean(A), mean(WH))
-
-    @info "$U1 $(Omics.MatrixFactorization.get_objective(A, WH))"
+    @test isapprox(sum(A), sum(B))
 
 end
 
 # ---- #
 
-const to = 1e-4
+#┌ Info: Converged in 153.
+#└   ob = 0.22880404150224723
+#  1.258 μs (15 allocations: 2.86 KiB)
+#  4.048 μs (152 allocations: 10.31 KiB)
+#┌ Info: Converged in 266.
+#└   ob = 0.20694320802554636
+#  1.879 μs (15 allocations: 4.38 KiB)
+#  8.028 μs (302 allocations: 20.58 KiB)
+#┌ Info: Converged in 593.
+#└   ob = 0.2191871631525295
+#  1.604 μs (15 allocations: 4.38 KiB)
+#  5.465 μs (152 allocations: 14.53 KiB)
+#┌ Warning: Failed to converge in 1000.
+#│   ob = 0.27737913251853863
+#└ @ Omics.MatrixFactorization ~/craft/to/Omics.jl/src/MatrixFactorization.jl:45
+#  2.481 μs (16 allocations: 6.73 KiB)
+#  10.833 μs (302 allocations: 29.02 KiB)
 
-const U1 = 3
+for A in (A1, A2, A3, A4)
 
-const u2 = 1000
+    um = 3
 
-# ---- #
+    init = :custom
 
-#┌ Info: Converged in 481.
-#└   ob = 0.20499998731688607
-#  1.196 μs (15 allocations: 2.86 KiB)
-#  3.672 μs (152 allocations: 10.31 KiB)
-#┌ Info: Converged in 425.
-#└   ob = 0.3142612867299134
-#  1.817 μs (15 allocations: 4.38 KiB)
-#  7.281 μs (302 allocations: 20.58 KiB)
-#┌ Info: Converged in 281.
-#└   ob = 0.22492657317328926
-#  1.542 μs (15 allocations: 4.38 KiB)
-#  5.132 μs (152 allocations: 14.53 KiB)
-#┌ Info: Converged in 804.
-#└   ob = 0.29934276449451963
-#  2.435 μs (16 allocations: 6.73 KiB)
-#  10.083 μs (302 allocations: 29.02 KiB)
+    seed!(20250219)
 
-for (id, A) in enumerate((A1, A2, A3, A4))
+    W0 = Omics.MatrixFactorization.initialize(A, um)
 
-    W0 = initialize(A, U1)
+    H0 = Omics.MatrixFactorization.initialize(um, A)
 
-    H0 = initialize(U1, A)
+    alg = :multmse
 
-    W, H = Omics.MatrixFactorization.go(
-        A,
-        U1;
-        init = :custom,
-        W0,
-        H0,
-        alg = :multmse,
-        tol = to,
-        maxiter = u2,
-    )
+    tol = 1e-4
+
+    maxiter = 1000
+
+    W1, H1 = Omics.MatrixFactorization.go(A, um; init, W0, H0, alg, tol, maxiter)
 
     #disable_logging(Warn)
     #@btime Omics.MatrixFactorization.go(
     #    $A,
-    #    U1;
-    #    init = :custom,
+    #    $um;
+    #    init = $init,
     #    W0 = $W0,
     #    H0 = $H0,
-    #    alg = :multmse,
-    #    tol = to,
-    #    maxiter = u2,
+    #    alg = $alg,
+    #    tol = $tol,
+    #    maxiter = $maxiter,
     #)
     #disable_logging(Debug)
 
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "$id.w.html"), W)
+    pr = joinpath(tempdir(), join(size(A), '_'))
 
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "$id.h.html"), H)
+    Omics.Plot.plot_heat_map("$pr.w1.html", W1)
 
-    @test all(>=(0.0), W)
+    Omics.Plot.plot_heat_map("$pr.h1.html", H1)
 
-    @test all(>=(0.0), H)
+    H2 = Omics.MatrixFactorization.solve(W1, A)
 
-    AWi = Omics.MatrixFactorization.solve(W, A)
+    #@btime Omics.MatrixFactorization.solve($W1, $A)
 
-    #@btime Omics.MatrixFactorization.solve($W, $A)
+    Omics.Plot.plot_heat_map("$pr.h2.html", H2)
 
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "$id.awi.html"), AWi)
-
-    @test all(>=(0.0), AWi)
-
-    @test isapprox(H, AWi; rtol = 1e-2)
-
-end
-
-# ---- #
-
-#┌ Info: Converged in 471.
-#│   ob =
-#│    2-element Vector{Float64}:
-#│     0.2050057657196614
-#└     0.2050057657196614
-#  1.708 μs (32 allocations: 3.36 KiB)
-#┌ Info: Converged in 502.
-#│   ob =
-#│    2-element Vector{Float64}:
-#│     0.3142841434306548
-#└     0.3142841434306548
-#  2.546 μs (32 allocations: 4.88 KiB)
-#┌ Info: Converged in 348.
-#│   ob =
-#│    2-element Vector{Float64}:
-#│     0.2249289266965805
-#└     0.2249289266965805
-#  2.306 μs (32 allocations: 4.88 KiB)
-#┌ Info: Converged in 648.
-#│   ob =
-#│    2-element Vector{Float64}:
-#│     0.2993410572495553
-#└     0.2993410572495553
-#  3.620 μs (33 allocations: 7.23 KiB)
-
-for (i1, A) in enumerate((A1, A2, A3, A4))
-
-    A_ = [A, A]
-
-    W0 = initialize(A, U1)
-
-    H0_ = map(A -> initialize(U1, A), A_)
-
-    W, H_ = Omics.MatrixFactorization.go_wide(A_, U1; W = W0, H_ = H0_, u2, to)
-
-    #disable_logging(Warn)
-    #@btime Omics.MatrixFactorization.go_wide($[A], U1; W = $W0, H_ = $[H0_[1]], u2, to)
-    #disable_logging(Debug)
-
-    @test all(>=(0.0), W)
-
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "wide.$i1.w.html"), W)
-
-    for i2 in eachindex(A_)
-
-        H = H_[i2]
-
-        @test all(>=(0.0), H)
-
-        Omics.Plot.plot_heat_map(joinpath(tempdir(), "wide.$i1.h.$i2.html"), H)
-
-    end
-
-end
-
-# ---- #
-
-seed!(20240427)
-
-A_ = (rand(20, 40), rand(20, 40), rand(20, 40))
-
-W, H_ = Omics.MatrixFactorization.go_wide(A_, 4; co_ = [2, 2, 2])
-
-Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_w.html"), W)
-
-for id in eachindex(A_)
-
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_h$id.html"), H_[id])
-
-end
-
-# ---- #
-
-for id in eachindex(A_)
-
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_a$id.html"), A_[id])
-
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_wh$id.html"), W * H_[id])
+    @test isapprox(H1, H2; rtol = 1e-2)
 
 end

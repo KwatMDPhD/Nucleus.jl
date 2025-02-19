@@ -43,6 +43,7 @@ for na in (
     "RankNormalization",
     "ReceiverOperatingCharacteristic",
     "Significance",
+    "SimultaneousMatrixFactorization",
     "Strin",
     "Table",
     "Target",

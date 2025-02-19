@@ -4,115 +4,123 @@ using GLM: @formula, Binomial, glm, predict
 
 using ..Omics
 
-# TODO: Generalize
+function fit(n1_, n2_)
 
-function fit(ta_, fe_)
-
-    glm((@formula ta ~ fe), (ta = ta_, fe = fe_), Binomial())
+    glm((@formula n1 ~ n2), (n1 = n1_, n2 = n2_), Binomial())
 
 end
 
-function predic(gl, fe_)
+function predic(gl, n2_)
 
-    predict(gl, (fe = fe_,); interval = :confidence)
+    predict(gl, (n2 = n2_,); interval = :confidence)
 
 end
 
-function predic(gl, fe::Real)
+function predic(gl, n2::Real)
 
-    pr_, lo_, up_ = predic(gl, [fe])
+    p1_, p2_, p3_ = predic(gl, [n2])
 
-    pr_[], lo_[], up_[]
+    p1_[], p2_[], p3_[]
+
+end
+
+function rang(mi, ma, fr)
+
+    fr *= (ma - mi)
+
+    mi - fr, ma + fr
 
 end
 
 function plot(
     ht,
-    ns,
-    sa_,
-    nt,
-    ta_,
-    nf,
-    fe_,
-    pr_,
-    lo_,
-    up_;
+    xa,
+    xc_,
+    y1,
+    n1_,
+    y2,
+    n2_,
+    p1_,
+    p2_,
+    p3_;
     si = 4,
     wi = 4,
     la = Dict{String, Any}(),
 )
 
-    hd = Omics.Color.VI
+    c1 = Omics.Color.VI
 
-    hp = Omics.Color.TU
+    c2 = Omics.Color.TU
 
-    bo = Dict("yaxis" => "y3", "x" => sa_, "mode" => "lines", "line" => Dict("width" => 0))
+    tr = Dict("yaxis" => "y3", "x" => xc_, "mode" => "lines", "line" => Dict("width" => 0))
 
-    di = 0.96
+    om = 0.96
 
-    ex = 0.032
+    fr = 0.032
 
     Omics.Plot.plot(
         ht,
         (
             Dict(
                 "type" => "heatmap",
-                "y" => (nt,),
-                "x" => sa_,
-                "z" => (ta_,),
-                "colorscale" => Omics.Palette.fractionate(Omics.Palette.BI),
+                "y" => (y1,),
+                "x" => xc_,
+                "z" => (n1_,),
+                "colorscale" =>
+                    Omics.Coloring.fractionate((Omics.Color.LI, Omics.Color.DA)),
                 "showscale" => false,
             ),
             Dict(
                 "yaxis" => "y2",
-                "y" => fe_,
-                "x" => sa_,
+                "y" => n2_,
+                "x" => xc_,
                 "mode" => "markers",
-                "marker" => Dict("size" => si, "color" => hd),
+                "marker" => Dict("size" => si, "color" => c1),
             ),
             Dict(
                 "yaxis" => "y3",
                 "y" => (0.5, 0.5),
-                "x" => (sa_[1], sa_[end]),
+                "x" => (xc_[1], xc_[end]),
                 "mode" => "lines",
                 "line" => Dict("width" => wi * 0.5, "color" => "#000000"),
             ),
-            merge(bo, Dict("y" => lo_)),
+            merge(tr, Dict("y" => p2_)),
             merge(
-                bo,
+                tr,
                 Dict(
-                    "y" => up_,
+                    "y" => p3_,
                     "fill" => "tonexty",
-                    "fillcolor" => Omics.Color.hexify(hp, 0.16),
+                    "fillcolor" => Omics.Color.hexify(c2, 0.16),
                 ),
             ),
-            merge(bo, Dict("y" => pr_, "line" => Dict("width" => wi, "color" => hp))),
+            merge(tr, Dict("y" => p1_, "line" => Dict("width" => wi, "color" => c2))),
         ),
         Omics.Dic.merg(
             Dict(
                 "showlegend" => false,
-                "yaxis" => Dict("domain" => (di, 1.0), "ticks" => ""),
+                "yaxis" => Dict("domain" => (om, 1), "ticks" => ""),
                 "yaxis2" => Dict(
-                    "domain" => (0.0, di),
+                    "domain" => (0, om),
                     "position" => 0,
-                    "title" => Dict("text" => nf, "font" => Dict("color" => hd)),
-                    "range" => Omics.Plot.rang(extrema(fe_)..., ex),
-                    "tickvals" => map(Omics.Numbe.shorten, Omics.Plot.tick(fe_)),
+                    "title" => Dict("text" => y2, "font" => Dict("color" => c1)),
+                    "range" => rang(extrema(n2_)..., fr),
+                    "tickvals" => map(Omics.Numbe.shorten, Omics.Plot.tick(n2_)),
                 ),
                 "yaxis3" => Dict(
                     "overlaying" => "y2",
                     "position" => 0.112,
                     "title" => Dict(
-                        "text" => "Probability of $nt",
-                        "font" => Dict("color" => hp),
+                        "text" => "Probability of $y1",
+                        "font" => Dict("color" => c2),
                     ),
-                    "range" => Omics.Plot.rang(0, 1, ex),
-                    "tickvals" => (0.0, map(Omics.Numbe.shorten, extrema(pr_))..., 1.0),
+                    "range" => rang(0, 1, fr),
+                    "tickvals" =>
+                        (0, map(Omics.Numbe.shorten, Omics.Plot.tick(p1_))..., 1),
                 ),
                 "xaxis" => Dict(
                     "anchor" => "y2",
-                    "domain" => (0.08, 1.0),
-                    "title" => Dict("text" => "$ns ($(lastindex(ta_)))"),
+                    "domain" => (0.08, 1),
+                    "title" => Dict("text" => "$xa ($(lastindex(n1_)))"),
                     "ticks" => "",
                 ),
             ),

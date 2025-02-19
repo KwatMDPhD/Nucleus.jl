@@ -4,94 +4,67 @@ using Omics
 
 # ---- #
 
-function sor(sa_, ta_, fe_)
-
-    id_ = sortperm(fe_)
-
-    sa_[id_], ta_[id_], fe_[id_]
-
-end
-
-# ---- #
-
-for (ta_, fe_, re) in (
+for (n1_, n2_, re) in (
     (
         [1, 0, 1, 0, 1, 0],
-        [2, 0, 2, 0, 2, 0],
+        [2, -2, 2, -2, 2, -2],
         [
-            2.3504627745014825e-8,
-            2.646552652540957e-5,
-            0.02893859040955415,
-            0.9710614095904461,
+            2.350462774501466e-8,
+            2.6465526525409428e-5,
+            0.028938590409553988,
+            0.971061409590446,
             0.9999735344734746,
             0.9999999764953722,
         ],
     ),
     (
         [0, 1, 0, 1, 0, 1],
-        [2, 0, 2, 0, 2, 0],
+        [2, -2, 2, -2, 2, -2],
         [
             0.9999999764953722,
             0.9999735344734746,
-            0.9710614095904458,
-            0.02893859040955395,
-            2.6465526525409333e-5,
+            0.9710614095904461,
+            0.028938590409554002,
+            2.6465526525409428e-5,
             2.350462774501466e-8,
         ],
     ),
+    (rand(0:1, 10), randn(10), nothing),
+    (rand(0:1, 100), randn(100), nothing),
+    (rand(0:1, 1000), randn(1000), nothing),
+    (rand(0:1, 10000), randn(10000), nothing),
 )
 
-    up = lastindex(ta_)
+    id_ = sortperm(n2_)
 
-    sa_, ta_, fe_ = sor(Omics.Simulation.label(up), ta_, fe_)
+    n1_ = n1_[id_]
 
-    pr_, lo_, up_ = Omics.GeneralizedLinearModel.predic(
-        Omics.GeneralizedLinearModel.fit(ta_, fe_),
-        Omics.Grid.make(fe_, up),
+    n2_ = n2_[id_]
+
+    xc_ = map(id -> "Sa$id", id_)
+
+    p1_, p2_, p3_ = Omics.GeneralizedLinearModel.predic(
+        Omics.GeneralizedLinearModel.fit(n1_, n2_),
+        Omics.Grid.make(n2_, lastindex(n1_)),
     )
 
-    @test pr_ == re
+    if !isnothing(re)
+
+        @test p1_ == re
+
+    end
 
     Omics.GeneralizedLinearModel.plot(
         "",
         "Sample",
-        sa_,
+        xc_,
         "Target",
-        ta_,
+        n1_,
         "Feature",
-        fe_,
-        pr_,
-        lo_,
-        up_;
-        si = 8,
-        wi = 8,
-    )
-
-end
-
-# ---- #
-
-for ur in (10, 100, 1000, 10000, 100000)
-
-    sa_, ta_, fe_ = sor(Omics.Simulation.label(ur), rand(0:1, ur), randn(ur))
-
-    pr_, lo_, up_ = Omics.GeneralizedLinearModel.predic(
-        Omics.GeneralizedLinearModel.fit(ta_, fe_),
-        Omics.Grid.make(fe_, ur),
-    )
-
-    Omics.GeneralizedLinearModel.plot(
-        "",
-        "Sample",
-        sa_,
-        "Target",
-        ta_,
-        "Feature",
-        fe_,
-        pr_,
-        lo_,
-        up_;
-        la = Dict("title" => Dict("text" => "$ur Points")),
+        n2_,
+        p1_,
+        p2_,
+        p3_,
     )
 
 end

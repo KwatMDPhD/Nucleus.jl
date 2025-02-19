@@ -34,18 +34,17 @@ function factorize(A, um; ke_ar...)
 
 end
 
-# TODO: Pick up here.
 function _get_coefficient(A_)
 
-    nu = lastindex(A_)
+    um = lastindex(A_)
 
-    co_ = Vector{Float64}(undef, nu)
+    co_ = Vector{Float64}(undef, um)
 
     no = norm(A_[1])
 
     co_[1] = 1.0
 
-    for id in 2:nu
+    for id in 2:um
 
         co_[id] = no / norm(A_[id])
 

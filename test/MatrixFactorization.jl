@@ -28,7 +28,7 @@ for (A_, re) in (((A1,), [1.0]), ((A1, A1), [1.0, 1.0]), ((A1, A1 * 2), [1, 0.5]
 
     @test Omics.MatrixFactorization.get_coefficient(A_) == re
 
-    @btime Omics.MatrixFactorization.get_coefficient($A_)
+    #@btime Omics.MatrixFactorization.get_coefficient($A_)
 
 end
 
@@ -44,13 +44,13 @@ end
 
 # ---- #
 
-for A in (A1, A2, A3, A4), fa in (1, 2, 4), nu in (2, 4, 8)
+for A in (A1, A2, A3, A4), U1 in (2, 4, 8)
 
-    WH = initialize(A, nu) * initialize(nu, A)
+    WH = initialize(A, U1) * initialize(U1, A)
 
     @test isapprox(mean(A), mean(WH))
 
-    @info "$nu $(Omics.MatrixFactorization.get_objective(A, WH))"
+    @info "$U1 $(Omics.MatrixFactorization.get_objective(A, WH))"
 
 end
 
@@ -58,9 +58,9 @@ end
 
 const to = 1e-4
 
-const NU = 3
+const U1 = 3
 
-const n2 = 1000
+const u2 = 1000
 
 # ---- #
 
@@ -83,20 +83,33 @@ const n2 = 1000
 
 for (id, A) in enumerate((A1, A2, A3, A4))
 
-    W0 = initialize(A, NU)
+    W0 = initialize(A, U1)
 
-    H0 = initialize(NU, A)
+    H0 = initialize(U1, A)
 
     W, H = Omics.MatrixFactorization.go(
         A,
-        NU;
+        U1;
         init = :custom,
         W0,
         H0,
         alg = :multmse,
         tol = to,
-        maxiter = n2,
+        maxiter = u2,
     )
+
+    #disable_logging(Warn)
+    #@btime Omics.MatrixFactorization.go(
+    #    $A,
+    #    U1;
+    #    init = :custom,
+    #    W0 = $W0,
+    #    H0 = $H0,
+    #    alg = :multmse,
+    #    tol = to,
+    #    maxiter = u2,
+    #)
+    #disable_logging(Debug)
 
     Omics.Plot.plot_heat_map(joinpath(tempdir(), "$id.w.html"), W)
 
@@ -108,26 +121,13 @@ for (id, A) in enumerate((A1, A2, A3, A4))
 
     AWi = Omics.MatrixFactorization.solve(W, A)
 
+    #@btime Omics.MatrixFactorization.solve($W, $A)
+
     Omics.Plot.plot_heat_map(joinpath(tempdir(), "$id.awi.html"), AWi)
 
     @test all(>=(0.0), AWi)
 
     @test isapprox(H, AWi; rtol = 1e-2)
-
-    disable_logging(Warn)
-    @btime Omics.MatrixFactorization.go(
-        $A,
-        NU;
-        init = :custom,
-        W0 = $W0,
-        H0 = $H0,
-        alg = :multmse,
-        tol = to,
-        maxiter = n2,
-    )
-    disable_logging(Debug)
-
-    @btime Omics.MatrixFactorization.solve($W, $A)
 
 end
 
@@ -162,11 +162,15 @@ for (i1, A) in enumerate((A1, A2, A3, A4))
 
     A_ = [A, A]
 
-    W0 = initialize(A, NU)
+    W0 = initialize(A, U1)
 
-    H0_ = map(A -> initialize(NU, A), A_)
+    H0_ = map(A -> initialize(U1, A), A_)
 
-    W, H_ = Omics.MatrixFactorization.go_wide(A_, NU; W = W0, H_ = H0_, n2, to)
+    W, H_ = Omics.MatrixFactorization.go_wide(A_, U1; W = W0, H_ = H0_, u2, to)
+
+    #disable_logging(Warn)
+    #@btime Omics.MatrixFactorization.go_wide($[A], U1; W = $W0, H_ = $[H0_[1]], u2, to)
+    #disable_logging(Debug)
 
     @test all(>=(0.0), W)
 
@@ -182,10 +186,6 @@ for (i1, A) in enumerate((A1, A2, A3, A4))
 
     end
 
-    disable_logging(Warn)
-    @btime Omics.MatrixFactorization.go_wide($[A], NU; W = $W0, H_ = $[H0_[1]], n2, to)
-    disable_logging(Debug)
-
 end
 
 # ---- #
@@ -198,18 +198,18 @@ W, H_ = Omics.MatrixFactorization.go_wide(A_, 4; co_ = [2, 2, 2])
 
 Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_w.html"), W)
 
-for ia in eachindex(A_)
+for id in eachindex(A_)
 
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_h$ia.html"), H_[ia])
+    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_h$id.html"), H_[id])
 
 end
 
 # ---- #
 
-for ia in eachindex(A_)
+for id in eachindex(A_)
 
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_a$ia.html"), A_[ia])
+    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_a$id.html"), A_[id])
 
-    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_wh$ia.html"), W * H_[ia])
+    Omics.Plot.plot_heat_map(joinpath(tempdir(), "te_wh$id.html"), W * H_[id])
 
 end

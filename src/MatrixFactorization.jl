@@ -54,9 +54,11 @@ function get_coefficient(A_)
 
 end
 
-function get_scalar(A, um)
+function scale!(A, um, N)
 
-    sqrt(mean(A) / um * lastindex(A))
+    sc = sqrt(mean(A) / um * lastindex(A))
+
+    map!(nu -> nu * sc, N, N)
 
 end
 
@@ -66,9 +68,7 @@ function initialize(A, um::Integer)
 
     foreach(Omics.RangeNormalization.do_sum!, eachcol(W))
 
-    sc = get_scalar(A, um)
-
-    map!(um -> um * sc, W, W)
+    scale!(A, um, W)
 
 end
 
@@ -78,9 +78,7 @@ function initialize(um::Integer, A)
 
     foreach(Omics.RangeNormalization.do_sum!, eachrow(H))
 
-    sc = get_scalar(A, um)
-
-    map!(um -> um * sc, H, H)
+    scale!(A, um, H)
 
 end
 
@@ -92,23 +90,23 @@ end
 
 function converged(W, Wp, H, Hp, to)
 
-    for ic in axes(W, 2)
+    for i1 in axes(W, 2)
 
-        wd = ws = hd = hs = 0
+        wd = ws = hd = hs = 0.0
 
-        for i1 in axes(W, 1)
+        for i2 in axes(W, 1)
 
-            wd += (W[i1, ic] - Wp[i1, ic])^2
+            wd += (W[i2, i1] - Wp[i2, i1])^2
 
-            ws += (W[i1, ic] + Wp[i1, ic])^2
+            ws += (W[i2, i1] + Wp[i2, i1])^2
 
         end
 
         for i2 in axes(H, 2)
 
-            hd += (H[ic, i2] - Hp[ic, i2])^2
+            hd += (H[i1, i2] - Hp[i1, i2])^2
 
-            hs += (H[ic, i2] + Hp[ic, i2])^2
+            hs += (H[i1, i2] + Hp[i1, i2])^2
 
         end
 
@@ -130,7 +128,7 @@ function go_wide(
     W = initialize(A_[1], u1),
     H_ = [initialize(u1, A) for A in A_],
     co_ = get_coefficient(A_),
-    n2 = 100,
+    u2 = 100,
     to = 0.01,
 )
 
@@ -154,77 +152,77 @@ function go_wide(
 
     ep = sqrt(eps())
 
-    n3 = 0
+    u3 = 0
 
-    while !bo && n3 < n2
+    while !bo && u3 < u2
 
-        n3 += 1
+        u3 += 1
 
         copyto!(Wp, W)
 
-        for ia in eachindex(A_)
+        for id in eachindex(A_)
 
-            copyto!(Hp_[ia], H_[ia])
-
-        end
-
-        for ia in eachindex(A_)
-
-            Ht = transpose(H_[ia])
-
-            mul!(AHt_[ia], A_[ia], Ht)
-
-            mul!(WHHt_[ia], WH_[ia], Ht)
+            copyto!(Hp_[id], H_[id])
 
         end
 
-        for iw in eachindex(W)
+        for id in eachindex(A_)
+
+            Ht = transpose(H_[id])
+
+            mul!(AHt_[id], A_[id], Ht)
+
+            mul!(WHHt_[id], WH_[id], Ht)
+
+        end
+
+        for i1 in eachindex(W)
 
             nu = de = 0
 
-            for ia in eachindex(A_)
+            for i2 in eachindex(A_)
 
-                nu += co_[ia] * AHt_[ia][iw]
+                nu += co_[i2] * AHt_[i2][i1]
 
-                de += co_[ia] * WHHt_[ia][iw]
+                de += co_[i2] * WHHt_[i2][i1]
 
             end
 
-            W[iw] *= nu / (de + ep)
+            W[i1] *= nu / (de + ep)
 
         end
 
-        for ia in eachindex(A_)
+        for id in eachindex(A_)
 
-            mul!(WH_[ia], W, H_[ia])
+            mul!(WH_[id], W, H_[id])
 
         end
 
         Wt = transpose(W)
 
-        for ia in eachindex(A_)
+        for i1 in eachindex(A_)
 
-            mul!(WtA_[ia], Wt, A_[ia])
+            mul!(WtA_[i1], Wt, A_[i1])
 
-            mul!(WtWH_[ia], Wt, WH_[ia])
+            mul!(WtWH_[i1], Wt, WH_[i1])
 
-            for ih in eachindex(H_[ia])
+            for i2 in eachindex(H_[i1])
 
-                H_[ia][ih] *= WtA_[ia][ih] / (WtWH_[ia][ih] + ep)
+                H_[i1][i2] *= WtA_[i1][i2] / (WtWH_[i1][i2] + ep)
 
             end
 
-            mul!(WH_[ia], W, H_[ia])
+            mul!(WH_[i1], W, H_[i1])
 
         end
 
         ob_ .= get_objective.(A_, WH_)
 
-        bo = all(converged(W, Wp, H_[ia], Hp_[ia], to) for ia in eachindex(A_))
+        bo = all(converged(W, Wp, H_[id], Hp_[id], to) for id in eachindex(A_))
 
     end
 
-    lo(bo, n3, ob_ ./ lastindex.(A_))
+    lo(bo, u3, ob_ ./ lastindex.(A_))
 
     W, H_
 
@@ -234,9 +232,9 @@ function solve(W, A)
 
     AWi = Matrix{Float64}(undef, size(W, 2), size(A, 2))
 
-    for i2 in axes(A, 2)
+    for id in axes(A, 2)
 
-        AWi[:, i2] = nonneg_lsq(W, view(A, :, i2); alg = :nnls)
+        AWi[:, id] = nonneg_lsq(W, view(A, :, id); alg = :nnls)
 
     end
 

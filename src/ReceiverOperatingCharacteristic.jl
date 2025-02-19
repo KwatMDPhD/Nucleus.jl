@@ -2,32 +2,48 @@ module ReceiverOperatingCharacteristic
 
 using ..Omics
 
-function line(la_, p1_, p2_ = Omics.Grid.make(p1_, 10); pl = true)
+function get_area(xc_, yc_)
 
-    um = lastindex(p2_)
+    ar = 0
 
-    fp_ = Vector{Float64}(undef, um)
+    for id in 2:lastindex(xc_)
 
-    tp_ = Vector{Float64}(undef, um)
+        ar += (xc_[id] - xc_[id - 1]) * (yc_[id] + yc_[id - 1]) * 0.5
+
+    end
+
+    ar
+
+end
+
+function line(bo_, p1_, p2_ = Omics.Grid.make(p1_, 10); pr = "")
+
+    fp_ = Vector{Float64}(undef, lastindex(p2_))
+
+    tp_ = similar(fp_)
 
     E = Matrix{Int}(undef, 2, 2)
 
-    su = lastindex(la_)
-
-    for id in 1:um
-
-        p2 = p2_[id]
+    for id in eachindex(p2_)
 
         fill!(E, 0)
 
-        Omics.ErrorMatrix.fil!(E, la_, p1_, p2)
+        p2 = p2_[id]
 
-        tn, fn, fp, tp, np, pp, f1, ac = Omics.ErrorMatrix.summarize(E, su)
+        Omics.ErrorMatrix.fil!(E, bo_, p1_, p2)
 
-        if pl
+        tn, fn, fp, tp, np, pp, f1, ac = Omics.ErrorMatrix.summarize(E, lastindex(bo_))
+
+        fp_[id] = fp
+
+        tp_[id] = tp
+
+        if !isempty(pr)
+
+            te = Omics.Numbe.shorten(p2)
 
             Omics.ErrorMatrix.plot(
-                "",
+                "$pr.$te.html",
                 E,
                 tn,
                 fn,
@@ -37,14 +53,10 @@ function line(la_, p1_, p2_ = Omics.Grid.make(p1_, 10); pl = true)
                 pp,
                 f1,
                 ac;
-                la = Dict("title" => Dict("text" => "◑ $(Omics.Numbe.shorten(p2))")),
+                la = Dict("title" => Dict("text" => "◑ $te")),
             )
 
         end
-
-        fp_[id] = fp
-
-        tp_[id] = tp
 
     end
 
@@ -52,13 +64,19 @@ function line(la_, p1_, p2_ = Omics.Grid.make(p1_, 10); pl = true)
 
 end
 
-function plot(ht, fp_, tp_)
+function plot(ht, pr_, fp_, tp_)
 
-    io_ = sortperm(fp_)
+    id_ = sortperm(collect(zip(fp_, tp_)))
 
-    wi = 2
+    pr_ = pr_[id_]
 
-    co = Omics.Color.VI
+    fp_ = fp_[id_]
+
+    tp_ = tp_[id_]
+
+    si = 8
+
+    co = Omics.Color.A2
 
     ra = -0.016, 1.016
 
@@ -73,14 +91,13 @@ function plot(ht, fp_, tp_)
                 "line" => Dict("color" => "#000000"),
             ),
             Dict(
-                "name" => "Area = $(Omics.Numbe.shorten(sum(tp_) / lastindex(tp_)))",
-                "y" => vcat(0.0, tp_[io_]),
-                "x" => vcat(0.0, fp_[io_]),
-                "mode" => "markers+lines",
-                "marker" => Dict("size" => wi * 2.8, "color" => co),
-                "line" => Dict("width" => wi, "color" => co),
+                "name" => "Area = $(Omics.Numbe.shorten(get_area(fp_, tp_)))",
+                "y" => tp_,
+                "x" => fp_,
+                "text" => pr_,
+                "marker" => Dict("size" => si, "color" => co),
+                "line" => Dict("width" => si * 0.32, "color" => co),
                 "fill" => "tozeroy",
-                "fillcolor" => Omics.Color.hexify(co, 0.56),
             ),
         ),
         Dict(

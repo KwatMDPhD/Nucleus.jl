@@ -22,6 +22,7 @@ for na in (
     "GPSMap",
     "Gene",
     "GeneralizedLinearModel",
+    "Geometry",
     "Grid",
     "HTM",
     "Information",

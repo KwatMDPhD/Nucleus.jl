@@ -64,7 +64,7 @@ function plot(ht, E, tn, fn, fp, tp, np, pp, f1, ac; la = Dict{String, Any}())
         E;
         yc_,
         xc_,
-        co = Omics.Coloring.fractionate(("#ffffff", Omics.Color.A1)),
+        co = Omics.Coloring.fractionate(("#ffffff", Omics.Color.A2)),
         la = Omics.Dic.merge(
             Dict(
                 "title" => Dict("text" => "Error Matrix"),

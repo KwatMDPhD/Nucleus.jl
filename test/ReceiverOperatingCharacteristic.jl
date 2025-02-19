@@ -1,42 +1,15 @@
+using Random: seed!
+
 using Test: @test
 
 using Omics
 
 # ---- #
 
-for (xc_, yc_, re) in (
-    ([0, 0.1, 0.2], [0, 0.8, 1], 0.13),
-    ([0, 0.1, 0.4, 1], [0, 0.4, 0.8, 1], 0.74),
-    ([4, 6, 8], [1, 2, 3], 8),
-)
-
-    @test isapprox(Omics.ReceiverOperatingCharacteristic.get_area(xc_, yc_), re)
-
-end
-
-# ---- #
-
-# 880.596 ns (0 allocations: 0 bytes)
-# 9.208 μs (0 allocations: 0 bytes)
-
-for um in (1000, 10000)
-
-    xc_ = sort!(rand(um))
-
-    yc_ = sort!(rand(um))
-
-    @info Omics.ReceiverOperatingCharacteristic.get_area(xc_, yc_)
-
-    #@btime Omics.ReceiverOperatingCharacteristic.get_area($xc_, $yc_)
-
-end
-
-# ---- #
-
 # https://www.analyticsvidhya.com/blog/2020/06/auc-roc-curve-machine-learning
 
-# 76.939 ns (6 allocations: 272 bytes)
-# 169.236 ns (6 allocations: 368 bytes)
+# 75.489 ns (6 allocations: 272 bytes)
+# 166.831 ns (6 allocations: 368 bytes)
 
 const BO_ = false, true, true, false, true, false, false, false, true, false
 
@@ -51,9 +24,26 @@ for (p2_, r1, r2) in (
     ),
 )
 
-    fp_, tp_ = Omics.ReceiverOperatingCharacteristic.line(BO_, P1_, p2_)
+    E_ = Vector{Matrix{Int}}(undef, lastindex(p2_))
 
-    #@btime Omics.ReceiverOperatingCharacteristic.line(BO_, P1_, $p2_)
+    fp_, tp_ = Omics.ReceiverOperatingCharacteristic.line!(BO_, P1_, p2_; E_)
+
+    #@btime Omics.ReceiverOperatingCharacteristic.line!(BO_, P1_, $p2_)
+
+    for id in eachindex(p2_)
+
+        pr = p2_[id]
+
+        E = E_[id]
+
+        Omics.ErrorMatrix.plot(
+            "",
+            E,
+            Omics.ErrorMatrix.summarize(E)...;
+            la = Dict("title" => Dict("text" => "◑ $pr")),
+        )
+
+    end
 
     @test isapprox(fp_, r1)
 

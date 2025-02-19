@@ -23,7 +23,8 @@ for na in (
     #"GEO", # 21
     #"GPSMap", # 11
     "Gene",
-    #"GeneralizedLinearModel", # 1
+    "GeneralizedLinearModel",
+    "Geometry",
     "Grid",
     "HTM",
     "Information",

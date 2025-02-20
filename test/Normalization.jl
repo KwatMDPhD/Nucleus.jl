@@ -8,7 +8,7 @@ for (nu_, re) in (([1, 2, 3], [1, 2, 3]), ([1, 2, 3.0], [-1, 0, 1.0]))
 
     co = copy(nu_)
 
-    Omics.Normalization.do_0_clamp!(co, 3.0)
+    Omics.Normalization.do_0_clamp!(co)
 
     @test co == re
 

@@ -4,164 +4,143 @@ using KernelDensity: default_bandwidth, kde
 
 using ..Omics
 
-function _estimate(nu___; ke_ar...)
+function get_density(nu__; di...)
 
-    de = kde(nu___; ke_ar...)
+    kd = kde(nu__; di...)
 
-    de.x, de.y, de.density
+    kd.x, kd.y, kd.density
 
 end
 
-function plot(
-    ht,
-    no_,
-    cn,
-    po_,
-    cp;
-    node_marker_size = 56,
-    node_marker_color = "#000000",
-    node_marker_line_width = 2,
-    node_marker_line_color = Omics.Color.LI,
-    node_annotation_font_size = 24,
-    node_annotation_font_color = "#ffffff",
-    ug = 128,
-    ncontours = 40,
-    point_marker_size = 16,
-    point_marker_opacity = 0.8,
-    point_marker_color = Omics.Color.LI,
-    point_marker_line_width = 1,
-    point_marker_line_color = "#000000",
-    vt_ = nothing,
-    ba = 1,
-    size = 832,
-    margin = 0.04,
-)
+function color(co, nu_)
 
-    data = [
+    map(
+        fr -> Omics.Color.hexify(co[fr]),
+        Omics.RangeNormalization.do_01!(convert(Vector{Float64}, nu_)),
+    )
+
+end
+
+function plot(ht, t1_, C1, t2_, C2; um = 64, po = 1, si = 16, op = 0.8, nu_ = nothing)
+
+    h1 = 832
+
+    ma = h1 * 0.04
+
+    tr_ = [
         Dict(
             "showlegend" => false,
-            "x" => (0,),
             "y" => (0,),
+            "x" => (0,),
             "mode" => "markers",
             "marker" => Dict(
-                "size" => size - size * margin * 2,
+                "size" => h1 - ma * 2.0,
                 "color" => Omics.Color.hexify("#ffffff", 0),
-                "line" => Dict("width" => 4, "color" => node_marker_color),
+                "line" => Dict("width" => 4, "color" => "#000000"),
             ),
-            "cliponaxis" => false,
             "hoverinfo" => "skip",
         ),
     ]
 
     push!(
-        data,
+        tr_,
         Dict(
-            "showlegend" => false,
-            "x" => view(cn, 1, :),
-            "y" => view(cn, 2, :),
-            "text" => no_,
+            "name" => "Node",
+            "y" => C1[2, :],
+            "x" => C1[1, :],
+            "text" => t1_,
             "mode" => "markers+text",
-            "marker" => Dict(
-                "size" => node_marker_size,
-                "color" => node_marker_color,
-                "line" => Dict(
-                    "width" => node_marker_line_width,
-                    "color" => node_marker_line_color,
-                ),
-            ),
-            "textfont" => Dict(
-                "family" => "Gravitas One, monospace",
-                "size" => node_annotation_font_size,
-                "color" => node_annotation_font_color,
-            ),
+            "marker" => Dict("size" => 56, "color" => "#000000"),
+            "textfont" => Dict("size" => 24, "color" => "#ffffff"),
             "cliponaxis" => false,
+            "hoverinfo" => "text",
         ),
     )
 
-    ke_ar = (
+    xc_, yc_ = eachrow(C2)
+
+    ke_ = (
         boundary = ((-2, 2), (-2, 2)),
-        npoints = (ug, ug),
-        bandwidth = (
-            default_bandwidth(view(cp, 1, :)) * ba,
-            default_bandwidth(view(cp, 2, :)) * ba,
-        ),
+        npoints = (um, um),
+        bandwidth = (default_bandwidth(xc_) * po, default_bandwidth(yc_) * po),
     )
 
-    xc_, yc_, cc = _estimate((view(cp, 1, :), view(cp, 2, :)); ke_ar...)
+    g1_, g2_, D = get_density((xc_, yc_); ke_...)
 
-    aa = [1 < xc^2 + yc^2 for xc in xc_, yc in yc_]
+    B = [1.0 < xc^2 + yc^2 for xc in g1_, yc in g2_]
 
-    cc[aa] .= NaN
+    D[B] .= NaN
 
     push!(
-        data,
+        tr_,
         Dict(
             "showlegend" => false,
             "type" => "contour",
-            "x" => xc_,
-            "y" => yc_,
-            "z" => cc,
-            "ncontours" => ncontours,
+            "y" => g2_,
+            "x" => g1_,
+            "z" => D,
+            "ncontours" => 56,
             "contours" => Dict("coloring" => "none"),
             "hoverinfo" => "skip",
         ),
     )
 
-    point = Dict(
+    tr = Dict(
         "name" => "Point",
-        "x" => view(cp, 1, :),
-        "y" => view(cp, 2, :),
-        "text" => po_,
+        "y" => yc_,
+        "x" => xc_,
+        "text" => t2_,
         "mode" => "markers",
         "marker" => Dict(
-            "size" => point_marker_size,
-            "opacity" => point_marker_opacity,
-            "color" => point_marker_color,
-            "line" => Dict(
-                "width" => point_marker_line_width,
-                "color" => point_marker_line_color,
-            ),
+            "size" => si,
+            "opacity" => op,
+            "color" => Omics.Color.IN,
+            "line" => Dict("width" => 1, "color" => "#000000"),
         ),
     )
 
-    if isnothing(vt_)
+    if isnothing(nu_)
 
-        push!(data, point)
+        push!(tr_, tr)
 
-    elseif vt_ isa AbstractVector{<:AbstractFloat}
+    elseif nu_ isa AbstractVector{<:AbstractFloat}
 
         push!(
-            data,
+            tr_,
             Omics.Dic.merg(
-                point,
+                tr,
                 Dict(
-                    "marker" =>
-                        Dict("color" => Omics.Palette.color(vt_, Omics.Palette.bwr)),
+                    "marker" => Dict(
+                        "color" => color(
+                            Omics.Coloring.make(["#0000ff", "#ffffff", "#ff0000"]),
+                            nu_,
+                        ),
+                    ),
                 ),
             ),
         )
 
     else
 
-        tu_ = unique(vt_)
+        un_ = unique(nu_)
 
-        gr_x_gr_x_id_x_de = Array{Float64, 3}(undef, ug, ug, lastindex(tu_))
+        D_ = Vector{Matrix{Float64}}(undef, lastindex(un_))
 
-        for id in eachindex(tu_)
+        for i1 in eachindex(un_)
 
-            ii_ = findall(==(tu_[id]), vt_)
+            i2_ = findall(==(un_[i1]), nu_)
 
-            _xc_, _yc_, cc = _estimate((view(cp, 1, ii_), view(cp, 2, ii_)); ke_ar...)
+            _, _, D = get_density((xc_[i2_], yc_[i2_]); ke_...)
 
-            cc[aa] .= NaN
+            D[B] .= NaN
 
-            gr_x_gr_x_id_x_de[:, :, id] = cc
+            D_[i1] = D
 
         end
 
-        for i2 in 1:ug, i1 in 1:ug
+        for i2 in 1:um, i1 in 1:um
 
-            de_ = view(gr_x_gr_x_id_x_de, i1, i2, :)
+            de_ = map(D -> D[i1, i2], D_)
 
             if all(isnan, de_)
 
@@ -169,13 +148,13 @@ function plot(
 
             end
 
-            ma = argmax(de_)
+            i3 = argmax(de_)
 
-            for id in eachindex(de_)
+            for i4 in eachindex(un_)
 
-                if id != ma
+                if i4 != i3
 
-                    de_[id] = NaN
+                    D_[i4][i1, i2] = NaN
 
                 end
 
@@ -183,39 +162,39 @@ function plot(
 
         end
 
-        he_ = Omics.Palette.color(eachindex(tu_))
+        co_ = color(Omics.Coloring.make(collect(Omics.Coloring.I2_)), un_)
 
-        for id in eachindex(tu_)
+        for i1 in eachindex(un_)
 
             push!(
-                data,
+                tr_,
                 Dict(
-                    "legendgroup" => tu_[id],
-                    "name" => tu_[id],
+                    "legendgroup" => un_[i1],
+                    "name" => un_[i1],
                     "type" => "heatmap",
-                    "x" => xc_,
-                    "y" => yc_,
-                    "z" => view(gr_x_gr_x_id_x_de, :, :, id),
-                    "colorscale" =>
-                        Omics.Palette.fractionate(Omics.Palette.make(["#ffffff", he_[id]])),
+                    "y" => g2_,
+                    "x" => g1_,
+                    "z" => D_[i1],
+                    "colorscale" => Omics.Coloring.fractionate(("#ffffff", co_[i1])),
                     "showscale" => false,
                     "hoverinfo" => "skip",
                 ),
             )
 
-            ii_ = findall(==(tu_[id]), vt_)
+            i2_ = findall(==(un_[i1]), nu_)
 
             push!(
-                data,
+                tr_,
                 Omics.Dic.merg(
-                    point,
+                    tr,
                     Dict(
-                        "legendgroup" => tu_[id],
-                        "name" => tu_[id],
-                        "x" => view(cp, 1, ii_),
-                        "y" => view(cp, 2, ii_),
-                        "text" => view(po_, ii_),
-                        "marker" => Dict("color" => he_[id]),
+                        "legendgroup" => un_[i1],
+                        "name" => un_[i1],
+                        "y" => yc_[i2_],
+                        "x" => xc_[i2_],
+                        "text" => t2_[i2_],
+                        "marker" => Dict("color" => co_[i1]),
+                        "hoverinfo" => "name+text",
                     ),
                 ),
             )
@@ -224,34 +203,26 @@ function plot(
 
     end
 
-    axis = Dict(
-        "range" => (-1, 1),
-        "showgrid" => false,
-        "zeroline" => false,
-        "showticklabels" => false,
-        "ticks" => "",
-    )
+    ax = Dict("range" => (-1, 1), "showticklabels" => false, "ticks" => "")
 
-    return Omics.Plot.plot(
+    h2 = h1 * 0.48
+
+    Omics.Plot.plot(
         ht,
-        data,
+        tr_,
         Dict(
-            "height" => size,
-            "width" => size * 1.5,
+            "height" => h1,
+            "width" => h1 + h2,
             "margin" => Dict(
                 "autoexpand" => false,
-                "t" => size * margin,
-                "b" => size * margin,
-                "l" => size * margin,
-                "r" => size * (margin + 0.5),
+                "t" => ma,
+                "b" => ma,
+                "l" => ma,
+                "r" => ma + h2,
             ),
-            "xaxis" => axis,
-            "yaxis" => axis,
-            "legend" => Dict(
-                # TODO: `xref`.
-                "xanchor" => "right",
-                "x" => 1 + 1 / (2 - margin * 4),
-            ),
+            "yaxis" => ax,
+            "xaxis" => ax,
+            "legend" => Dict("xanchor" => "right", "x" => 1.56),
         ),
     )
 

@@ -4,7 +4,7 @@ using ..Omics
 
 function do_0_clamp!(::AbstractVector{<:Integer}, ::Real) end
 
-function do_0_clamp!(fl_, st)
+function do_0_clamp!(fl_, st = 3.0)
 
     if allequal(fl_)
 

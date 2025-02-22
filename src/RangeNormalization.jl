@@ -2,7 +2,7 @@ module RangeNormalization
 
 using StatsBase: mean, std
 
-function shift!(nu_)
+function update_shift!(nu_)
 
     mi = minimum(nu_)
 
@@ -10,39 +10,39 @@ function shift!(nu_)
 
 end
 
-function shift_log2!(fl_, m1 = 1.0)
+function update_shift_log2!(nu_)
 
-    m2 = minimum(fl_)
+    mi = minimum(nu_)
 
-    map!(fl -> log2(fl - m2 + m1), fl_, fl_)
-
-end
-
-function do_0!(fl_)
-
-    me = mean(fl_)
-
-    iv = inv(std(fl_))
-
-    map!(fl -> (fl - me) * iv, fl_, fl_)
+    map!(nu -> log2(nu - mi + 1), nu_, nu_)
 
 end
 
-function do_01!(fl_)
+function update_0!(nu_)
 
-    mi, ma = extrema(fl_)
+    me = mean(nu_)
+
+    iv = inv(std(nu_))
+
+    map!(nu -> (nu - me) * iv, nu_, nu_)
+
+end
+
+function update_01!(nu_)
+
+    mi, ma = extrema(nu_)
 
     iv = inv(ma - mi)
 
-    map!(fl -> (fl - mi) * iv, fl_, fl_)
+    map!(nu -> (nu - mi) * iv, nu_, nu_)
 
 end
 
-function do_sum!(fl_)
+function update_sum!(nu_)
 
-    iv = inv(sum(fl_))
+    iv = inv(sum(nu_))
 
-    map!(fl -> fl * iv, fl_, fl_)
+    map!(nu -> nu * iv, nu_, nu_)
 
 end
 

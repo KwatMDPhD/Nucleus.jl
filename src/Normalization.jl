@@ -1,28 +1,26 @@
 module Normalization
 
-using ..Omics
+using ..Nucleus
 
-function do_0_clamp!(::AbstractVector{<:Integer}, ::Real) end
+function update_0_clamp!(nu_, st = 3)
 
-function do_0_clamp!(fl_, st = 3.0)
+    if allequal(nu_)
 
-    if allequal(fl_)
+        @warn "All $(nu_[1])."
 
-        @warn "All $(fl_[1])."
-
-        fill!(fl_, 0.0)
+        fill!(nu_, 0)
 
     else
 
-        clamp!(Omics.RangeNormalization.do_0!(fl_), -st, st)
+        clamp!(Nucleus.RangeNormalization.update_0!(nu_), -st, st)
 
     end
 
 end
 
-function do_125254_01!(fl_)
+function make_125254_01(nu_)
 
-    Omics.RangeNormalization.do_01!(Omics.RankNormalization.do_125254!(fl_))
+    Nucleus.RangeNormalization.update_01!(Nucleus.RankNormalization.make_125254(nu_))
 
 end
 

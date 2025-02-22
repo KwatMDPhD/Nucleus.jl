@@ -1,10 +1,11 @@
-using Test: @test
-
-using Omics
+using Nucleus
 
 # ---- #
 
-Omics.Animation.writ(
-    joinpath(tempdir(), "_.gif"),
-    (pkgdir(Omics, "data", "Animation", "$id.png") for id in 1:2),
-)
+const DI = pkgdir(Nucleus, "data", "Animation")
+
+for (gi, pn_) in ((joinpath(tempdir(), "_.gif"), (joinpath(DI, "$id.png") for id in 1:2)),)
+
+    Nucleus.Animation.writ(gi, pn_)
+
+end

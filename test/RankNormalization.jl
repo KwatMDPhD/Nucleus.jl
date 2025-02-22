@@ -2,124 +2,162 @@ using Random: seed!
 
 using Test: @test
 
-using Omics
+using Nucleus
 
 # ---- #
 
-const FL___ = [-1, 0, 0, 1, 1, 1, 2.0],
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 100.0],
-[
+const I1_ = [-1, 0, 0, 1, 1, 1, 2]
+
+const I2_ = [1, 2, 3, 4, 5, 6, 7, 8, 9, 100]
+
+const I3 = [
     -1 0 1 2
-    0 1 1 3.0
+    0 1 1 3
 ]
 
 # ---- #
 
-for (nu_, re) in zip(
-    FL___,
+# 47.022 ns (2 allocations: 144 bytes)
+# 87.196 ns (2 allocations: 144 bytes)
+# 44.382 ns (2 allocations: 144 bytes)
+# 89.366 ns (2 allocations: 144 bytes)
+# 66.342 ns (2 allocations: 144 bytes)
+# 12.000 μs (5 allocations: 8.08 KiB)
+# 521.750 μs (5 allocations: 78.33 KiB)
+
+const ZE_ = zeros(Int, 10)
+
+const ON_ = ones(Int, 10)
+
+for (nu_, qu_, re) in (
+    (ZE_, (1,), ON_),
+    (ZE_, (0.5, 1), ON_),
+    (I2_, (1,), ON_),
+    (I2_, (0.5, 1), [1, 1, 1, 1, 1, 2, 2, 2, 2, 2]),
+    (I2_, (1 / 3, 2 / 3, 1), [1, 1, 1, 1, 2, 2, 3, 3, 3, 3]),
+    (randn(1000), 0:0.1:1, nothing),
+    (randn(10000), 0:0.1:1, nothing),
+)
+
+    co = copy(nu_)
+
+    Nucleus.RankNormalization.update!(co, qu_)
+
+    #@btime Nucleus.RankNormalization.update!(co, $qu_) setup = co = copy($nu_)
+
+    if !isnothing(re)
+
+        @test eltype(co) == eltype(re)
+
+        @test co == re
+
+    end
+
+end
+
+# ---- #
+
+# 45.455 ns (4 allocations: 224 bytes)
+# 50.397 ns (4 allocations: 288 bytes)
+# 246.687 ns (6 allocations: 352 bytes)
+# 14.791 μs (11 allocations: 28.09 KiB)
+# 266.292 μs (9 allocations: 195.81 KiB)
+
+for (n1_, re) in (
+    (I1_, [1, 2, 2, 3, 3, 3, 4]),
+    (I2_, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     (
-        [1, 2, 2, 3, 3, 3, 4.0],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10.0],
+        I3,
         [
             1 2 3 4
-            2 3 3 5.0
+            2 3 3 5
         ],
     ),
+    (randn(1000), nothing),
+    (randn(10000), nothing),
 )
 
-    co = copy(nu_)
+    n2_ = Nucleus.RankNormalization.make_1223(n1_)
 
-    Omics.RankNormalization.do_1223!(co)
+    #@btime Nucleus.RankNormalization.make_1223($n1_)
 
-    @test co == re
+    if !isnothing(re)
+
+        @test eltype(n2_) == eltype(re)
+
+        @test n2_ == re
+
+    end
 
 end
 
 # ---- #
 
-for (nu_, re) in zip(
-    FL___,
+# 45.581 ns (4 allocations: 224 bytes)
+# 50.659 ns (4 allocations: 288 bytes)
+# 236.463 ns (6 allocations: 352 bytes)
+# 14.167 μs (9 allocations: 19.94 KiB)
+# 267.584 μs (11 allocations: 302.47 KiB)
+
+for (n1_, re) in (
+    (I1_, [1, 2, 2, 4, 4, 4, 7]),
+    (I2_, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     (
-        [1, 2, 2, 4, 4, 4, 7.0],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10.0],
+        I3,
         [
             1 2 4 7
-            2 4 4 8.0
+            2 4 4 8
         ],
     ),
+    (randn(1000), nothing),
+    (randn(10000), nothing),
 )
 
-    co = copy(nu_)
+    n2_ = Nucleus.RankNormalization.make_1224(n1_)
 
-    Omics.RankNormalization.do_1224!(co)
+    #@btime Nucleus.RankNormalization.make_1224($n1_)
 
-    @test co == re
+    if !isnothing(re)
+
+        @test eltype(n2_) == eltype(re)
+
+        @test n2_ == re
+
+    end
 
 end
 
 # ---- #
 
-for (fl_, re) in zip(
-    FL___,
+# 49.975 ns (4 allocations: 224 bytes)
+# 58.054 ns (4 allocations: 288 bytes)
+# 246.023 ns (6 allocations: 352 bytes)
+# 14.916 μs (11 allocations: 28.22 KiB)
+# 269.083 μs (11 allocations: 302.84 KiB)
+
+for (n1_, re) in (
+    (I1_, [1, 2.5, 2.5, 5, 5, 5, 7]),
+    (I2_, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10.0]),
     (
-        [1, 2.5, 2.5, 5, 5, 5, 7],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10.0],
+        I3,
         [
             1 2.5 5 7
             2.5 5 5 8
         ],
     ),
+    (randn(1000), nothing),
+    (randn(10000), nothing),
 )
 
-    co = map(float, fl_)
+    n2_ = Nucleus.RankNormalization.make_125254(n1_)
 
-    Omics.RankNormalization.do_125254!(co)
+    #@btime Nucleus.RankNormalization.make_125254($n1_)
 
-    @test co == re
+    if !isnothing(re)
 
-end
+        @test eltype(n2_) == eltype(re)
 
-# ---- #
-
-const ZE_ = zeros(10)
-
-const ON_ = ones(10)
-
-for (nu_, qu_, re) in (
-    (ZE_, (1,), ON_),
-    (ZE_, (0.5, 1), ON_),
-    (FL___[2], (1,), ON_),
-    (FL___[2], (0.5, 1), [1, 1, 1, 1, 1, 2, 2, 2, 2, 2.0]),
-    (FL___[2], (1 / 3, 2 / 3, 1), [1, 1, 1, 1, 2, 2, 3, 3, 3, 3.0]),
-)
-
-    co = copy(nu_)
-
-    Omics.RankNormalization.do_quantile!(co, qu_)
-
-    @test co == re
-
-end
-
-# ---- #
-
-# 247.625 μs (9 allocations: 234.56 KiB)
-# 247.667 μs (9 allocations: 234.56 KiB)
-# 248.750 μs (9 allocations: 234.56 KiB)
-# 97.416 μs (3 allocations: 78.19 KiB)
-
-for fu in (
-    Omics.RankNormalization.do_1223!,
-    Omics.RankNormalization.do_1224!,
-    Omics.RankNormalization.do_125254!,
-    Omics.RankNormalization.do_quantile!,
-)
-
-    for um in (1000, 10000)
-
-        seed!(20250216)
-
-        #@btime $fu($(rand(um)))
+        @test n2_ == re
 
     end
 

@@ -1,36 +1,22 @@
 using Test: @test
 
-using Omics
+using Nucleus
 
 # ---- #
 
 const HT = joinpath(tempdir(), "_.html")
 
-Omics.HTM.writ(
-    HT,
+for (sr_, id, sc, re) in ((
     ("SRC 1", "SRC 2"),
     "",
     """
     SCRIPT LINE 1
     SCRIPT LINE 2""",
-)
+    14,
+),)
 
-@test count(==('\n'), read(HT, String)) === 14
+    Nucleus.HTM.writ(HT, sr_, id, sc)
 
-# ---- #
-
-const LA = Dict(
-    "paper_bgcolor" => "#ff0000",
-    "plot_bgcolor" => "#00ff00",
-    "title" => Dict("text" => "🤠"),
-)
-
-for la in (
-    LA,
-    merge(LA, Dict("height" => 800, "width" => 800)),
-    merge(LA, Dict("height" => 2000, "width" => 2000)),
-)
-
-    Omics.Plot.plot("", (), la)
+    @test count(==('\n'), read(HT, String)) === re
 
 end

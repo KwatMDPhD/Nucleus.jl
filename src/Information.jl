@@ -1,38 +1,38 @@
 module Information
 
-function get_kullback_leibler_divergence(n1, n2)
+function make_kullback_leibler_divergence(n1, n2)
 
     n1 * log2(n1 / n2)
 
 end
 
-function get_thermodynamic_depth(n1, n2)
+function make_thermodynamic_depth(n1, n2)
 
-    get_kullback_leibler_divergence(n1, n2) - get_kullback_leibler_divergence(n2, n1)
-
-end
-
-function get_thermodynamic_breadth(n1, n2)
-
-    get_kullback_leibler_divergence(n1, n2) + get_kullback_leibler_divergence(n2, n1)
+    make_kullback_leibler_divergence(n1, n2) - make_kullback_leibler_divergence(n2, n1)
 
 end
 
-function get_antisymmetric_kullback_leibler_divergence(n1, n2, n3, n4 = n3)
+function make_thermodynamic_breadth(n1, n2)
 
-    get_kullback_leibler_divergence(n1, n3) - get_kullback_leibler_divergence(n2, n4)
-
-end
-
-function get_symmetric_kullback_leibler_divergence(n1, n2, n3, n4 = n3)
-
-    get_kullback_leibler_divergence(n1, n3) + get_kullback_leibler_divergence(n2, n4)
+    make_kullback_leibler_divergence(n1, n2) + make_kullback_leibler_divergence(n2, n1)
 
 end
 
-function get_jensen_shannon_divergence(n1, n2)
+function make_antisymmetric_kullback_leibler_divergence(n1, n2, n3, n4 = n3)
 
-    get_symmetric_kullback_leibler_divergence(n1, n2, (n1 + n2) * 0.5)
+    make_kullback_leibler_divergence(n1, n3) - make_kullback_leibler_divergence(n2, n4)
+
+end
+
+function make_symmetric_kullback_leibler_divergence(n1, n2, n3, n4 = n3)
+
+    make_kullback_leibler_divergence(n1, n3) + make_kullback_leibler_divergence(n2, n4)
+
+end
+
+function make_jensen_shannon_divergence(n1, n2)
+
+    make_symmetric_kullback_leibler_divergence(n1, n2, (n1 + n2) * 0.5)
 
 end
 

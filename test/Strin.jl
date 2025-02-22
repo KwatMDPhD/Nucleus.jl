@@ -1,8 +1,6 @@
-using Dates: Date
-
 using Test: @test
 
-using Omics
+using Nucleus
 
 # ---- #
 
@@ -44,15 +42,15 @@ for st in (
     "~",
 )
 
-    @test Omics.Strin.is_bad(st)
+    @test Nucleus.Strin.is_bad(st)
 
-    @test Omics.Strin.is_bad(st^2)
+    @test Nucleus.Strin.is_bad(st^2)
 
-    @test !Omics.Strin.is_bad("a$st")
+    @test !Nucleus.Strin.is_bad("a$st")
 
-    @test !Omics.Strin.is_bad("$(st)b")
+    @test !Nucleus.Strin.is_bad("$(st)b")
 
-    @test !Omics.Strin.is_bad("a$(st)b")
+    @test !Nucleus.Strin.is_bad("a$(st)b")
 
 end
 
@@ -60,41 +58,7 @@ end
 
 for (st, re) in (("a/b", "a_b"),)
 
-    @test Omics.Strin.slash(st) === re
-
-end
-
-# ---- #
-
-const S1 = " less  is   more    "
-
-const S2 = "    DNA   RNA  protein "
-
-# ---- #
-
-for (st, re) in ((S1, "_less__is___more____"), (S2, "____dna___rna__protein_"))
-
-    @test Omics.Strin.lower(st) === re
-
-end
-
-# ---- #
-
-for (st, re) in (
-    ("i'M", "I'm"),
-    ("you'RE", "You're"),
-    ("it'S", "It's"),
-    ("we'VE", "We've"),
-    ("i'D", "I'd"),
-    ("1ST", "1st"),
-    ("2ND", "2nd"),
-    ("3RD", "3rd"),
-    ("4TH", "4th"),
-    (S1, " Less  Is   More    "),
-    (S2, "    DNA   RNA  Protein "),
-)
-
-    @test Omics.Strin.title(st) === re
+    @test Nucleus.Strin.update_slash(st) === re
 
 end
 
@@ -102,17 +66,7 @@ end
 
 for (st, re) in ((" a  b   ", "a b"),)
 
-    @test Omics.Strin.stri(st) === re
-
-end
-
-# ---- #
-
-const S3 = "1234567890"
-
-for (um, re) in ((1, "1..."), (2, "12..."), (11, S3))
-
-    @test Omics.Strin.limit(S3, um) === re
+    @test Nucleus.Strin.update_space(st) === re
 
 end
 
@@ -122,103 +76,55 @@ end
 # 429.226 ns (3 allocations: 1.23 KiB)
 # 63.776 ns (2 allocations: 256 bytes)
 # 428.603 ns (3 allocations: 1.23 KiB)
-# 77.418 ns (2 allocations: 256 bytes)
-# 429.226 ns (3 allocations: 1.23 KiB)
 # 429.020 ns (3 allocations: 1.23 KiB)
 # 429.231 ns (3 allocations: 1.23 KiB)
 
-const S4 = "a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z"
+const DE = '.'
 
-for (id, re) in ((1, "a"), (2, "b"), (3, "c"), (26, "z"))
+const S1 = join('a':'z', DE)
 
-    @test Omics.Strin.ge(S4, id, '.') == re
+for (id, re) in ((1, "a"), (2, "b"), (26, "z"))
 
-    #@btime Omics.Strin.ge(S4, $id, '.')
+    @test Nucleus.Strin.ge(S1, id, DE) == re
 
-    #@btime split(S4, '.')[$id]
+    #@btime Nucleus.Strin.ge(S1, $id, DE)
 
-end
-
-# ---- #
-
-const S5 = "a b c"
-
-# ---- #
-
-for (st, re) in ((S5, "a"),)
-
-    @test Omics.Strin.get_1(st) == re
+    #@btime split(S1, DE)[$id]
 
 end
 
 # ---- #
 
-for (st, re) in ((S5, "c"),)
+const S2 = "a b c"
 
-    @test Omics.Strin.get_end(st) == re
+# ---- #
+
+for (st, re) in ((S2, "a"),)
+
+    @test Nucleus.Strin.get_1(st) == re
 
 end
 
 # ---- #
 
-for (st, re) in ((S5, "b c"),)
+for (st, re) in ((S2, "b c"),)
 
-    @test Omics.Strin.trim_1(st) == re
-
-end
-
-# ---- #
-
-for (st, re) in ((S5, "a b"),)
-
-    @test Omics.Strin.trim_end(st) == re
+    @test Nucleus.Strin.get_not_1(st) == re
 
 end
 
 # ---- #
 
-# 119.223 ns (6 allocations: 200 bytes)
-# 123.934 ns (6 allocations: 200 bytes)
-# 117.495 ns (6 allocations: 208 bytes)
-# 134.666 ns (7 allocations: 240 bytes)
-# 130.471 ns (7 allocations: 232 bytes)
-# 139.032 ns (7 allocations: 232 bytes)
-# 139.857 ns (7 allocations: 240 bytes)
-# 126.902 ns (6 allocations: 200 bytes)
+for (st, re) in ((S2, "c"),)
 
-for (s1, s2) in (
-    ("sex", "sexes"),
-    ("bus", "buses"),
-    ("hero", "heroes"),
-    ("country", "countries"),
-    ("city", "cities"),
-    ("index", "indices"),
-    ("vertex", "vertices"),
-    ("edge", "edges"),
-)
-
-    for um in (-2, -1, 0, 1, 2)
-
-        @test Omics.Strin.coun(um, s1) === "$um $(1 < abs(um) ? s2 : s1)"
-
-    end
-
-    #@btime Omics.Strin.coun(2, $s1)
+    @test Nucleus.Strin.get_end(st) == re
 
 end
 
 # ---- #
 
-for (st_, re) in ((('A', "Bb", "Cc"), "A · Bb · Cc"),)
+for (st, re) in ((S2, "a b"),)
 
-    @test Omics.Strin.chain(st_) === re
-
-end
-
-# ---- #
-
-for (st, re) in (("2024 10 28", Date("2024-10-28")),)
-
-    @test Omics.Strin.date("2024 10 28") === re
+    @test Nucleus.Strin.get_not_end(st) == re
 
 end

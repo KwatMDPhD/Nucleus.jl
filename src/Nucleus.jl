@@ -1,6 +1,4 @@
-using Test: @test
-
-using Nucleus
+module Nucleus
 
 # ----------------------------------------------------------------------------------------------- #
 
@@ -31,8 +29,8 @@ for na in (
     "Time",
 )
 
-    @info "🎬 Testing $na"
+    include("$na.jl")
 
-    run(`julia --project $na.jl`)
+end
 
 end

@@ -1,26 +1,28 @@
 module Path
 
-function shorten(pa, di)
+function text(pa, di)
 
     pa[(lastindex(di) + 2):end]
 
 end
 
-function wai(pa, u1 = 4)
+function is_path(pa, u1)
 
     u2 = 0
 
-    while u2 < u1 && !ispath(pa)
+    while !(bo = ispath(pa)) && u2 < u1
 
         sleep(1)
 
-        @info "Waiting for $pa ($(u2 += 1) / $u1)"
+        @info "Waited for $pa ($(u2 += 1) / $u1)"
 
     end
 
+    bo
+
 end
 
-function ope(pa)
+function rea(pa)
 
     try
 

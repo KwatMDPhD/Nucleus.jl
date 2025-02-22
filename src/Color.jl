@@ -40,21 +40,21 @@ const S1 = "#8c1515"
 
 const S2 = "#175e54"
 
-function hexify(co::Colorant)
+function make(co::Colorant)
 
     "#$(hex(co, :rrggbbaa))"
 
 end
 
-function hexify(co)
+function make(co)
 
-    hexify(parse(Colorant, co))
+    make(parse(Colorant, co))
 
 end
 
-function hexify(co, fr)
+function make(co, fr)
 
-    hexify(coloralpha(parse(Colorant, co), fr))
+    make(coloralpha(parse(Colorant, co), fr))
 
 end
 

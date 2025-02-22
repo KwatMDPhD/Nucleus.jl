@@ -2,26 +2,23 @@ using Colors: RGB
 
 using Test: @test
 
-using Omics
+using Nucleus
 
 # ---- #
 
-for (co, re) in ((RGB(1.0, 0.0, 0.0), "#ff0000ff"),)
+const CO = "red"
 
-    @test Omics.Color.hexify(co) === re
+const RE = "#ff0000ff"
 
-end
+for (co, fr, re) in (
+    (RGB(1.0, 0.0, 0.0), nothing, RE),
+    (CO, nothing, RE),
+    ("#f00", nothing, RE),
+    ("#ff0000", nothing, RE),
+    (CO, 0.0, "#ff000000"),
+    (CO, 0.5, "#ff000080"),
+)
 
-# ---- #
-
-for co in ("red", "#f00", "#ff0000")
-
-    @test Omics.Color.hexify(co) === "#ff0000ff"
-
-    for (fr, re) in ((0.0, "#ff000000"), (0.5, "#ff000080"))
-
-        @test Omics.Color.hexify(co, fr) === re
-
-    end
+    @test (isnothing(fr) ? Nucleus.Color.make(co) : Nucleus.Color.make(co, fr)) === re
 
 end

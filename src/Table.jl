@@ -10,9 +10,9 @@ using Mmap: mmap
 
 using XLSX: readtable
 
-function make(n2, n1_, n2_, an)
+function make(n2, n1_, n2_, A)
 
-    insertcols!(DataFrame(an, n2_), 1, n2 => n1_)
+    insertcols!(DataFrame(A, n2_), 1, n2 => n1_)
 
 end
 
@@ -20,15 +20,15 @@ function rea(fi; ke_...)
 
     @assert isfile(fi)
 
-    it_ = mmap(fi)
+    mm_ = mmap(fi)
 
     if endswith(fi, "gz")
 
-        it_ = transcode(GzipDecompressor, it_)
+        mm_ = transcode(GzipDecompressor, mm_)
 
     end
 
-    read(it_, DataFrame; ke_...)
+    read(mm_, DataFrame; ke_...)
 
 end
 
@@ -38,9 +38,9 @@ function rea(xl, sh; ke_...)
 
 end
 
-function writ(ts, an)
+function writ(ts, A)
 
-    write(ts, an; delim = '\t')
+    write(ts, A; delim = '\t')
 
 end
 

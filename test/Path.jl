@@ -1,24 +1,34 @@
 using Test: @test
 
-using Omics
+using Nucleus
 
 # ---- #
 
-const PA = joinpath(pwd(), "Path.jl")
+const FI = joinpath(pwd(), "Path.jl")
 
-const DI = pkgdir(Omics)
+# ---- #
+
+const DI = pkgdir(Nucleus)
 
 for (di, re) in
-    ((dirname(DI), "Omics.jl/test/Path.jl"), (DI, "test/Path.jl"), (pwd(), "Path.jl"))
+    ((dirname(DI), "Nucleus.jl/test/Path.jl"), (DI, "test/Path.jl"), (pwd(), "Path.jl"))
 
-    @test Omics.Path.shorten(PA, di) == re
+    @test Nucleus.Path.text(FI, di) == re
 
 end
 
 # ---- #
 
-Omics.Path.wai("nonexistent.file")
+for (pa, re) in ((FI, true), ("nonexistent.file", false))
+
+    @test Nucleus.Path.is_path(pa, 2) === re
+
+end
 
 # ---- #
 
-Omics.Path.ope(homedir())
+for pa in (homedir(),)
+
+    Nucleus.Path.rea(pa)
+
+end

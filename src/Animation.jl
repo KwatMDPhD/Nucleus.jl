@@ -1,12 +1,12 @@
 module Animation
 
-using ..Omics
+using ..Nucleus
 
 function writ(gi, pn_)
 
     run(`magick -delay 32 $pn_ $gi`)
 
-    Omics.Path.ope(gi)
+    Nucleus.Path.rea(gi)
 
 end
 

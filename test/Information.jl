@@ -19,7 +19,7 @@ end
 for (n1_, n2_) in (([1, 2, 3], [2, 3, 4]), (rand(16), rand(16)))
 
     for fu in (
-        Nucleus.Information.make_kullback_leibler_divergence,
+        Nucleus.Information.make,
         Nucleus.Information.make_thermodynamic_depth,
         Nucleus.Information.make_thermodynamic_breadth,
         Nucleus.Information.make_jensen_shannon_divergence,

@@ -41,9 +41,9 @@ for (nu_, qu_, re) in (
 
     co = copy(nu_)
 
-    Nucleus.RankNormalization.update!(co, qu_)
+    Nucleus.RankNormalization.update_quantile!(co, qu_)
 
-    #@btime Nucleus.RankNormalization.update!(co, $qu_) setup = co = copy($nu_)
+    #@btime Nucleus.RankNormalization.update_quantile!(co, $qu_) setup = co = copy($nu_)
 
     if !isnothing(re)
 

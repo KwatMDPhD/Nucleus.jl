@@ -2,9 +2,9 @@ module RankNormalization
 
 using StatsBase: competerank, denserank, quantile, tiedrank
 
-function update!(nu_, qu_)
+function update_quantile!(nu_, fr_)
 
-    ma_ = quantile(nu_, qu_)
+    ma_ = quantile(nu_, fr_)
 
     map!(nu -> findfirst(>=(nu), ma_), nu_, nu_)
 

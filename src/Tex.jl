@@ -1,21 +1,21 @@
 module Tex
 
-function make_short(st, um)
+function update_space(te)
 
-    lastindex(st) <= um ? st : "$(st[1:um])..."
-
-end
-
-function make_low(st)
-
-    replace(lowercase(st), r"[^._0-9a-z]" => '_')
+    replace(strip(te), r" +" => ' ')
 
 end
 
-function make_title(st)
+function make_low(te)
+
+    replace(lowercase(te), r"[^._0-9a-z]" => '_')
+
+end
+
+function make_title(te)
 
     replace(
-        titlecase(st; strict = false),
+        titlecase(te; strict = false),
         '_' => ' ',
         r"'m"i => "'m",
         r"'re"i => "'re",
@@ -54,40 +54,34 @@ function make_title(st)
 
 end
 
-function make_count(um, st)
+function make_count(um, no)
 
     if 1 < abs(um)
 
-        st =
-            if lastindex(st) == 3 && endswith(st, "ex") ||
-               endswith(st, "us") ||
-               endswith(st, 'o')
+        no =
+            if lastindex(no) == 3 && endswith(no, "ex") ||
+               endswith(no, "us") ||
+               endswith(no, 'o')
 
-                "$(st)es"
+                "$(no)es"
 
-            elseif endswith(st, 'y')
+            elseif endswith(no, 'y')
 
-                "$(st[1:(end - 1)])ies"
+                "$(no[1:(end - 1)])ies"
 
-            elseif endswith(st, "ex")
+            elseif endswith(no, "ex")
 
-                "$(st[1:(end - 2)])ices"
+                "$(no[1:(end - 2)])ices"
 
             else
 
-                "$(st)s"
+                "$(no)s"
 
             end
 
     end
 
-    "$um $st"
-
-end
-
-function make_chain(st_)
-
-    join(st_, " · ")
+    "$um $no"
 
 end
 

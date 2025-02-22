@@ -28,10 +28,9 @@ function make(an, c1_, c2)
 
             end
 
-            # TODO: Generalize.
-            for st in eachsplit(ke, '|')
+            for sp in eachsplit(ke, '|')
 
-                di[st] = va
+                di[sp] = va
 
             end
 

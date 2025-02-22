@@ -1,11 +1,5 @@
 module Path
 
-function text(pa, di)
-
-    pa[(lastindex(di) + 2):end]
-
-end
-
 function is_path(pa, u1)
 
     u2 = 0
@@ -19,6 +13,12 @@ function is_path(pa, u1)
     end
 
     bo
+
+end
+
+function text(pa, di)
+
+    pa[(lastindex(di) + 2):end]
 
 end
 

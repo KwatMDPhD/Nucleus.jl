@@ -6,18 +6,6 @@ function is_bad(st)
 
 end
 
-function update_slash(st)
-
-    replace(st, '/' => '_')
-
-end
-
-function update_space(st)
-
-    replace(strip(st), r" +" => ' ')
-
-end
-
 function ge(st, id, de = ' ')
 
     split(st, de; limit = id + 1)[id]
@@ -45,6 +33,12 @@ end
 function get_not_end(st, de = ' ')
 
     rsplit(st, de; limit = 2)[1]
+
+end
+
+function make_short(st, ma)
+
+    lastindex(st) <= ma ? st : "$(st[1:ma])..."
 
 end
 

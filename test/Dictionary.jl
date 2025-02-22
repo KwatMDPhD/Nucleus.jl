@@ -30,6 +30,26 @@ end
 
 # ---- #
 
+# 1.579 μs (24 allocations: 1.62 KiB)
+# 1.600 μs (24 allocations: 1.62 KiB)
+
+const D2 = Dict("1A" => 1, 'B' => Dict('C' => 1, "1D" => 1))
+
+const D3 = Dict("2A" => 2, 'B' => Dict('C' => 2, "2D" => 2))
+
+for (d1, d2, re) in (
+    (D2, D3, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 2, "1D" => 1, "2D" => 2))),
+    (D3, D2, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 1, "1D" => 1, "2D" => 2))),
+)
+
+    @test Nucleus.Dictionary.make(d1, d2) == re
+
+    #@btime Nucleus.Dictionary.make($d1, $d2)
+
+end
+
+# ---- #
+
 # 166.181 ns (10 allocations: 768 bytes)
 # 146.378 ns (10 allocations: 832 bytes)
 # 7.667 μs (94 allocations: 26.95 KiB)
@@ -52,26 +72,6 @@ for (an_, re) in (
     end
 
     #@btime Nucleus.Dictionary.index($an_)
-
-end
-
-# ---- #
-
-# 1.579 μs (24 allocations: 1.62 KiB)
-# 1.600 μs (24 allocations: 1.62 KiB)
-
-const D2 = Dict("1A" => 1, 'B' => Dict('C' => 1, "1D" => 1))
-
-const D3 = Dict("2A" => 2, 'B' => Dict('C' => 2, "2D" => 2))
-
-for (d1, d2, re) in (
-    (D2, D3, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 2, "1D" => 1, "2D" => 2))),
-    (D3, D2, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 1, "1D" => 1, "2D" => 2))),
-)
-
-    @test Nucleus.Dictionary.make(d1, d2) == re
-
-    #@btime Nucleus.Dictionary.make($d1, $d2)
 
 end
 

@@ -4,14 +4,6 @@ using Nucleus
 
 # ---- #
 
-for (nu, re) in ((pi, "3.1"),)
-
-    @test Nucleus.Numbe.text(nu) === re
-
-end
-
-# ---- #
-
 const MA_ = (5, 18, 40, 60, 80, Inf)
 
 const GR_ = ("0-5", "6-18", "19-40", "41-60", "61-80", "81-")
@@ -57,5 +49,13 @@ for (nu_, re) in (
     end
 
     #@btime Nucleus.Numbe.make($nu_)
+
+end
+
+# ---- #
+
+for (nu, re) in ((pi, "3.1"),)
+
+    @test Nucleus.Numbe.text(nu) === re
 
 end

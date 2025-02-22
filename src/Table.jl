@@ -16,13 +16,13 @@ function make(n2, n1_, n2_, A)
 
 end
 
-function rea(fi; ke_...)
+function rea(cs; ke_...)
 
-    @assert isfile(fi)
+    @assert isfile(cs)
 
-    mm_ = mmap(fi)
+    mm_ = mmap(cs)
 
-    if endswith(fi, "gz")
+    if endswith(cs, "gz")
 
         mm_ = transcode(GzipDecompressor, mm_)
 

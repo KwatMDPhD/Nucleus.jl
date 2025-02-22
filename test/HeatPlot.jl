@@ -11,8 +11,6 @@ const N = [
     2 4 6.001
 ]
 
-# ---- #
-
 for N in (N,)
 
     @info Nucleus.HeatPlot.make(yc_, xc_, N)

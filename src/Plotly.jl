@@ -4,6 +4,24 @@ using JSON: json
 
 using ..Nucleus
 
+function make(co_)
+
+    um = lastindex(co_)
+
+    if isone(um)
+
+        co = co_[1]
+
+        ((0, co), (1, co))
+
+    else
+
+        Tuple(zip(range(0, 1, um), co_))
+
+    end
+
+end
+
 function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
 
     ax = Dict(
@@ -47,24 +65,6 @@ function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
         """
         Plotly.newPlot("$id", $(json(tr_)), $(json(l2)), $(json(co)))""",
     )
-
-end
-
-function make(co_)
-
-    um = lastindex(co_)
-
-    if isone(um)
-
-        co = co_[1]
-
-        ((0.0, co), (1.0, co))
-
-    else
-
-        Tuple(zip(range(0, 1, um), co_))
-
-    end
 
 end
 

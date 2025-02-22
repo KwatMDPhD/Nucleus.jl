@@ -56,22 +56,6 @@ end
 
 # ---- #
 
-for (st, re) in (("a/b", "a_b"),)
-
-    @test Nucleus.Strin.update_slash(st) === re
-
-end
-
-# ---- #
-
-for (st, re) in ((" a  b   ", "a b"),)
-
-    @test Nucleus.Strin.update_space(st) === re
-
-end
-
-# ---- #
-
 # 45.328 ns (2 allocations: 256 bytes)
 # 429.226 ns (3 allocations: 1.23 KiB)
 # 63.776 ns (2 allocations: 256 bytes)
@@ -126,5 +110,15 @@ end
 for (st, re) in ((S2, "a b"),)
 
     @test Nucleus.Strin.get_not_end(st) == re
+
+end
+
+# ---- #
+
+const S3 = "1234567890"
+
+for (um, re) in ((1, "1..."), (2, "12..."), (11, S3))
+
+    @test Nucleus.Strin.make_short(S3, um) === re
 
 end

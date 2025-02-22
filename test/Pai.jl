@@ -8,7 +8,7 @@ using Nucleus
 
 @test length(
     Nucleus.Pai.make(
-        Nucleus.Table.rea(pkgdir(Nucleus, "data", "Pai", "hgnc.tsv.gz")),
+        Nucleus.Table.rea(pkgdir(Nucleus, "data", "Table", "1.tsv.gz")),
         ["hgnc_id"],
         "symbol",
     ),

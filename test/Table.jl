@@ -29,7 +29,7 @@ const TS = joinpath(tempdir(), "_.tsv")
 
 # ---- #
 
-for fi in (joinpath(DI, "titanic.tsv"), joinpath(DI, "enst_gene.tsv.gz"))
+for fi in (joinpath(DI, "1.tsv"), joinpath(DI, "1.tsv.gz"))
 
     a1 = Nucleus.Table.rea(fi)
 
@@ -43,7 +43,7 @@ end
 
 # ---- #
 
-for (fi, sh) in ((joinpath(DI, "12859_2019_2886_MOESM2_ESM.xlsx"), "HumanSpecific Genes"),)
+for (fi, sh) in ((joinpath(DI, "1.xlsx"), "HumanSpecific Genes"),)
 
     a1 = Nucleus.Table.rea(fi, sh)
 

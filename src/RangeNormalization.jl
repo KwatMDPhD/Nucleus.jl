@@ -10,7 +10,7 @@ function update_shift!(nu_)
 
 end
 
-function update_shift_log2!(nu_)
+function update_log2!(nu_)
 
     mi = minimum(nu_)
 

@@ -4,31 +4,31 @@ using Nucleus
 
 # ---- #
 
+function is_egal(a1_, a2_)
+
+    eltype(a1_) === eltype(a2_) && a1_ == a2_
+
+end
+
+# ---- #
+
 for (nu_, re) in (([1, 2, 3], [-1, 0, 1]), ([1, 2, 3.0], [-1, 0, 1.0]))
 
-    co = copy(nu_)
+    Nucleus.Normalization.update_0_clamp!(nu_)
 
-    Nucleus.Normalization.update_0_clamp!(co)
-
-    @test eltype(co) == eltype(re)
-
-    @test co == re
+    @test is_egal(nu_, re)
 
 end
 
 # ---- #
 
 for (n1_, re) in (
-    ([-1, 2, 3.0], [0, 0.5, 1]),
-    ([-1, -1, 2, 3.0], [0, 0, 0.6000000000000001, 1]),
-    ([-1, 2, 2, 3.0], [0, 0.5, 0.5, 1]),
-    ([-1, 2, 3, 3.0], [0, 0.4, 1, 1]),
+    ([-1, 2, 3], [0, 0.5, 1]),
+    ([-1, -1, 2, 3], [0, 0, 0.6000000000000001, 1]),
+    ([-1, 2, 2, 3], [0, 0.5, 0.5, 1]),
+    ([-1, 2, 3, 3], [0, 0.4, 1, 1]),
 )
 
-    n2_ = Nucleus.Normalization.make_125254_01(n1_)
-
-    @test eltype(n2_) == eltype(re)
-
-    @test n2_ == re
+    @test is_egal(Nucleus.Normalization.make_125254_01(n1_), re)
 
 end

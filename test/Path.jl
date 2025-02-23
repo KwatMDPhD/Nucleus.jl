@@ -4,7 +4,9 @@ using Nucleus
 
 # ---- #
 
-const FI = joinpath(pwd(), "Path.jl")
+const DI = pkgdir(Nucleus)
+
+const FI = joinpath(DI, "test", "Path.jl")
 
 # ---- #
 
@@ -16,12 +18,13 @@ end
 
 # ---- #
 
-const DI = pkgdir(Nucleus)
+for (di, re) in (
+    (dirname(DI), "Nucleus.jl/test/Path.jl"),
+    (DI, "test/Path.jl"),
+    (joinpath(DI, "test"), "Path.jl"),
+)
 
-for (di, re) in
-    ((dirname(DI), "Nucleus.jl/test/Path.jl"), (DI, "test/Path.jl"), (pwd(), "Path.jl"))
-
-    @test Nucleus.Path.text(FI, di) == re
+    @test Nucleus.Path.text(FI, di) === re
 
 end
 

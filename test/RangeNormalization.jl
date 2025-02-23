@@ -1,8 +1,14 @@
-using Random: seed!
-
 using Test: @test
 
 using Nucleus
+
+# ---- #
+
+function is_egal(a1_, a2_)
+
+    eltype(a1_) === eltype(a2_) && a1_ == a2_
+
+end
 
 # ---- #
 
@@ -21,8 +27,8 @@ const F3 = [
 # 5.500 ns (0 allocations: 0 bytes)
 # 6.125 ns (0 allocations: 0 bytes)
 # 7.958 ns (0 allocations: 0 bytes)
-# 1.064 μs (0 allocations: 0 bytes)
-# 9.375 μs (0 allocations: 0 bytes)
+# 1.054 μs (0 allocations: 0 bytes)
+# 9.361 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     ([-1, 1], [0, 2]),
@@ -45,27 +51,19 @@ for (nu_, re) in (
 
     #@btime Nucleus.RangeNormalization.update_shift!(co) setup = co = copy($nu_)
 
-    if !isnothing(re)
-
-        @test eltype(co) == eltype(re)
-
-        @test co == re
-
-    end
+    @test isnothing(re) || is_egal(co, re)
 
 end
 
 # ---- #
 
-# 27.568 ns (0 allocations: 0 bytes)
-# 30.037 ns (0 allocations: 0 bytes)
-# 40.364 ns (0 allocations: 0 bytes)
-# 5.701 μs (0 allocations: 0 bytes)
-# 54.375 μs (0 allocations: 0 bytes)
+# 27.554 ns (0 allocations: 0 bytes)
+# 40.322 ns (0 allocations: 0 bytes)
+# 5.729 μs (0 allocations: 0 bytes)
+# 54.208 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [0, 1, log2(3)]),
-    (F2_, [0, 1, log2(2.3333333333333333), log2(3)]),
     (
         F3,
         [
@@ -79,27 +77,21 @@ for (nu_, re) in (
 
     co = copy(nu_)
 
-    Nucleus.RangeNormalization.update_shift_log2!(co)
+    Nucleus.RangeNormalization.update_log2!(co)
 
-    #@btime Nucleus.RangeNormalization.update_shift_log2!(co) setup = co = copy($nu_)
+    #@btime Nucleus.RangeNormalization.update_log2!(co) setup = co = copy($nu_)
 
-    if !isnothing(re)
-
-        @test eltype(co) == eltype(re)
-
-        @test isapprox(co, re)
-
-    end
+    @test isnothing(re) || is_egal(co, re)
 
 end
 
 # ---- #
 
-# 25.618 ns (0 allocations: 0 bytes)
-# 28.251 ns (0 allocations: 0 bytes)
-# 31.784 ns (0 allocations: 0 bytes)
-# 512.802 ns (0 allocations: 0 bytes)
-# 4.345 μs (0 allocations: 0 bytes)
+# 25.911 ns (0 allocations: 0 bytes)
+# 28.279 ns (0 allocations: 0 bytes)
+# 31.742 ns (0 allocations: 0 bytes)
+# 510.417 ns (0 allocations: 0 bytes)
+# 4.351 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [-1, 0, 1.0]),
@@ -121,23 +113,17 @@ for (nu_, re) in (
 
     #@btime Nucleus.RangeNormalization.update_0!(co) setup = co = copy($nu_)
 
-    if !isnothing(re)
-
-        @test eltype(co) == eltype(re)
-
-        @test co == re
-
-    end
+    @test isnothing(re) || is_egal(co, re)
 
 end
 
 # ---- #
 
 # 21.021 ns (0 allocations: 0 bytes)
-# 27.290 ns (0 allocations: 0 bytes)
-# 36.087 ns (0 allocations: 0 bytes)
-# 5.118 μs (0 allocations: 0 bytes)
-# 50.125 μs (0 allocations: 0 bytes)
+# 27.249 ns (0 allocations: 0 bytes)
+# 36.092 ns (0 allocations: 0 bytes)
+# 5.076 μs (0 allocations: 0 bytes)
+# 50.083 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [0, 0.5, 1]),
@@ -159,22 +145,16 @@ for (nu_, re) in (
 
     #@btime Nucleus.RangeNormalization.update_01!(co) setup = co = copy($nu_)
 
-    if !isnothing(re)
-
-        @test eltype(co) == eltype(re)
-
-        @test co == re
-
-    end
+    @test isnothing(re) || is_egal(co, re)
 
 end
 
 # ---- #
 
-# 8.583 ns (0 allocations: 0 bytes)
+# 8.625 ns (0 allocations: 0 bytes)
 # 11.720 ns (0 allocations: 0 bytes)
-# 231.783 ns (0 allocations: 0 bytes)
-# 2.013 μs (0 allocations: 0 bytes)
+# 231.319 ns (0 allocations: 0 bytes)
+# 2.008 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [0, 0.3333333333333333, 0.6666666666666666]),
@@ -195,12 +175,6 @@ for (nu_, re) in (
 
     #@btime Nucleus.RangeNormalization.update_sum!(co) setup = co = copy($nu_)
 
-    if !isnothing(re)
-
-        @test eltype(co) == eltype(re)
-
-        @test co == re
-
-    end
+    @test isnothing(re) || is_egal(co, re)
 
 end

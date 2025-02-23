@@ -25,13 +25,27 @@ end
 
 const DI = pkgdir(Nucleus, "data", "Table")
 
+const GZ = joinpath(DI, "1.tsv.gz")
+
+# ---- #
+
+for (an, c1_, c2, re) in ((Nucleus.Table.rea(GZ), ["hgnc_id"], "symbol", 43840),)
+
+    @test length(Nucleus.Table.make_dictionary(an, c1_, c2)) === re
+
+end
+
+# ---- #
+
+# TODO: Loop for writ.
+
 const TS = joinpath(tempdir(), "_.tsv")
 
 # ---- #
 
-for fi in (joinpath(DI, "1.tsv"), joinpath(DI, "1.tsv.gz"))
+for cs in (joinpath(DI, "1.tsv"), GZ)
 
-    a1 = Nucleus.Table.rea(fi)
+    a1 = Nucleus.Table.rea(cs)
 
     Nucleus.Table.writ(TS, a1)
 
@@ -43,9 +57,9 @@ end
 
 # ---- #
 
-for (fi, sh) in ((joinpath(DI, "1.xlsx"), "HumanSpecific Genes"),)
+for (xl, sh) in ((joinpath(DI, "1.xlsx"), "HumanSpecific Genes"),)
 
-    a1 = Nucleus.Table.rea(fi, sh)
+    a1 = Nucleus.Table.rea(xl, sh)
 
     Nucleus.Table.writ(TS, a1)
 

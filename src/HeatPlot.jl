@@ -13,7 +13,7 @@ function make(yc_, xc_, N)
         "y" => yc_,
         "x" => xc_,
         "z" => collect(eachrow(N)),
-        "colorscale" => Nucleus.Plotly.make(Nucleus.ColorScheme.BR_),
+        "colorscale" => Nucleus.Plotly.make_colorscale(Nucleus.ColorScheme.BR_),
         "colorbar" => Dict("tickvals" => (extrema(nu_)..., mean(nu_))),
     )
 

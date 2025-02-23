@@ -4,7 +4,7 @@ using Random: randstring
 
 using ..Nucleus
 
-function writ(ht, sr_, id, sc, ba = "#000000")
+function writ(ht, sr_, sc, ba = "#000000")
 
     if isempty(ht)
 
@@ -22,7 +22,7 @@ function writ(ht, sr_, id, sc, ba = "#000000")
           </head>
         $(join(("<script src=\"$sr\"></script>" for sr in sr_), '\n'))
           <body style="margin: 0; background: $ba">
-            <div id="$id" style="min-height: 100vh"></div>
+            <div id="nucleus" style="min-height: 100vh"></div>
           </body>
           <script>
         $sc

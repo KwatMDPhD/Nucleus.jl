@@ -4,7 +4,7 @@ using JSON: json
 
 using ..Nucleus
 
-function make(co_)
+function make_colorscale(co_)
 
     um = lastindex(co_)
 
@@ -56,14 +56,11 @@ function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
         l1,
     )
 
-    id = "pl"
-
     Nucleus.HTM.writ(
         ht,
         ("https://cdn.plot.ly/plotly-3.0.1.min.js",),
-        id,
         """
-        Plotly.newPlot("$id", $(json(tr_)), $(json(l2)), $(json(co)))""",
+        Plotly.newPlot("nucleus", $(json(tr_)), $(json(l2)), $(json(co)))""",
     )
 
 end

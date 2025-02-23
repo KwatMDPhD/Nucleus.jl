@@ -7,7 +7,7 @@ using Nucleus
 # ---- #
 
 # 14.264 ns (2 allocations: 80 bytes)
-# 14.681 ns (2 allocations: 96 bytes)
+# 14.640 ns (2 allocations: 96 bytes)
 # 2.708 ns (0 allocations: 0 bytes)
 
 for (u1, u2, re) in ((5, 1, [1, 5]), (5, 2, [1, 2, 4, 5]), (5, 3, 1:5))
@@ -20,9 +20,9 @@ end
 
 # ---- #
 
-# 220.436 ns (8 allocations: 704 bytes)
-# 217.860 ns (8 allocations: 736 bytes)
-# 214.016 ns (6 allocations: 816 bytes)
+# 197.440 ns (8 allocations: 704 bytes)
+# 201.957 ns (8 allocations: 736 bytes)
+# 197.845 ns (6 allocations: 816 bytes)
 
 const CH_ = shuffle!(collect('a':'z'))
 

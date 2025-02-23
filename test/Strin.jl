@@ -56,12 +56,9 @@ end
 
 # ---- #
 
-# 45.328 ns (2 allocations: 256 bytes)
-# 429.226 ns (3 allocations: 1.23 KiB)
-# 63.776 ns (2 allocations: 256 bytes)
-# 428.603 ns (3 allocations: 1.23 KiB)
-# 429.020 ns (3 allocations: 1.23 KiB)
-# 429.231 ns (3 allocations: 1.23 KiB)
+# 44.862 ns (2 allocations: 256 bytes)
+# 63.710 ns (2 allocations: 256 bytes)
+# 430.698 ns (3 allocations: 1.23 KiB)
 
 const DE = '.'
 
@@ -72,8 +69,6 @@ for (id, re) in ((1, "a"), (2, "b"), (26, "z"))
     @test Nucleus.Strin.ge(S1, id, DE) == re
 
     #@btime Nucleus.Strin.ge(S1, $id, DE)
-
-    #@btime split(S1, DE)[$id]
 
 end
 
@@ -117,8 +112,8 @@ end
 
 const S3 = "1234567890"
 
-for (um, re) in ((1, "1..."), (2, "12..."), (11, S3))
+for (ma, re) in ((1, "1..."), (2, "12..."), (11, S3))
 
-    @test Nucleus.Strin.make_short(S3, um) === re
+    @test Nucleus.Strin.make_short(S3, ma) === re
 
 end

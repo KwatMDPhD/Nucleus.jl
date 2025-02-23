@@ -55,28 +55,6 @@ function make(d1, d2)
 
 end
 
-function index(an_)
-
-    di = Dict{eltype(an_), Vector{Int}}()
-
-    for id in eachindex(an_)
-
-        an = an_[id]
-
-        if !haskey(di, an)
-
-            di[an] = Int[]
-
-        end
-
-        push!(di[an], id)
-
-    end
-
-    di
-
-end
-
 function rea(js, dicttype = OrderedDict)
 
     endswith(js, "toml") ? parsefil(js) : parsefile(js; dicttype)

@@ -2,9 +2,9 @@ using Nucleus
 
 # ---- #
 
-const yc_ = "Aa", "Bb"
+const YC_ = "Aa", "Bb"
 
-const xc_ = "Cc", "Dd", "Ee"
+const XC_ = "Cc", "Dd", "Ee"
 
 const S = [
     0.999 3 5
@@ -13,6 +13,6 @@ const S = [
 
 for (S, C) in ((S * 40, S), (S * 40, reverse(S)))
 
-    Nucleus.BubblePlot.writ("", yc_, xc_, S, C)
+    Nucleus.BubblePlot.writ("", YC_, XC_, S, C)
 
 end

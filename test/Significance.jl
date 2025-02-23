@@ -1,5 +1,3 @@
-using Random: seed!
-
 using Test: @test
 
 using Nucleus
@@ -14,9 +12,9 @@ end
 
 # ---- #
 
-# 12.596 ns (3 allocations: 96 bytes)
-# 153.746 ns (11 allocations: 512 bytes)
-# 159.241 ns (11 allocations: 512 bytes)
+# 12.513 ns (3 allocations: 96 bytes)
+# 153.606 ns (11 allocations: 512 bytes)
+# 155.257 ns (11 allocations: 512 bytes)
 
 const N1_ = [-4, -3, -2, -1, -0.0, 0, 1, 2, 3, 4]
 

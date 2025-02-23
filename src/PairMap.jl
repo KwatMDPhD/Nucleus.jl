@@ -1,4 +1,4 @@
-module Map
+module PairMap
 
 function make(fu, bo_, nu_)
 

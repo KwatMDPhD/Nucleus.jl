@@ -6,72 +6,44 @@ using Nucleus
 
 # ---- #
 
-# 8.909 μs (401 allocations: 23.05 KiB)
-# 8.540 μs (393 allocations: 22.21 KiB)
-
-const D1 = Dict("Existing" => 1)
+# 8.857 μs (401 allocations: 23.05 KiB)
+# 8.582 μs (393 allocations: 22.21 KiB)
 
 for (ke, va, re) in (
     ("Existing", 2, Dict("Existing" => 1, "Existing.2" => 2, "Existing.3" => 2)),
     ("New", 2, Dict("Existing" => 1, "New" => 2, "New.2" => 2)),
 )
 
-    co = copy(D1)
+    di = Dict("Existing" => 1)
 
-    Nucleus.Dictionary.update!(co, ke, va)
+    Nucleus.Dictionary.update!(di, ke, va)
 
-    Nucleus.Dictionary.update!(co, ke, va)
+    Nucleus.Dictionary.update!(di, ke, va)
 
-    #@btime Nucleus.Dictionary.update!(co, $ke, $va) setup = co = copy(D1) evals = 100
+    #@btime Nucleus.Dictionary.update!(di, $ke, $va) setup = di = Dict("Existing" => 1) evals =
+    #    100
 
-    @test co == re
+    @test di == re
 
 end
 
 # ---- #
 
-# 1.579 μs (24 allocations: 1.62 KiB)
-# 1.600 μs (24 allocations: 1.62 KiB)
+# 1.550 μs (24 allocations: 1.62 KiB)
+# 1.587 μs (24 allocations: 1.62 KiB)
 
-const D2 = Dict("1A" => 1, 'B' => Dict('C' => 1, "1D" => 1))
+const D1 = Dict("1A" => 1, 'B' => Dict('C' => 1, "1D" => 1))
 
-const D3 = Dict("2A" => 2, 'B' => Dict('C' => 2, "2D" => 2))
+const D2 = Dict("2A" => 2, 'B' => Dict('C' => 2, "2D" => 2))
 
 for (d1, d2, re) in (
-    (D2, D3, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 2, "1D" => 1, "2D" => 2))),
-    (D3, D2, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 1, "1D" => 1, "2D" => 2))),
+    (D1, D2, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 2, "1D" => 1, "2D" => 2))),
+    (D2, D1, Dict("1A" => 1, "2A" => 2, 'B' => Dict('C' => 1, "1D" => 1, "2D" => 2))),
 )
 
     @test Nucleus.Dictionary.make(d1, d2) == re
 
     #@btime Nucleus.Dictionary.make($d1, $d2)
-
-end
-
-# ---- #
-
-# 166.181 ns (10 allocations: 768 bytes)
-# 146.378 ns (10 allocations: 832 bytes)
-# 7.667 μs (94 allocations: 26.95 KiB)
-# 125.083 μs (163 allocations: 198.72 KiB)
-
-for (an_, re) in (
-    (
-        ['c', 'b', 'a', 'a', 'a', 'b', 'b', 'c', 'c'],
-        Dict('c' => [1, 8, 9], 'b' => [2, 6, 7], 'a' => [3, 4, 5]),
-    ),
-    ([1, 2, 3, 3, 2, 1], Dict(1 => [1, 6], 2 => [2, 5], 3 => [3, 4])),
-    (rand('a':'z', 1000), nothing),
-    (rand('a':'z', 10000), nothing),
-)
-
-    if !isnothing(re)
-
-        @test Nucleus.Dictionary.index(an_) == re
-
-    end
-
-    #@btime Nucleus.Dictionary.index($an_)
 
 end
 

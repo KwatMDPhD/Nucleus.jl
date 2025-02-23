@@ -46,14 +46,14 @@ end
 
 # ---- #
 
-# 117.858 ns (6 allocations: 200 bytes)
-# 122.376 ns (6 allocations: 200 bytes)
-# 116.266 ns (6 allocations: 208 bytes)
-# 133.087 ns (7 allocations: 240 bytes)
-# 128.988 ns (7 allocations: 232 bytes)
-# 138.028 ns (7 allocations: 232 bytes)
-# 138.648 ns (7 allocations: 240 bytes)
-# 125.419 ns (6 allocations: 200 bytes)
+# 119.912 ns (6 allocations: 200 bytes)
+# 125.092 ns (6 allocations: 200 bytes)
+# 118.582 ns (6 allocations: 208 bytes)
+# 135.691 ns (7 allocations: 240 bytes)
+# 131.682 ns (7 allocations: 232 bytes)
+# 140.497 ns (7 allocations: 232 bytes)
+# 141.082 ns (7 allocations: 240 bytes)
+# 127.707 ns (6 allocations: 200 bytes)
 
 for (n1, n2) in (
     ("sex", "sexes"),

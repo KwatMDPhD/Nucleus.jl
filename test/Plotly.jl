@@ -4,13 +4,27 @@ using Nucleus
 
 # ---- #
 
+const C1 = "#ff0000"
+
+const C2 = "#00ff00"
+
+const C3 = "#0000ff"
+
 # ---- #
 
-const LA = Dict(
-    "paper_bgcolor" => "#ff0000",
-    "plot_bgcolor" => "#00ff00",
-    "title" => Dict("text" => "🤠"),
+for (co_, re) in (
+    ((C1,), ((0, C1), (1, C1))),
+    ((C1, C2), ((0.0, C1), (1.0, C2))),
+    ((C1, C2, C3), ((0.0, C1), (0.5, C2), (1.0, C3))),
 )
+
+    @test Nucleus.Plotly.make_colorscale(co_) === re
+
+end
+
+# ---- #
+
+const LA = Dict("paper_bgcolor" => C1, "plot_bgcolor" => C3, "title" => Dict("text" => "🤠"))
 
 const HE = 800
 

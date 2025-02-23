@@ -16,7 +16,8 @@ function writ(ht, yc_, xc_, S, C, la = Dict{String, Any}())
                 "marker" => Dict(
                     "size" => vec(S),
                     "color" => vec(C),
-                    "colorscale" => Nucleus.Plotly.make(Nucleus.ColorScheme.BR_),
+                    "colorscale" =>
+                        Nucleus.Plotly.make_colorscale(Nucleus.ColorScheme.BR_),
                 ),
             ),
         ),

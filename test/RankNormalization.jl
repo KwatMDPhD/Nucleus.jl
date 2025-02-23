@@ -1,8 +1,14 @@
-using Random: seed!
-
 using Test: @test
 
 using Nucleus
+
+# ---- #
+
+function is_egal(a1_, a2_)
+
+    eltype(a1_) === eltype(a2_) && a1_ == a2_
+
+end
 
 # ---- #
 
@@ -17,19 +23,19 @@ const I3 = [
 
 # ---- #
 
-# 47.022 ns (2 allocations: 144 bytes)
-# 87.196 ns (2 allocations: 144 bytes)
-# 44.382 ns (2 allocations: 144 bytes)
-# 89.366 ns (2 allocations: 144 bytes)
-# 66.342 ns (2 allocations: 144 bytes)
-# 12.000 μs (5 allocations: 8.08 KiB)
-# 521.750 μs (5 allocations: 78.33 KiB)
+# 32.570 ns (2 allocations: 144 bytes)
+# 46.891 ns (2 allocations: 144 bytes)
+# 32.612 ns (2 allocations: 144 bytes)
+# 47.937 ns (2 allocations: 144 bytes)
+# 63.138 ns (2 allocations: 144 bytes)
+# 12.167 μs (5 allocations: 8.08 KiB)
+# 532.125 μs (5 allocations: 78.33 KiB)
 
 const ZE_ = zeros(Int, 10)
 
 const ON_ = ones(Int, 10)
 
-for (nu_, qu_, re) in (
+for (nu_, fr_, re) in (
     (ZE_, (1,), ON_),
     (ZE_, (0.5, 1), ON_),
     (I2_, (1,), ON_),
@@ -41,27 +47,21 @@ for (nu_, qu_, re) in (
 
     co = copy(nu_)
 
-    Nucleus.RankNormalization.update_quantile!(co, qu_)
+    Nucleus.RankNormalization.update!(co, fr_)
 
-    #@btime Nucleus.RankNormalization.update_quantile!(co, $qu_) setup = co = copy($nu_)
+    #@btime Nucleus.RankNormalization.update!(co, $fr_) setup = co = copy($nu_)
 
-    if !isnothing(re)
-
-        @test eltype(co) == eltype(re)
-
-        @test co == re
-
-    end
+    @test isnothing(re) || is_egal(co, re)
 
 end
 
 # ---- #
 
-# 45.455 ns (4 allocations: 224 bytes)
-# 50.397 ns (4 allocations: 288 bytes)
-# 246.687 ns (6 allocations: 352 bytes)
-# 14.791 μs (11 allocations: 28.09 KiB)
-# 266.292 μs (9 allocations: 195.81 KiB)
+# 43.517 ns (4 allocations: 224 bytes)
+# 50.303 ns (4 allocations: 288 bytes)
+# 243.056 ns (6 allocations: 352 bytes)
+# 14.750 μs (9 allocations: 19.94 KiB)
+# 270.500 μs (9 allocations: 195.81 KiB)
 
 for (n1_, re) in (
     (I1_, [1, 2, 2, 3, 3, 3, 4]),
@@ -77,27 +77,19 @@ for (n1_, re) in (
     (randn(10000), nothing),
 )
 
-    n2_ = Nucleus.RankNormalization.make_1223(n1_)
+    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1223(n1_), re)
 
     #@btime Nucleus.RankNormalization.make_1223($n1_)
-
-    if !isnothing(re)
-
-        @test eltype(n2_) == eltype(re)
-
-        @test n2_ == re
-
-    end
 
 end
 
 # ---- #
 
-# 45.581 ns (4 allocations: 224 bytes)
-# 50.659 ns (4 allocations: 288 bytes)
-# 236.463 ns (6 allocations: 352 bytes)
-# 14.167 μs (9 allocations: 19.94 KiB)
-# 267.584 μs (11 allocations: 302.47 KiB)
+# 43.391 ns (4 allocations: 224 bytes)
+# 50.481 ns (4 allocations: 288 bytes)
+# 235.824 ns (6 allocations: 352 bytes)
+# 14.250 μs (11 allocations: 27.97 KiB)
+# 267.416 μs (11 allocations: 301.72 KiB)
 
 for (n1_, re) in (
     (I1_, [1, 2, 2, 4, 4, 4, 7]),
@@ -113,27 +105,19 @@ for (n1_, re) in (
     (randn(10000), nothing),
 )
 
-    n2_ = Nucleus.RankNormalization.make_1224(n1_)
+    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1224(n1_), re)
 
     #@btime Nucleus.RankNormalization.make_1224($n1_)
-
-    if !isnothing(re)
-
-        @test eltype(n2_) == eltype(re)
-
-        @test n2_ == re
-
-    end
 
 end
 
 # ---- #
 
-# 49.975 ns (4 allocations: 224 bytes)
-# 58.054 ns (4 allocations: 288 bytes)
-# 246.023 ns (6 allocations: 352 bytes)
-# 14.916 μs (11 allocations: 28.22 KiB)
-# 269.083 μs (11 allocations: 302.84 KiB)
+# 46.086 ns (4 allocations: 224 bytes)
+# 57.165 ns (4 allocations: 288 bytes)
+# 245.183 ns (6 allocations: 352 bytes)
+# 15.833 μs (9 allocations: 19.94 KiB)
+# 263.334 μs (9 allocations: 195.69 KiB)
 
 for (n1_, re) in (
     (I1_, [1, 2.5, 2.5, 5, 5, 5, 7]),
@@ -149,16 +133,8 @@ for (n1_, re) in (
     (randn(10000), nothing),
 )
 
-    n2_ = Nucleus.RankNormalization.make_125254(n1_)
+    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_125254(n1_), re)
 
     #@btime Nucleus.RankNormalization.make_125254($n1_)
-
-    if !isnothing(re)
-
-        @test eltype(n2_) == eltype(re)
-
-        @test n2_ == re
-
-    end
 
 end

@@ -1,6 +1,6 @@
 const TE = joinpath(tempdir(), "Nucleus")
 
-rmtree(TE; recursive = true, force = true)
+rm(TE; recursive = true, force = true)
 
 mkdir(TE)
 

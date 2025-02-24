@@ -24,10 +24,11 @@ end
 # 201.957 ns (8 allocations: 736 bytes)
 # 197.845 ns (6 allocations: 816 bytes)
 
-const CH_ = shuffle!(collect('a':'z'))
+const CH_ = 'a':'z'
 
-for (an_, um, re) in
-    ((CH_, 1, ['a', 'z']), (CH_, 2, ['a', 'b', 'y', 'z']), (CH_, 13, 'a':'z'))
+const SH_ = shuffle!(collect(CH_))
+
+for (an_, um, re) in ((SH_, 1, ['a', 'z']), (SH_, 2, ['a', 'b', 'y', 'z']), (SH_, 13, CH_))
 
     @test an_[Nucleus.Extreme.index(an_, um)] == re
 

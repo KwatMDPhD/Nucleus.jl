@@ -10,8 +10,6 @@ const C2 = "#00ff00"
 
 const C3 = "#0000ff"
 
-# ---- #
-
 for (co_, re) in (
     ((C1,), ((0, C1), (1, C1))),
     ((C1, C2), ((0.0, C1), (1.0, C2))),
@@ -24,7 +22,11 @@ end
 
 # ---- #
 
-const LA = Dict("paper_bgcolor" => C1, "plot_bgcolor" => C3, "title" => Dict("text" => "🤠"))
+const LA = Dict(
+    "paper_bgcolor" => "#ffff00",
+    "plot_bgcolor" => "#00ffff",
+    "title" => Dict("text" => "🤠"),
+)
 
 const HE = 800
 

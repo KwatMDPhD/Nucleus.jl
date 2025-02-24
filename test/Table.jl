@@ -4,6 +4,8 @@ using Test: @test
 
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
 for (n2, n1_, n2_, A, re) in ((
@@ -39,7 +41,7 @@ end
 
 # TODO: Loop for writ.
 
-const TS = joinpath(tempdir(), "_.tsv")
+const TS = joinpath(TE, "_.tsv")
 
 # ---- #
 

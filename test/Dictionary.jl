@@ -4,6 +4,8 @@ using Test: @test
 
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
 # 8.857 μs (401 allocations: 23.05 KiB)
@@ -98,7 +100,7 @@ end
 
 # ---- #
 
-const JS = joinpath(tempdir(), "_.json")
+const JS = joinpath(TE, "_.json")
 
 for ty in (Dict, OrderedDict)
 

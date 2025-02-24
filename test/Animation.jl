@@ -1,9 +1,11 @@
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
 for (gi, pn_) in ((
-    joinpath(tempdir(), "_.gif"),
+    joinpath(TE, "_.gif"),
     (pkgdir(Nucleus, "data", "Animation", "$id.png") for id in 1:2),
 ),)
 

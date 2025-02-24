@@ -2,9 +2,11 @@ using Test: @test
 
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
-const HT = joinpath(tempdir(), "_.html")
+const HT = joinpath(TE, "_.html")
 
 for (sr_, sc, re) in ((
     ("SRC 1", "SRC 2"),

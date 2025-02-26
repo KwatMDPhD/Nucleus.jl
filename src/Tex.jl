@@ -14,8 +14,9 @@ end
 
 function make_title(te)
 
-    replace(
-        titlecase(te; strict = false),
+    te = titlecase(te; strict = false)
+
+    for pa in (
         '_' => ' ',
         r"'m"i => "'m",
         r"'re"i => "'re",
@@ -51,6 +52,12 @@ function make_title(te)
         r"(?<= )vs(?= )"i => "vs",
         r"(?<= )with(?= )"i => "with",
     )
+
+        te = replace(te, pa)
+
+    end
+
+    te
 
 end
 

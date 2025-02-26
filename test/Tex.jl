@@ -38,6 +38,7 @@ for (te, re) in (
     ("4TH", "4th"),
     (T1, " Less  Is   More    "),
     (T2, "    DNA   RNA  Protein "),
+    ("this_is_a_pen.", "This Is a Pen."),
 )
 
     @test Nucleus.Tex.make_title(te) === re
@@ -46,14 +47,14 @@ end
 
 # ---- #
 
-# 119.912 ns (6 allocations: 200 bytes)
-# 125.092 ns (6 allocations: 200 bytes)
-# 118.582 ns (6 allocations: 208 bytes)
-# 135.691 ns (7 allocations: 240 bytes)
-# 131.682 ns (7 allocations: 232 bytes)
-# 140.497 ns (7 allocations: 232 bytes)
-# 141.082 ns (7 allocations: 240 bytes)
-# 127.707 ns (6 allocations: 200 bytes)
+# 117.677 ns (6 allocations: 200 bytes)
+# 122.937 ns (6 allocations: 200 bytes)
+# 116.522 ns (6 allocations: 208 bytes)
+# 133.762 ns (7 allocations: 240 bytes)
+# 129.907 ns (7 allocations: 232 bytes)
+# 138.600 ns (7 allocations: 232 bytes)
+# 139.302 ns (7 allocations: 240 bytes)
+# 125.928 ns (6 allocations: 200 bytes)
 
 for (n1, n2) in (
     ("sex", "sexes"),

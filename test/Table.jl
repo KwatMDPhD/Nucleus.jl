@@ -67,6 +67,6 @@ for (xl, sh) in ((joinpath(DI, "1.xlsx"), "HumanSpecific Genes"),)
 
     a2 = Nucleus.Table.rea(TS)
 
-    @info "" a1 a2
+    @info "TODO" a1 a2
 
 end

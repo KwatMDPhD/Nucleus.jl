@@ -57,7 +57,7 @@ end
 # 14.750 μs (9 allocations: 19.94 KiB)
 # 270.500 μs (9 allocations: 195.81 KiB)
 
-for (n1_, re) in (
+for (nu_, re) in (
     (I1_, [1, 2, 2, 3, 3, 3, 4]),
     (I2_, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     (
@@ -71,9 +71,9 @@ for (n1_, re) in (
     (randn(10000), nothing),
 )
 
-    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1223(n1_), re)
+    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1223(nu_), re)
 
-    #@btime Nucleus.RankNormalization.make_1223($n1_)
+    #@btime Nucleus.RankNormalization.make_1223($nu_)
 
 end
 
@@ -85,7 +85,7 @@ end
 # 14.250 μs (11 allocations: 27.97 KiB)
 # 267.416 μs (11 allocations: 301.72 KiB)
 
-for (n1_, re) in (
+for (nu_, re) in (
     (I1_, [1, 2, 2, 4, 4, 4, 7]),
     (I2_, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
     (
@@ -99,9 +99,9 @@ for (n1_, re) in (
     (randn(10000), nothing),
 )
 
-    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1224(n1_), re)
+    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1224(nu_), re)
 
-    #@btime Nucleus.RankNormalization.make_1224($n1_)
+    #@btime Nucleus.RankNormalization.make_1224($nu_)
 
 end
 
@@ -113,7 +113,7 @@ end
 # 15.833 μs (9 allocations: 19.94 KiB)
 # 263.334 μs (9 allocations: 195.69 KiB)
 
-for (n1_, re) in (
+for (nu_, re) in (
     (I1_, [1, 2.5, 2.5, 5, 5, 5, 7]),
     (I2_, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10.0]),
     (
@@ -127,8 +127,8 @@ for (n1_, re) in (
     (randn(10000), nothing),
 )
 
-    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_125254(n1_), re)
+    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_125254(nu_), re)
 
-    #@btime Nucleus.RankNormalization.make_125254($n1_)
+    #@btime Nucleus.RankNormalization.make_125254($nu_)
 
 end

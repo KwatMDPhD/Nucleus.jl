@@ -16,13 +16,13 @@ end
 
 # ---- #
 
-for (n1_, re) in (
+for (nu_, re) in (
     ([-1, 2, 3], [0, 0.5, 1]),
     ([-1, -1, 2, 3], [0, 0, 0.6000000000000001, 1]),
     ([-1, 2, 2, 3], [0, 0.5, 0.5, 1]),
     ([-1, 2, 3, 3], [0, 0.4, 1, 1]),
 )
 
-    @test is_egal(Nucleus.Normalization.make_125254_01(n1_), re)
+    @test is_egal(Nucleus.Normalization.make_125254_01(nu_), re)
 
 end

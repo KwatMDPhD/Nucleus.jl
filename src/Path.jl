@@ -1,14 +1,14 @@
 module Path
 
-function is_path(pa, u1)
+function is_path(pa, ma)
 
-    u2 = 0
+    um = 0
 
-    while !(bo = ispath(pa)) && u2 < u1
+    while !(bo = ispath(pa)) && um < ma
 
         sleep(1)
 
-        @info "Waited for $pa ($(u2 += 1) / $u1)"
+        @info "Waited for $pa ($(um += 1) / $ma)"
 
     end
 

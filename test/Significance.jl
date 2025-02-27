@@ -20,14 +20,14 @@ const N1_ = [-4, -3, -2, -1, -0.0, 0, 1, 2, 3, 4]
 
 const N2_ = [-1, -0.0, 0, 1]
 
-const EM_ = Float64[]
+const N3_ = Float64[]
 
 const PV_ = [0.4, 0.6, 0.6, 0.7]
 
 const QV_ = [0.7, 0.7, 0.7, 0.7]
 
 for (eq, n1_, n2_, re) in (
-    (<=, N1_, EM_, (EM_, EM_)),
+    (<=, N1_, N3_, (N3_, N3_)),
     (<=, N1_, N2_, (PV_, QV_)),
     (>=, N1_, N2_, (reverse(PV_), QV_)),
 )

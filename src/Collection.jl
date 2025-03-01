@@ -44,4 +44,28 @@ function index(an_)
 
 end
 
+function get_extreme(nu_)
+
+    mi, ma = extrema(nu_)
+
+    a1 = abs(mi)
+
+    a2 = abs(ma)
+
+    if isapprox(a1, a2)
+
+        (mi, ma)
+
+    elseif a2 < a1
+
+        (mi,)
+
+    else
+
+        (ma,)
+
+    end
+
+end
+
 end

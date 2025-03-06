@@ -2,11 +2,19 @@ module Numbe
 
 using Printf: @sprintf
 
-function make_exponential(nu, ex)
+function ge(nu_)
 
-    ab = abs(nu)
+    ne_ = similar(nu_, 0)
 
-    isone(ex) ? ab : ab^ex
+    po_ = similar(nu_, 0)
+
+    for nu in nu_
+
+        push!(nu < 0 ? ne_ : po_, nu)
+
+    end
+
+    ne_, po_
 
 end
 

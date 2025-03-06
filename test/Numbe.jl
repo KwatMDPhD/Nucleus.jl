@@ -2,21 +2,18 @@ using Test: @test
 
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
-for (nu, ex, re) in (
-    (0, 0, 1),
-    (0, 1, 0),
-    (0, 2, 0),
-    (2, 0, 1),
-    (2, 1, 2),
-    (2, 2, 4),
-    (2.0, 0, 1.0),
-    (2.0, 1, 2.0),
-    (2.0, 2, 4.0),
-)
+# 38.390 ns (4 allocations: 256 bytes)
+# 197.292 μs (32 allocations: 1.59 MiB)
 
-    @test Nucleus.Numbe.make_exponential(nu, ex) === re
+for (nu_, re) in (([-2, 1, 0, -1, 2], ([-2, -1], [1, 0, 2])), (randn(100000), nothing))
+
+    @test isnothing(re) || is_egal(Nucleus.Numbe.ge(nu_), re)
+
+    #@btime Nucleus.Numbe.ge($nu_)
 
 end
 

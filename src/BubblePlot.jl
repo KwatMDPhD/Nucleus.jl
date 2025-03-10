@@ -4,14 +4,14 @@ using ..Nucleus
 
 function writ(ht, yc_, xc_, S, C, la = Dict{String, Any}())
 
-    id_ = vec(CartesianIndices(S))
+    id__ = vec(CartesianIndices(S))
 
     Nucleus.Plotly.writ(
         ht,
         (
             Dict(
-                "y" => map(id -> yc_[id[1]], id_),
-                "x" => map(id -> xc_[id[2]], id_),
+                "y" => map(id_ -> yc_[id_[1]], id__),
+                "x" => map(id_ -> xc_[id_[2]], id__),
                 "mode" => "markers",
                 "marker" => Dict(
                     "size" => vec(S),

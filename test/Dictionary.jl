@@ -51,11 +51,11 @@ end
 
 # ---- #
 
-const DI = pkgdir(Nucleus, "data", "Dictionary")
+const DA = pkgdir(Nucleus, "data", "Dictionary")
 
 for (js, re) in (
     (
-        joinpath(DI, "1.json"),
+        joinpath(DA, "1.json"),
         OrderedDict{String, Any}(
             "1" => "1",
             "3" => "3",
@@ -68,7 +68,7 @@ for (js, re) in (
         ),
     ),
     (
-        joinpath(DI, "1.toml"),
+        joinpath(DA, "1.toml"),
         Dict{String, Any}(
             "clients" =>
                 Dict("hosts" => ["alpha", "omega"], "data" => [["gamma", "delta"], [1, 2]]),

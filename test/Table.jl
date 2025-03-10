@@ -25,9 +25,9 @@ end
 
 # ---- #
 
-const DI = pkgdir(Nucleus, "data", "Table")
+const DA = pkgdir(Nucleus, "data", "Table")
 
-const GZ = joinpath(DI, "1.tsv.gz")
+const GZ = joinpath(DA, "1.tsv.gz")
 
 # ---- #
 
@@ -45,7 +45,7 @@ const TS = joinpath(TE, "_.tsv")
 
 # ---- #
 
-for cs in (joinpath(DI, "1.tsv"), GZ)
+for cs in (joinpath(DA, "1.tsv"), GZ)
 
     a1 = Nucleus.Table.rea(cs)
 
@@ -59,7 +59,7 @@ end
 
 # ---- #
 
-for (xl, sh) in ((joinpath(DI, "1.xlsx"), "HumanSpecific Genes"),)
+for (xl, sh) in ((joinpath(DA, "1.xlsx"), "HumanSpecific Genes"),)
 
     a1 = Nucleus.Table.rea(xl, sh)
 

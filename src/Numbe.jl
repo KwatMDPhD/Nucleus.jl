@@ -18,9 +18,15 @@ function ge(nu_)
 
 end
 
-function text(nu)
+function text_2(nu)
 
     @sprintf "%.2g" nu
+
+end
+
+function text_4(nu)
+
+    @sprintf "%.4g" nu
 
 end
 

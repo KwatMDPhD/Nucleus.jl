@@ -2,8 +2,6 @@ module Dictionary
 
 using JSON: parsefile, print
 
-using OrderedCollections: OrderedDict
-
 using TOML: parsefile as parsefil
 
 using ..Nucleus
@@ -55,9 +53,9 @@ function make(d1, d2)
 
 end
 
-function rea(js, dicttype = OrderedDict)
+function rea(js)
 
-    endswith(js, "toml") ? parsefil(js) : parsefile(js; dicttype)
+    endswith(js, "toml") ? parsefil(js) : parsefile(js)
 
 end
 

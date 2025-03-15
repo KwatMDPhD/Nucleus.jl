@@ -60,7 +60,7 @@ function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
         ht,
         ("https://cdn.plot.ly/plotly-3.0.1.min.js",),
         """
-        Plotly.newPlot("nucleus", $(json(tr_)), $(json(l2)), $(json(co)))""",
+        Plotly.newPlot("nu", $(json(tr_)), $(json(l2)), $(json(co)))""",
     )
 
 end

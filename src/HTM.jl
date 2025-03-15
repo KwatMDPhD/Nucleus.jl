@@ -22,7 +22,7 @@ function writ(ht, sr_, sc, ba = "#000000")
           </head>
         $(join(("<script src=\"$sr\"></script>" for sr in sr_), '\n'))
           <body style="margin: 0; background: $ba">
-            <div id="nucleus" style="min-height: 100vh"></div>
+            <div id="nu" style="min-height: 100vh"></div>
           </body>
           <script>
         $sc

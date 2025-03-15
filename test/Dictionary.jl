@@ -8,22 +8,21 @@ include("_.jl")
 
 # ---- #
 
-# 8.857 μs (401 allocations: 23.05 KiB)
-# 8.582 μs (393 allocations: 22.21 KiB)
+# 8.817 μs (401 allocations: 22.66 KiB)
+# 8.614 μs (393 allocations: 22.21 KiB)
 
 for (ke, va, re) in (
-    ("Existing", 2, Dict("Existing" => 1, "Existing.2" => 2, "Existing.3" => 2)),
-    ("New", 2, Dict("Existing" => 1, "New" => 2, "New.2" => 2)),
+    ("Ex", 2, Dict("Ex" => 1, "Ex.2" => 2, "Ex.3" => 2)),
+    ("Ne", 2, Dict("Ex" => 1, "Ne" => 2, "Ne.2" => 2)),
 )
 
-    di = Dict("Existing" => 1)
+    di = Dict("Ex" => 1)
 
     Nucleus.Dictionary.update!(di, ke, va)
 
     Nucleus.Dictionary.update!(di, ke, va)
 
-    #@btime Nucleus.Dictionary.update!(di, $ke, $va) setup = di = Dict("Existing" => 1) evals =
-    #    100
+    #@btime Nucleus.Dictionary.update!(di, $ke, $va) setup = di = Dict("Ex" => 1) evals = 100
 
     @test di == re
 
@@ -31,8 +30,8 @@ end
 
 # ---- #
 
-# 1.550 μs (24 allocations: 1.62 KiB)
-# 1.587 μs (24 allocations: 1.62 KiB)
+# 1.575 μs (24 allocations: 1.62 KiB)
+# 1.596 μs (24 allocations: 1.62 KiB)
 
 const D1 = Dict("1A" => 1, 'B' => Dict('C' => 1, "1D" => 1))
 
@@ -56,7 +55,7 @@ const DA = pkgdir(Nucleus, "data", "Dictionary")
 for (js, re) in (
     (
         joinpath(DA, "1.json"),
-        OrderedDict{String, Any}(
+        Dict(
             "1" => "1",
             "3" => "3",
             "5" => "5",
@@ -69,7 +68,7 @@ for (js, re) in (
     ),
     (
         joinpath(DA, "1.toml"),
-        Dict{String, Any}(
+        Dict(
             "clients" =>
                 Dict("hosts" => ["alpha", "omega"], "data" => [["gamma", "delta"], [1, 2]]),
             "servers" => Dict(
@@ -88,13 +87,7 @@ for (js, re) in (
     ),
 )
 
-    di = Nucleus.Dictionary.rea(js)
-
-    @test typeof(di) === typeof(re)
-
-    @test di == re
-
-    @test di isa OrderedDict ? collect(di) == collect(re) : collect(di) != collect(re)
+    @test Nucleus.Dictionary.rea(js) == re
 
 end
 
@@ -102,9 +95,8 @@ end
 
 const JS = joinpath(TE, "_.json")
 
-for ty in (Dict, OrderedDict)
-
-    re = ty(
+for re in (
+    Dict(
         "1" => "1",
         "2" => 2,
         "3" => "3",
@@ -114,16 +106,11 @@ for ty in (Dict, OrderedDict)
         "7" => "7",
         "8" => 8,
         "9" => "9",
-    )
+    ),
+)
 
     Nucleus.Dictionary.writ(JS, re)
 
-    di = Nucleus.Dictionary.rea(JS)
-
-    @test typeof(di) === OrderedDict{String, Any}
-
-    @test di == re
-
-    @test collect(di) == collect(re)
+    @test Nucleus.Dictionary.rea(JS) == re
 
 end

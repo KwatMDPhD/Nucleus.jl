@@ -26,9 +26,9 @@ function make(nu_, ra_)
 
     r1_, r2_ = Nucleus.Numbe.ge(ra_)
 
-    p1_, q1_ = make(<=, nu_[i1_], r1_)
+    p1_, q1_ = isempty(i1_) ? (Float64[], Float64[]) : make(<=, nu_[i1_], r1_)
 
-    p2_, q2_ = make(>=, nu_[i2_], r2_)
+    p2_, q2_ = isempty(i2_) ? (Float64[], Float64[]) : make(>=, nu_[i2_], r2_)
 
     vcat(i1_, i2_), vcat(p1_, p2_), vcat(q1_, q2_)
 

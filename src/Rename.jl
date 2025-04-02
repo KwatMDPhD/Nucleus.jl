@@ -6,7 +6,7 @@ function ge(di, st)
 
 end
 
-function text(na_)
+function lo(na_)
 
     u1 = lastindex(na_)
 

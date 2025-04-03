@@ -4,19 +4,19 @@ using JSON: json
 
 using ..Nucleus
 
-function make_colorscale(co_)
+function make_colorscale(st_)
 
-    um = lastindex(co_)
+    um = lastindex(st_)
 
     if isone(um)
 
-        co = co_[1]
+        st = st_[1]
 
-        ((0, co), (1, co))
+        ((0, st), (1, st))
 
     else
 
-        Tuple(zip(range(0, 1, um), co_))
+        Tuple(zip(range(0, 1, um), st_))
 
     end
 

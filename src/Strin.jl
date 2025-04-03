@@ -36,9 +36,9 @@ function get_not_end(st, de = ' ')
 
 end
 
-function make_short(st, ma)
+function make_short(st, um)
 
-    lastindex(st) <= ma ? st : "$(st[1:ma])..."
+    lastindex(st) <= um ? st : "$(st[1:um])..."
 
 end
 

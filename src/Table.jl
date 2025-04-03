@@ -10,43 +10,43 @@ using Mmap: mmap
 
 using XLSX: readtable
 
-function make(n2, n1_, n2_, A)
+function make(s1, s1_, s2_, A)
 
-    insertcols!(DataFrame(A, n2_), 1, n2 => n1_)
+    insertcols!(DataFrame(A, s2_), 1, s1 => s1_)
 
 end
 
-function make_dictionary(an, c1_, c2)
+function make_dictionary(A, s1_, s1)
 
     di = Dict{String, String}()
 
-    K = Matrix(an[!, c1_])
+    S = Matrix(A[!, s1_])
 
-    va_ = an[!, c2]
+    s2_ = A[!, s1]
 
-    for i1 in eachindex(va_)
+    for i1 in axes(S, 1)
 
-        va = va_[i1]
+        s2 = s2_[i1]
 
-        if ismissing(va)
+        if ismissing(s2)
 
             continue
 
         end
 
-        for i2 in eachindex(c1_)
+        for i2 in axes(S, 2)
 
-            ke = K[i1, i2]
+            s3 = S[i1, i2]
 
-            if ismissing(ke)
+            if ismissing(s3)
 
                 continue
 
             end
 
-            for sp in eachsplit(ke, '|')
+            for sp in eachsplit(s3, '|')
 
-                di[sp] = va
+                di[sp] = s2
 
             end
 
@@ -58,13 +58,13 @@ function make_dictionary(an, c1_, c2)
 
 end
 
-function rea(cs; ke_...)
+function rea(fi; ke_...)
 
-    @assert isfile(cs)
+    @assert isfile(fi)
 
-    mm_ = mmap(cs)
+    mm_ = mmap(fi)
 
-    if endswith(cs, "gz")
+    if endswith(fi, "gz")
 
         mm_ = transcode(GzipDecompressor, mm_)
 
@@ -74,9 +74,9 @@ function rea(cs; ke_...)
 
 end
 
-function rea(xl, sh; ke_...)
+function rea(xl, st; ke_...)
 
-    DataFrame(readtable(xl, sh; infer_eltypes = true, ke_...))
+    DataFrame(readtable(xl, st; infer_eltypes = true, ke_...))
 
 end
 

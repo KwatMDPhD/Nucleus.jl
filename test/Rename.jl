@@ -29,6 +29,6 @@ for na_ in (
     map(ke -> Nucleus.Rename.ge(DI, ke), map(_ -> randstring('a':'b', 2), 1:10000)),
 )
 
-    Nucleus.Rename.text(na_)
+    Nucleus.Rename.lo(na_)
 
 end

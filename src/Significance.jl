@@ -4,6 +4,8 @@ using MultipleTesting: BenjaminiHochberg, adjust
 
 using ..Nucleus
 
+# TODO: Implement the Bayesian method.
+
 function make(u1::Integer, u2)
 
     (iszero(u1) ? 1 : u1) / u2
@@ -24,11 +26,11 @@ function make(nu_, ra_)
 
     i2_ = findall(>=(0), nu_)
 
-    r1_, r2_ = Nucleus.Numbe.ge(ra_)
+    ne_, po_ = Nucleus.Numbe.ge(ra_)
 
-    p1_, q1_ = isempty(i1_) ? (Float64[], Float64[]) : make(<=, nu_[i1_], r1_)
+    p1_, q1_ = isempty(i1_) ? (Float64[], Float64[]) : make(<=, nu_[i1_], ne_)
 
-    p2_, q2_ = isempty(i2_) ? (Float64[], Float64[]) : make(>=, nu_[i2_], r2_)
+    p2_, q2_ = isempty(i2_) ? (Float64[], Float64[]) : make(>=, nu_[i2_], po_)
 
     vcat(i1_, i2_), vcat(p1_, p2_), vcat(q1_, q2_)
 

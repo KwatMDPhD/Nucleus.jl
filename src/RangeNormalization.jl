@@ -38,11 +38,11 @@ function update_01!(nu_)
 
 end
 
-function update_sum!(nu_)
+function update_sum!(po_)
 
-    iv = inv(sum(nu_))
+    iv = inv(sum(po_))
 
-    map!(nu -> nu * iv, nu_, nu_)
+    map!(po -> po * iv, po_, po_)
 
 end
 

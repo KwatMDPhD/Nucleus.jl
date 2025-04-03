@@ -9,11 +9,16 @@ include("_.jl")
 # 38.643 ns (4 allocations: 256 bytes)
 # 198.708 μs (32 allocations: 1.59 MiB)
 
-for (nu_, re) in (([-2, 1, 0, -1, 2], ([-2, -1], [1, 0, 2])), (randn(100000), nothing))
+for (nu_, r1, r2) in
+    (([-2, 1, 0, -1, 2], [-2, -1], [1, 0, 2]), (randn(100000), nothing, nothing))
 
-    @test isnothing(re) || is_egal(Nucleus.Numbe.ge(nu_), re)
+    ne_, po_ = Nucleus.Numbe.ge(nu_)
 
     #@btime Nucleus.Numbe.ge($nu_)
+
+    @test isnothing(r1) || is_egal(ne_, r1)
+
+    @test isnothing(r2) || is_egal(po_, r2)
 
 end
 

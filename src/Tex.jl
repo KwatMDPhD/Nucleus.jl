@@ -1,20 +1,20 @@
 module Tex
 
-function update_space(te)
+function update_space(st)
 
-    replace(strip(te), r" +" => ' ')
-
-end
-
-function make_low(te)
-
-    replace(lowercase(te), r"[^._0-9a-z]" => '_')
+    replace(strip(st), r" +" => ' ')
 
 end
 
-function make_title(te)
+function make_low(st)
 
-    te = titlecase(te; strict = false)
+    replace(lowercase(st), r"[^._0-9a-z]" => '_')
+
+end
+
+function make_title(st)
+
+    st = titlecase(st; strict = false)
 
     for pa in (
         '_' => ' ',
@@ -53,42 +53,42 @@ function make_title(te)
         r"(?<= )with(?= )"i => "with",
     )
 
-        te = replace(te, pa)
+        st = replace(st, pa)
 
     end
 
-    te
+    st
 
 end
 
-function make_count(um, no)
+function make_count(um, st)
 
     if 1 < abs(um)
 
-        no =
-            if lastindex(no) == 3 && endswith(no, "ex") ||
-               endswith(no, "us") ||
-               endswith(no, 'o')
+        st =
+            if lastindex(st) == 3 && endswith(st, "ex") ||
+               endswith(st, "us") ||
+               endswith(st, 'o')
 
-                "$(no)es"
+                "$(st)es"
 
-            elseif endswith(no, 'y')
+            elseif endswith(st, 'y')
 
-                "$(no[1:(end - 1)])ies"
+                "$(st[1:(end - 1)])ies"
 
-            elseif endswith(no, "ex")
+            elseif endswith(st, "ex")
 
-                "$(no[1:(end - 2)])ices"
+                "$(st[1:(end - 2)])ices"
 
             else
 
-                "$(no)s"
+                "$(st)s"
 
             end
 
     end
 
-    "$um $no"
+    "$um $st"
 
 end
 

@@ -38,15 +38,15 @@ function make(co::Colorant)
 
 end
 
-function make(co)
+function make(st)
 
-    make(parse(Colorant, co))
+    make(parse(Colorant, st))
 
 end
 
-function make(co, fr)
+function make(st, pr)
 
-    make(coloralpha(parse(Colorant, co), fr))
+    make(coloralpha(parse(Colorant, st), pr))
 
 end
 

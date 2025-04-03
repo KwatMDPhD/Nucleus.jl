@@ -1,38 +1,38 @@
 module Information
 
-function make(n1, n2)
+function make(p1, p2)
 
-    n1 * log2(n1 / n2)
-
-end
-
-function make_thermodynamic_depth(n1, n2)
-
-    make(n1, n2) - make(n2, n1)
+    p1 * log2(p1 / p2)
 
 end
 
-function make_thermodynamic_breadth(n1, n2)
+function make_thermodynamic_depth(p1, p2)
 
-    make(n1, n2) + make(n2, n1)
-
-end
-
-function make_antisymmetric_kullback_leibler_divergence(n1, n2, n3, n4 = n3)
-
-    make(n1, n3) - make(n2, n4)
+    make(p1, p2) - make(p2, p1)
 
 end
 
-function make_symmetric_kullback_leibler_divergence(n1, n2, n3, n4 = n3)
+function make_thermodynamic_breadth(p1, p2)
 
-    make(n1, n3) + make(n2, n4)
+    make(p1, p2) + make(p2, p1)
 
 end
 
-function make_jensen_shannon_divergence(n1, n2)
+function make_antisymmetric_kullback_leibler_divergence(p1, p2, p3, p4 = p3)
 
-    make_symmetric_kullback_leibler_divergence(n1, n2, (n1 + n2) * 0.5)
+    make(p1, p3) - make(p2, p4)
+
+end
+
+function make_symmetric_kullback_leibler_divergence(p1, p2, p3, p4 = p3)
+
+    make(p1, p3) + make(p2, p4)
+
+end
+
+function make_jensen_shannon_divergence(p1, p2)
+
+    make_symmetric_kullback_leibler_divergence(p1, p2, (p1 + p2) * 0.5)
 
 end
 

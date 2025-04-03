@@ -6,44 +6,40 @@ using TOML: parsefile as parsefil
 
 using ..Nucleus
 
-function update!(di, ke, va)
+function update!(di, st, an)
 
     id = 1
 
-    while haskey(di, ke)
+    while haskey(di, st)
 
-        ke = "$(isone(id) ? ke : Nucleus.Strin.get_not_end(ke, '.')).$(id += 1)"
+        st = "$(isone(id) ? st : Nucleus.Strin.get_not_end(st, '.')).$(id += 1)"
 
     end
 
-    di[ke] = va
+    di[st] = an
 
 end
 
-function make(d1, d2)
+function make(d1::AbstractDict, d2::AbstractDict)
 
     d3 = Dict{
         Union{eltype(keys(d1)), eltype(keys(d2))},
         Union{eltype(values(d1)), eltype(values(d2))},
     }()
 
-    for ke in union(keys(d1), keys(d2))
+    for a3 in union(keys(d1), keys(d2))
 
-        d3[ke] = if haskey(d1, ke) && haskey(d2, ke)
+        d3[a3] = if haskey(d1, a3) && haskey(d2, a3)
 
-            v1 = d1[ke]
+            make(d1[a3], d2[a3])
 
-            v2 = d2[ke]
+        elseif haskey(d1, a3)
 
-            v1 isa AbstractDict && v2 isa AbstractDict ? make(v1, v2) : v2
-
-        elseif haskey(d1, ke)
-
-            d1[ke]
+            d1[a3]
 
         else
 
-            d2[ke]
+            d2[a3]
 
         end
 
@@ -53,9 +49,15 @@ function make(d1, d2)
 
 end
 
-function rea(js)
+function make(::Any, an)
 
-    endswith(js, "toml") ? parsefil(js) : parsefile(js)
+    an
+
+end
+
+function rea(fi)
+
+    endswith(fi, "toml") ? parsefil(fi) : parsefile(fi)
 
 end
 

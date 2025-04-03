@@ -54,7 +54,7 @@ function get_extreme(nu_)
 
     if isapprox(a1, a2)
 
-        (mi, ma)
+        mi, ma
 
     elseif a2 < a1
 

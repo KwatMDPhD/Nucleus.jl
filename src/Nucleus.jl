@@ -2,7 +2,7 @@ module Nucleus
 
 # ----------------------------------------------------------------------------------------------- #
 
-for na in (
+for st in (
     "Animation",
     "BubblePlot",
     "Collection",
@@ -30,7 +30,7 @@ for na in (
     "Time",
 )
 
-    include("$na.jl")
+    include("$st.jl")
 
 end
 

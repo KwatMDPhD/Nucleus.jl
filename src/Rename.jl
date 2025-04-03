@@ -6,11 +6,11 @@ function ge(di, st)
 
 end
 
-function lo(na_)
+function lo(st_)
 
-    u1 = lastindex(na_)
+    u1 = lastindex(st_)
 
-    u2 = count(!startswith('_'), na_)
+    u2 = count(!startswith('_'), st_)
 
     @info "📛 $u2 / $u1 ($(u2 / u1 * 100)%)."
 

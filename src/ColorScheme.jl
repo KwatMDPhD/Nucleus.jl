@@ -5,7 +5,7 @@ using ColorSchemes: ColorScheme as ColorSchem
 using Colors: Colorant
 
 # Plotly.js
-const P1_ = "#1f77b4",
+const PJ_ = "#1f77b4",
 "#ff7f0e",
 "#2ca02c",
 "#d62728",
@@ -17,7 +17,7 @@ const P1_ = "#1f77b4",
 "#17becf"
 
 # Plotly.py
-const P2_ = "#636efa",
+const PP_ = "#636efa",
 "#ef553b",
 "#00cc96",
 "#ab63fa",
@@ -29,7 +29,7 @@ const P2_ = "#636efa",
 "#fecb52"
 
 # IBM Light
-const I1_ = "#6929c5",
+const IL_ = "#6929c5",
 "#1192e8",
 "#005d5d",
 "#9f1853",
@@ -45,7 +45,7 @@ const I1_ = "#6929c5",
 "#a56eff"
 
 # IBM Dark
-const I2_ = "#8a3ffc",
+const ID_ = "#8a3ffc",
 "#33b1ff",
 "#007d79",
 "#ff7eb6",
@@ -95,9 +95,9 @@ const RE_ = "#ea5545",
 
 const BR_ = "#0000ff", "#ffffff", "#ff0000"
 
-function make(co_)
+function make(st_)
 
-    ColorSchem([parse(Colorant, co) for co in co_])
+    ColorSchem([parse(Colorant, st) for st in st_])
 
 end
 

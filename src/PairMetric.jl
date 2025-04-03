@@ -30,7 +30,7 @@ function make_log_ratio(n1_, n2_)
 
     m2 = mean(n2_)
 
-    iszero(m1) || iszero(m2) ? NaN : log2(m2 / m1)
+    0 < m1 && 0 < m2 ? log2(m2 / m1) : NaN
 
 end
 

@@ -18,6 +18,14 @@ end
 
 # ---- #
 
+for re in ("Path.jl",)
+
+    @test Nucleus.Path.text(JL) === re
+
+end
+
+# ---- #
+
 for (di, re) in (
     (dirname(PK), "Nucleus.jl/test/Path.jl"),
     (PK, "test/Path.jl"),

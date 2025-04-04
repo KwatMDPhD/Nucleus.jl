@@ -16,7 +16,7 @@ function is_path(st, u2)
 
 end
 
-function text(pa, di)
+function text(pa, di = pwd())
 
     pa[(lastindex(di) + 2):end]
 

@@ -2,6 +2,8 @@ using Test: @test
 
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
 const PK = pkgdir(Nucleus)
@@ -38,7 +40,7 @@ end
 
 # ---- #
 
-for pa in (homedir(),)
+for pa in (TE,)
 
     Nucleus.Path.rea(pa)
 

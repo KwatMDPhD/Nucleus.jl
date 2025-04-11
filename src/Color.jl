@@ -1,6 +1,6 @@
 module Color
 
-using Colors: Colorant, coloralpha, hex
+using Colors: Colorant, RGB, coloralpha, hex
 
 const DA = "#27221f"
 
@@ -32,21 +32,17 @@ const S1 = "#8c1515"
 
 const S2 = "#175e54"
 
+const OR = "#fc7f31"
+
 function make(co::Colorant)
 
     "#$(hex(co, :rrggbbaa))"
 
 end
 
-function make(st)
+function make(st, pr = 1)
 
-    make(parse(Colorant, st))
-
-end
-
-function make(st, pr)
-
-    make(coloralpha(parse(Colorant, st), pr))
+    make(coloralpha(parse(RGB, st), pr))
 
 end
 

@@ -18,20 +18,20 @@ end
 
 # ---- #
 
-const CO = "red"
+const ST = "red"
 
 # ---- #
 
-for (co, re) in ((CO, RE), ("#f00", RE), ("#ff0000", RE))
+for (st, re) in ((ST, RE), ("#ff0000", RE))
 
-    @test Nucleus.Color.make(co) === re
+    @test Nucleus.Color.make(st) === re
 
 end
 
 # ---- #
 
-for (co, fr, re) in ((CO, 0, "#ff000000"), (CO, 0.5, "#ff000080"))
+for (st, pr, re) in ((ST, 0, "#ff000000"), (ST, 0.5, "#ff000080"))
 
-    @test Nucleus.Color.make(co, fr) === re
+    @test Nucleus.Color.make(st, pr) === re
 
 end

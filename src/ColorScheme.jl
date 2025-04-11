@@ -2,7 +2,7 @@ module ColorScheme
 
 using ColorSchemes: ColorScheme as ColorSchem
 
-using Colors: Colorant
+using Colors: RGB
 
 # Plotly.js
 const PJ_ = "#1f77b4",
@@ -97,7 +97,7 @@ const BR_ = "#0000ff", "#ffffff", "#ff0000"
 
 function make(st_)
 
-    ColorSchem([parse(Colorant, st) for st in st_])
+    ColorSchem([parse(RGB, st) for st in st_])
 
 end
 

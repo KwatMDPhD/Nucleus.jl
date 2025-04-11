@@ -10,13 +10,13 @@ const C2 = "#00ff00"
 
 const C3 = "#0000ff"
 
-for (co_, re) in (
+for (he_, re) in (
     ((C1,), ((0, C1), (1, C1))),
     ((C1, C2), ((0.0, C1), (1.0, C2))),
     ((C1, C2, C3), ((0.0, C1), (0.5, C2), (1.0, C3))),
 )
 
-    @test Nucleus.Plotly.make_colorscale(co_) === re
+    @test Nucleus.Plotly.make_colorscale(he_) === re
 
 end
 

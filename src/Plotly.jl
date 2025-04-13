@@ -22,7 +22,7 @@ function make_colorscale(st_)
 
 end
 
-function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
+function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
 
     ax = Dict(
         "automargin" => true,
@@ -31,7 +31,7 @@ function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
         "showgrid" => false,
     )
 
-    l2 = merge(
+    la = merge!(
         Dict(
             "template" => Dict(
                 "data" => Dict(
@@ -53,14 +53,14 @@ function writ(ht, tr_, l1 = Dict{String, Any}(), co = Dict{String, Any}())
                 ),
             ),
         ),
-        l1,
+        la,
     )
 
     Nucleus.HTM.writ(
         ht,
         ("https://cdn.plot.ly/plotly-3.0.1.min.js",),
         """
-        Plotly.newPlot("nu", $(json(tr_)), $(json(l2)), $(json(co)))""",
+        Plotly.newPlot("nu", $(json(tr_)), $(json(la)), $(json(co)))""",
     )
 
 end

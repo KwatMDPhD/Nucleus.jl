@@ -10,25 +10,25 @@ using Mmap: mmap
 
 using XLSX: readtable
 
-function make(s1, s1_, s2_, A)
+function make(st, s1_, s2_, A)
 
-    insertcols!(DataFrame(A, s2_), 1, s1 => s1_)
+    insertcols!(DataFrame(A, s2_), 1, st => s1_)
 
 end
 
-function make_dictionary(A, s1_, s1)
+function make_dictionary(A, st_, st)
 
     di = Dict{String, String}()
 
-    S = Matrix(A[!, s1_])
+    S = Matrix(A[!, st_])
 
-    s2_ = A[!, s1]
+    st_ = A[!, st]
 
     for i1 in axes(S, 1)
 
-        s2 = s2_[i1]
+        s1 = st_[i1]
 
-        if ismissing(s2)
+        if ismissing(s1)
 
             continue
 
@@ -36,17 +36,17 @@ function make_dictionary(A, s1_, s1)
 
         for i2 in axes(S, 2)
 
-            s3 = S[i1, i2]
+            s2 = S[i1, i2]
 
-            if ismissing(s3)
+            if ismissing(s2)
 
                 continue
 
             end
 
-            for sp in eachsplit(s3, '|')
+            for sp in eachsplit(s2, '|')
 
-                di[sp] = s2
+                di[sp] = s1
 
             end
 

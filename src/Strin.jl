@@ -6,31 +6,33 @@ function is_bad(st)
 
 end
 
-function ge(st, id, de = ' ')
+const DE = ' '
+
+function ge(st, id, de = DE)
 
     split(st, de; limit = id + 1)[id]
 
 end
 
-function get_1(st, de = ' ')
+function get_1(st, de = DE)
 
     ge(st, 1, de)
 
 end
 
-function get_not_1(st, de = ' ')
+function get_not_1(st, de = DE)
 
     split(st, de; limit = 2)[2]
 
 end
 
-function get_end(st, de = ' ')
+function get_end(st, de = DE)
 
     rsplit(st, de; limit = 2)[2]
 
 end
 
-function get_not_end(st, de = ' ')
+function get_not_end(st, de = DE)
 
     rsplit(st, de; limit = 2)[1]
 

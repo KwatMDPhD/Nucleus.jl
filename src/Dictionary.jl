@@ -27,19 +27,19 @@ function make(d1::AbstractDict, d2::AbstractDict)
         Union{eltype(values(d1)), eltype(values(d2))},
     }()
 
-    for a3 in union(keys(d1), keys(d2))
+    for an in union(keys(d1), keys(d2))
 
-        d3[a3] = if haskey(d1, a3) && haskey(d2, a3)
+        d3[an] = if haskey(d1, an) && haskey(d2, an)
 
-            make(d1[a3], d2[a3])
+            make(d1[an], d2[an])
 
-        elseif haskey(d1, a3)
+        elseif haskey(d1, an)
 
-            d1[a3]
+            d1[an]
 
         else
 
-            d2[a3]
+            d2[an]
 
         end
 

@@ -39,13 +39,13 @@ for (nu_, fr_, re) in (
     (randn(10000), 0:0.1:1, nothing),
 )
 
-    co = copy(nu_)
+    co_ = copy(nu_)
 
-    Nucleus.RankNormalization.update!(co, fr_)
+    Nucleus.RankNormalization.update!(co_, fr_)
 
-    #@btime Nucleus.RankNormalization.update!(co, $fr_) setup = co = copy($nu_)
+    #@btime Nucleus.RankNormalization.update!(co_, $fr_) setup = co_ = copy($nu_)
 
-    @test isnothing(re) || is_egal(co, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 

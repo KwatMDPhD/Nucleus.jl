@@ -39,13 +39,13 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co = copy(nu_)
+    co_ = copy(nu_)
 
-    Nucleus.RangeNormalization.update_shift!(co)
+    Nucleus.RangeNormalization.update_shift!(co_)
 
-    #@btime Nucleus.RangeNormalization.update_shift!(co) setup = co = copy($nu_)
+    #@btime Nucleus.RangeNormalization.update_shift!(co_) setup = co_ = copy($nu_)
 
-    @test isnothing(re) || is_egal(co, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 
@@ -69,13 +69,13 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co = copy(nu_)
+    co_ = copy(nu_)
 
-    Nucleus.RangeNormalization.update_log2!(co)
+    Nucleus.RangeNormalization.update_log2!(co_)
 
-    #@btime Nucleus.RangeNormalization.update_log2!(co) setup = co = copy($nu_)
+    #@btime Nucleus.RangeNormalization.update_log2!(co_) setup = co_ = copy($nu_)
 
-    @test isnothing(re) || is_egal(co, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 
@@ -101,13 +101,13 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co = copy(nu_)
+    co_ = copy(nu_)
 
-    Nucleus.RangeNormalization.update_0!(co)
+    Nucleus.RangeNormalization.update_0!(co_)
 
-    #@btime Nucleus.RangeNormalization.update_0!(co) setup = co = copy($nu_)
+    #@btime Nucleus.RangeNormalization.update_0!(co_) setup = co_ = copy($nu_)
 
-    @test isnothing(re) || is_egal(co, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 
@@ -133,13 +133,13 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co = copy(nu_)
+    co_ = copy(nu_)
 
-    Nucleus.RangeNormalization.update_01!(co)
+    Nucleus.RangeNormalization.update_01!(co_)
 
-    #@btime Nucleus.RangeNormalization.update_01!(co) setup = co = copy($nu_)
+    #@btime Nucleus.RangeNormalization.update_01!(co_) setup = co_ = copy($nu_)
 
-    @test isnothing(re) || is_egal(co, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 
@@ -163,12 +163,12 @@ for (nu_, re) in (
     (rand(10000), nothing),
 )
 
-    co = copy(nu_)
+    co_ = copy(nu_)
 
-    Nucleus.RangeNormalization.update_sum!(co)
+    Nucleus.RangeNormalization.update_sum!(co_)
 
-    #@btime Nucleus.RangeNormalization.update_sum!(co) setup = co = copy($nu_)
+    #@btime Nucleus.RangeNormalization.update_sum!(co_) setup = co_ = copy($nu_)
 
-    @test isnothing(re) || is_egal(co, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end

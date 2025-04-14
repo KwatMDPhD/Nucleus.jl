@@ -31,7 +31,7 @@ function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
         "showgrid" => false,
     )
 
-    la = merge!(
+    la = merge(
         Dict(
             "template" => Dict(
                 "data" => Dict(

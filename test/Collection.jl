@@ -78,7 +78,7 @@ for (a1_, a2_, re) in (
 
     bo_ = convert(Vector{Bool}, falses(um))
 
-    di = Dict(an => id for (id, an) in enumerate(a1_))
+    di = Dict(a1_[id] => id for id in eachindex(a1_))
 
     Nucleus.Collection.is_in!(bo_, di, a2_)
 

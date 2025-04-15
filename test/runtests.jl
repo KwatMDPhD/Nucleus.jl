@@ -4,7 +4,7 @@ using Nucleus
 
 # ----------------------------------------------------------------------------------------------- #
 
-for na in (
+for st in (
     "Animation",
     "BubblePlot",
     "Collection",
@@ -32,8 +32,8 @@ for na in (
     "Time",
 )
 
-    @info "🎬 Testing $na"
+    @info "🎬 Testing $st"
 
-    run(`julia --project $na.jl`)
+    run(`julia --project $st.jl`)
 
 end

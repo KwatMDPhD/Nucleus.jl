@@ -6,13 +6,13 @@ const YC_ = "Aa", "Bb"
 
 const XC_ = "Cc", "Dd", "Ee"
 
-const S1 = [
+const S = [
     0.999 3 5
     2 4 6.001
-]
+] * 40
 
-for (S2, C) in ((S1 * 40, S1), (S1 * 40, reverse(S1)))
+for (S, C) in ((S , S), (S , reverse(S)))
 
-    Nucleus.BubblePlot.writ("", YC_, XC_, S2, C)
+    Nucleus.BubblePlot.writ("", YC_, XC_, S, C)
 
 end

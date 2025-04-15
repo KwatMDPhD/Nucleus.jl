@@ -11,7 +11,7 @@ const S = [
     2 4 6.001
 ] * 40
 
-for (S, C) in ((S , S), (S , reverse(S)))
+for (S, C) in ((S, S), (S, reverse(S)))
 
     Nucleus.BubblePlot.writ("", YC_, XC_, S, C)
 

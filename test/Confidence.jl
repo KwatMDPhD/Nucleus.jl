@@ -6,10 +6,10 @@ using Nucleus
 
 # ---- #
 
-# 29.983 ns (0 allocations: 0 bytes)
-# 54.018 ns (0 allocations: 0 bytes)
-# 297.571 ns (0 allocations: 0 bytes)
-# 2.352 μs (0 allocations: 0 bytes)
+# 15.155 ns (0 allocations: 0 bytes)
+# 27.931 ns (0 allocations: 0 bytes)
+# 188.876 ns (0 allocations: 0 bytes)
+# 1.567 μs (0 allocations: 0 bytes)
 
 for (um, re) in (
     (10, 0.6597957136428491),
@@ -20,27 +20,27 @@ for (um, re) in (
 
     seed!(20240904)
 
-    nu_ = randn(um)
+    ra_ = randn(um)
 
-    @test Nucleus.Confidence.make(nu_) === re
+    @test Nucleus.Confidence.make(ra_) === re
 
-    #@btime Nucleus.Confidence.make($nu_)
+    #@btime Nucleus.Confidence.make($ra_)
 
 end
 
 # ---- #
 
-# 2.343 μs (0 allocations: 0 bytes)
-# 291.668 ns (0 allocations: 0 bytes)
-# 291.664 ns (0 allocations: 0 bytes)
-# 291.974 ns (0 allocations: 0 bytes)
-# 2.338 μs (0 allocations: 0 bytes)
+# 185.419 ns (0 allocations: 0 bytes)
+# 185.295 ns (0 allocations: 0 bytes)
+# 185.297 ns (0 allocations: 0 bytes)
+# 185.605 ns (0 allocations: 0 bytes)
+# 185.544 ns (0 allocations: 0 bytes)
 
 seed!(20240904)
 
-const NU_ = randn(1000)
+const RA_ = randn(1000)
 
-for (fr, re) in (
+for (pr, re) in (
     (0, 0.0),
     (0.001, 3.9474552118205106e-5),
     (0.1, 0.003957845794082521),
@@ -48,8 +48,8 @@ for (fr, re) in (
     (1, Inf),
 )
 
-    @test Nucleus.Confidence.make(NU_, fr) === re
+    @test Nucleus.Confidence.make(RA_, pr) === re
 
-    #@btime Nucleus.Confidence.make(NU_, $fr)
+    #@btime Nucleus.Confidence.make(RA_, $pr)
 
 end

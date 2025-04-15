@@ -25,7 +25,7 @@ for (nu_, re) in (([1, 1], 0.2), ([-1, -1], 0.2))
 
     @test Nucleus.PairMetric.make_standard_deviation(nu_, me) === re
 
-    #@btime Nucleus.PairMetric.make_standard_deviation($nu_, $me)
+    @btime Nucleus.PairMetric.make_standard_deviation($nu_, $me)
 
 end
 
@@ -51,7 +51,7 @@ for (n1_, n2_, re) in (
           -Nucleus.PairMetric.make_signal_to_noise_ratio(n2_, n1_) ===
           re
 
-    #@btime Nucleus.PairMetric.make_signal_to_noise_ratio($n1_, $n2_)
+    @btime Nucleus.PairMetric.make_signal_to_noise_ratio($n1_, $n2_)
 
 end
 
@@ -66,6 +66,6 @@ for (n1_, n2_, re) in (([1, 1], [4, 4], 2.0), ([1, 1], [256, 256], 8.0))
           -Nucleus.PairMetric.make_log_ratio(n2_, n1_) ===
           re
 
-    #@btime Nucleus.PairMetric.make_log_ratio($n1_, $n2_)
+    @btime Nucleus.PairMetric.make_log_ratio($n1_, $n2_)
 
 end

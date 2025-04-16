@@ -1,22 +1,24 @@
+using Random: randstring
+
 using Test: @test
 
 using Nucleus
 
 # ---- #
 
-const C1 = "#ff0000"
+const RE = "#ff0000"
 
-const C2 = "#00ff00"
+const GR = "#00ff00"
 
-const C3 = "#0000ff"
+const BL = "#0000ff"
 
-for (he_, re) in (
-    ((C1,), ((0, C1), (1, C1))),
-    ((C1, C2), ((0.0, C1), (1.0, C2))),
-    ((C1, C2, C3), ((0.0, C1), (0.5, C2), (1.0, C3))),
+for (st_, re) in (
+    ((RE,), ((0, RE), (1, RE))),
+    ((RE, GR), ((0.0, RE), (1.0, GR))),
+    ((RE, GR, BL), ((0.0, RE), (0.5, GR), (1.0, BL))),
 )
 
-    @test Nucleus.Plotly.make_colorscale(he_) === re
+    @test Nucleus.Plotly.make_colorscale(st_) === re
 
 end
 
@@ -28,27 +30,31 @@ const LA = Dict(
     "title" => Dict("text" => "🤠"),
 )
 
-const HE = 800
+const H1 = 800
+
+const H2 = 1000
+
+const RA = -1, 1
+
+const AX = Dict(
+    "title" => Dict("text" => "Title"),
+    "range" => RA,
+    "tickvals" => RA,
+    "ticktext" => (randstring(20), randstring(40)),
+)
 
 for (tr_, la) in (
     ((), LA),
-    ((), merge(LA, Dict("height" => HE, "width" => HE))),
-    ((), merge(LA, Dict("height" => HE * 2, "width" => HE * 2))),
+    ((), merge(LA, Dict("height" => H1, "width" => H1))),
+    ((), merge(LA, Dict("height" => H2, "width" => H2))),
     (
-        (
-            Dict("y" => (-1, 2), "x" => (-1, 2), "marker" => Dict("size" => 64)),
-            Dict("y" => (-1, 3), "x" => (0, 2), "marker" => Dict("size" => 80)),
-        ),
+        (Dict("y" => RA, "x" => RA, "marker" => Dict("size" => 80)),),
         Dict(
+            "height" => H2,
+            "width" => H2,
             "title" => Dict("text" => "Title"),
-            "yaxis" => Dict("range" => (-1, 3), "title" => Dict("text" => "Y-Axis Title")),
-            "xaxis" => Dict(
-                "range" => (-1, 2),
-                "title" => Dict("text" => "X-Axis Title"),
-                "tickvals" => (-1, 2),
-                "ticktext" => (join('a':'z'), join('a':'z')),
-                "tickangle" => 90,
-            ),
+            "yaxis" => merge(AX),
+            "xaxis" => merge(AX, Dict("tickangle" => 90)),
         ),
     ),
 )

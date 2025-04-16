@@ -17,12 +17,26 @@ const F3 = [
 
 # ---- #
 
-# 4.875 ns (0 allocations: 0 bytes)
-# 5.500 ns (0 allocations: 0 bytes)
-# 6.125 ns (0 allocations: 0 bytes)
-# 7.958 ns (0 allocations: 0 bytes)
-# 1.054 μs (0 allocations: 0 bytes)
-# 9.361 μs (0 allocations: 0 bytes)
+function test(fu!, nu_, re)
+
+    co_ = copy(nu_)
+
+    fu!(co_)
+
+    #@btime $fu!(co_) setup = co_ = copy($nu_)
+
+    @test isnothing(re) || is_egal(co_, re)
+
+end
+
+# ---- #
+
+# 3.916 ns (0 allocations: 0 bytes)
+# 3.958 ns (0 allocations: 0 bytes)
+# 4.416 ns (0 allocations: 0 bytes)
+# 5.333 ns (0 allocations: 0 bytes)
+# 681.772 ns (0 allocations: 0 bytes)
+# 6.229 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     ([-1, 1], [0, 2]),
@@ -39,22 +53,16 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co_ = copy(nu_)
-
-    Nucleus.RangeNormalization.update_shift!(co_)
-
-    #@btime Nucleus.RangeNormalization.update_shift!(co_) setup = co_ = copy($nu_)
-
-    @test isnothing(re) || is_egal(co_, re)
+    test(Nucleus.RangeNormalization.update_shift!, nu_, re)
 
 end
 
 # ---- #
 
-# 27.554 ns (0 allocations: 0 bytes)
-# 40.322 ns (0 allocations: 0 bytes)
-# 5.729 μs (0 allocations: 0 bytes)
-# 54.208 μs (0 allocations: 0 bytes)
+# 19.998 ns (0 allocations: 0 bytes)
+# 24.054 ns (0 allocations: 0 bytes)
+# 3.323 μs (0 allocations: 0 bytes)
+# 30.833 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [0, 1, log2(3)]),
@@ -69,23 +77,17 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co_ = copy(nu_)
-
-    Nucleus.RangeNormalization.update_log2!(co_)
-
-    #@btime Nucleus.RangeNormalization.update_log2!(co_) setup = co_ = copy($nu_)
-
-    @test isnothing(re) || is_egal(co_, re)
+    test(Nucleus.RangeNormalization.update_log2!, nu_, re)
 
 end
 
 # ---- #
 
-# 25.911 ns (0 allocations: 0 bytes)
-# 28.279 ns (0 allocations: 0 bytes)
-# 31.742 ns (0 allocations: 0 bytes)
-# 510.417 ns (0 allocations: 0 bytes)
-# 4.351 μs (0 allocations: 0 bytes)
+# 17.869 ns (0 allocations: 0 bytes)
+# 18.745 ns (0 allocations: 0 bytes)
+# 21.104 ns (0 allocations: 0 bytes)
+# 333.896 ns (0 allocations: 0 bytes)
+# 2.833 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [-1, 0, 1.0]),
@@ -101,23 +103,17 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co_ = copy(nu_)
-
-    Nucleus.RangeNormalization.update_0!(co_)
-
-    #@btime Nucleus.RangeNormalization.update_0!(co_) setup = co_ = copy($nu_)
-
-    @test isnothing(re) || is_egal(co_, re)
+    test(Nucleus.RangeNormalization.update_0!, nu_, re)
 
 end
 
 # ---- #
 
-# 21.021 ns (0 allocations: 0 bytes)
-# 27.249 ns (0 allocations: 0 bytes)
-# 36.092 ns (0 allocations: 0 bytes)
-# 5.076 μs (0 allocations: 0 bytes)
-# 50.083 μs (0 allocations: 0 bytes)
+# 16.266 ns (0 allocations: 0 bytes)
+# 19.811 ns (0 allocations: 0 bytes)
+# 26.872 ns (0 allocations: 0 bytes)
+# 3.625 μs (0 allocations: 0 bytes)
+# 35.292 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (F1_, [0, 0.5, 1]),
@@ -133,24 +129,18 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    co_ = copy(nu_)
-
-    Nucleus.RangeNormalization.update_01!(co_)
-
-    #@btime Nucleus.RangeNormalization.update_01!(co_) setup = co_ = copy($nu_)
-
-    @test isnothing(re) || is_egal(co_, re)
+    test(Nucleus.RangeNormalization.update_01!, nu_, re)
 
 end
 
 # ---- #
 
-# 8.625 ns (0 allocations: 0 bytes)
-# 11.720 ns (0 allocations: 0 bytes)
-# 231.319 ns (0 allocations: 0 bytes)
-# 2.008 μs (0 allocations: 0 bytes)
+# 6.750 ns (0 allocations: 0 bytes)
+# 8.958 ns (0 allocations: 0 bytes)
+# 147.618 ns (0 allocations: 0 bytes)
+# 1.262 μs (0 allocations: 0 bytes)
 
-for (nu_, re) in (
+for (po_, re) in (
     (F1_, [0, 0.3333333333333333, 0.6666666666666666]),
     (
         F3,
@@ -163,12 +153,6 @@ for (nu_, re) in (
     (rand(10000), nothing),
 )
 
-    co_ = copy(nu_)
-
-    Nucleus.RangeNormalization.update_sum!(co_)
-
-    #@btime Nucleus.RangeNormalization.update_sum!(co_) setup = co_ = copy($nu_)
-
-    @test isnothing(re) || is_egal(co_, re)
+    test(Nucleus.RangeNormalization.update_sum!, po_, re)
 
 end

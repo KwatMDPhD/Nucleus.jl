@@ -20,9 +20,9 @@ const RA_ = [-4, -3, -2, -1, -0.0, 0, 1, 2, 3, 4]
 
 # ---- #
 
-# 146.084 ns (11 allocations: 512 bytes)
-# 154.131 ns (11 allocations: 512 bytes)
-# 31.071 ms (19 allocations: 47.66 KiB)
+# 92.875 ns (11 allocations: 512 bytes)
+# 98.075 ns (11 allocations: 512 bytes)
+# 22.230 ms (19 allocations: 48.41 KiB)
 
 const PV_ = [0.4, 0.6, 0.6, 0.7]
 
@@ -46,8 +46,8 @@ end
 
 # ---- #
 
-# 435.187 ns (42 allocations: 1.67 KiB)
-# 15.753 ms (95 allocations: 1.67 MiB)
+# 290.736 ns (42 allocations: 1.67 KiB)
+# 11.265 ms (95 allocations: 1.82 MiB)
 
 for (nu_, ra_, r1, r2, r3) in (
     (NU_, RA_, 1:4, [1, 1, 1, 2 / 3], [1, 1, 1, 1.0]),

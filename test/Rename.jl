@@ -1,34 +1,27 @@
-using Random: randstring
-
 using Test: @test
 
 using Nucleus
 
 # ---- #
 
-const DI = Dict(ch^2 => uppercase(ch^2) for ch in 'a':'z')
+# 16.867 ns (0 allocations: 0 bytes)
+# 16.867 ns (0 allocations: 0 bytes)
+# 12.137 ns (1 allocation: 24 bytes)
 
-# ---- #
+const DI = Dict("$ch$ch" => lowercase("$ch$ch") for ch in 'A':'Z')
 
-# 26.564 ns (0 allocations: 0 bytes)
-# 26.564 ns (0 allocations: 0 bytes)
-# 19.289 ns (1 allocation: 24 bytes)
+for (st, re) in (("AA", "aa"), ("ZZ", "zz"), ("??", "_??"))
 
-for (ke, re) in (("aa", "AA"), ("zz", "ZZ"), ("??", "_??"))
+    @test Nucleus.Rename.ge(DI, st) === re
 
-    @test Nucleus.Rename.ge(DI, ke) === re
-
-    #@btime Nucleus.Rename.ge(DI, $ke)
+    #@btime Nucleus.Rename.ge(DI, $st)
 
 end
 
 # ---- #
 
-for na_ in (
-    ("Good", "_Bad"),
-    map(ke -> Nucleus.Rename.ge(DI, ke), map(_ -> randstring('a':'b', 2), 1:10000)),
-)
+for st_ in (("_Aa", "_Bb"), ("_Cc", "Dd"), ("Ee", "Ff"))
 
-    Nucleus.Rename.lo(na_)
+    Nucleus.Rename.lo(st_)
 
 end

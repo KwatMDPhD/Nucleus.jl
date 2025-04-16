@@ -17,19 +17,19 @@ const I3 = [
 
 # ---- #
 
-# 32.570 ns (2 allocations: 144 bytes)
-# 46.891 ns (2 allocations: 144 bytes)
-# 32.612 ns (2 allocations: 144 bytes)
-# 47.937 ns (2 allocations: 144 bytes)
-# 63.138 ns (2 allocations: 144 bytes)
-# 12.167 μs (5 allocations: 8.08 KiB)
-# 532.125 μs (5 allocations: 78.33 KiB)
+# 20.477 ns (2 allocations: 144 bytes)
+# 27.025 ns (2 allocations: 144 bytes)
+# 20.624 ns (2 allocations: 144 bytes)
+# 27.234 ns (2 allocations: 144 bytes)
+# 32.990 ns (2 allocations: 144 bytes)
+# 7.342 μs (5 allocations: 8.20 KiB)
+# 120.917 μs (5 allocations: 96.20 KiB)
 
 const ZE_ = zeros(Int, 10)
 
 const ON_ = ones(Int, 10)
 
-for (nu_, fr_, re) in (
+for (nu_, pr_, re) in (
     (ZE_, (1,), ON_),
     (ZE_, (0.5, 1), ON_),
     (I2_, (1,), ON_),
@@ -41,9 +41,9 @@ for (nu_, fr_, re) in (
 
     co_ = copy(nu_)
 
-    Nucleus.RankNormalization.update!(co_, fr_)
+    Nucleus.RankNormalization.update!(co_, pr_)
 
-    #@btime Nucleus.RankNormalization.update!(co_, $fr_) setup = co_ = copy($nu_)
+    #@btime Nucleus.RankNormalization.update!(co_, $pr_) setup = co_ = copy($nu_)
 
     @test isnothing(re) || is_egal(co_, re)
 
@@ -51,11 +51,21 @@ end
 
 # ---- #
 
-# 43.517 ns (4 allocations: 224 bytes)
-# 50.303 ns (4 allocations: 288 bytes)
-# 243.056 ns (6 allocations: 352 bytes)
-# 14.750 μs (9 allocations: 19.94 KiB)
-# 270.500 μs (9 allocations: 195.81 KiB)
+function test(fu, nu_, re)
+
+    @test isnothing(re) || is_egal(fu(nu_), re)
+
+    #@btime $fu($nu_)
+
+end
+
+# ---- #
+
+# 25.770 ns (4 allocations: 224 bytes)
+# 29.075 ns (4 allocations: 288 bytes)
+# 142.911 ns (6 allocations: 352 bytes)
+# 8.916 μs (11 allocations: 28.72 KiB)
+# 119.083 μs (9 allocations: 256.19 KiB)
 
 for (nu_, re) in (
     (I1_, [1, 2, 2, 3, 3, 3, 4]),
@@ -71,19 +81,17 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1223(nu_), re)
-
-    #@btime Nucleus.RankNormalization.make_1223($nu_)
+    test(Nucleus.RankNormalization.make_1223, nu_, re)
 
 end
 
 # ---- #
 
-# 43.391 ns (4 allocations: 224 bytes)
-# 50.481 ns (4 allocations: 288 bytes)
-# 235.824 ns (6 allocations: 352 bytes)
-# 14.250 μs (11 allocations: 27.97 KiB)
-# 267.416 μs (11 allocations: 301.72 KiB)
+# 25.519 ns (4 allocations: 224 bytes)
+# 29.242 ns (4 allocations: 288 bytes)
+# 143.939 ns (6 allocations: 352 bytes)
+# 8.917 μs (11 allocations: 28.72 KiB)
+# 131.500 μs (11 allocations: 384.22 KiB)
 
 for (nu_, re) in (
     (I1_, [1, 2, 2, 4, 4, 4, 7]),
@@ -99,19 +107,17 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_1224(nu_), re)
-
-    #@btime Nucleus.RankNormalization.make_1224($nu_)
+    test(Nucleus.RankNormalization.make_1224, nu_, re)
 
 end
 
 # ---- #
 
-# 46.086 ns (4 allocations: 224 bytes)
-# 57.165 ns (4 allocations: 288 bytes)
-# 245.183 ns (6 allocations: 352 bytes)
-# 15.833 μs (9 allocations: 19.94 KiB)
-# 263.334 μs (9 allocations: 195.69 KiB)
+# 28.141 ns (4 allocations: 224 bytes)
+# 32.445 ns (4 allocations: 288 bytes)
+# 146.355 ns (6 allocations: 352 bytes)
+# 9.500 μs (11 allocations: 28.72 KiB)
+# 121.167 μs (9 allocations: 256.19 KiB)
 
 for (nu_, re) in (
     (I1_, [1, 2.5, 2.5, 5, 5, 5, 7]),
@@ -127,8 +133,6 @@ for (nu_, re) in (
     (randn(10000), nothing),
 )
 
-    @test isnothing(re) || is_egal(Nucleus.RankNormalization.make_125254(nu_), re)
-
-    #@btime Nucleus.RankNormalization.make_125254($nu_)
+    test(Nucleus.RankNormalization.make_125254, nu_, re)
 
 end

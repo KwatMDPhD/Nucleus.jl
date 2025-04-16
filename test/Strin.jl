@@ -4,81 +4,31 @@ using Nucleus
 
 # ---- #
 
-for st in (
-    "",
-    " ",
-    "α",
-    "π",
-    " ",
-    "!",
-    "\"",
-    "#",
-    "%",
-    "&",
-    "'",
-    "(",
-    ")",
-    "*",
-    "+",
-    ",",
-    "-",
-    ".",
-    "/",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "[",
-    "]",
-    "^",
-    "_",
-    "`",
-    "{",
-    "|",
-    "}",
-    "~",
-)
+for st in ("", " ", "+", "-", ".", "_")
 
     @test Nucleus.Strin.is_bad(st)
 
     @test Nucleus.Strin.is_bad(st^2)
 
-    @test !Nucleus.Strin.is_bad("a$st")
-
-    @test !Nucleus.Strin.is_bad("$(st)b")
-
-    @test !Nucleus.Strin.is_bad("a$(st)b")
+    @test !Nucleus.Strin.is_bad("A$st")
 
 end
 
 # ---- #
 
-# 44.862 ns (2 allocations: 256 bytes)
-# 63.710 ns (2 allocations: 256 bytes)
-# 430.698 ns (3 allocations: 1.23 KiB)
+const AZ = join('A':'Z', ' ')
 
-const DE = '.'
+# ---- #
 
-const S1 = join('a':'z', DE)
+for (id, re) in ((1, "A"), (2, "B"), (26, "Z"))
 
-for (id, re) in ((1, "a"), (2, "b"), (26, "z"))
-
-    @test Nucleus.Strin.ge(S1, id, DE) == re
-
-    #@btime Nucleus.Strin.ge(S1, $id, DE)
+    @test Nucleus.Strin.ge(AZ, id) == re
 
 end
 
 # ---- #
 
-const S2 = "a b c"
-
-# ---- #
-
-for (st, re) in ((S2, "a"),)
+for (st, re) in ((AZ, "A"),)
 
     @test Nucleus.Strin.get_1(st) == re
 
@@ -86,7 +36,7 @@ end
 
 # ---- #
 
-for (st, re) in ((S2, "b c"),)
+for (st, re) in ((AZ, AZ[3:end]),)
 
     @test Nucleus.Strin.get_not_1(st) == re
 
@@ -94,7 +44,7 @@ end
 
 # ---- #
 
-for (st, re) in ((S2, "c"),)
+for (st, re) in ((AZ, "Z"),)
 
     @test Nucleus.Strin.get_end(st) == re
 
@@ -102,7 +52,7 @@ end
 
 # ---- #
 
-for (st, re) in ((S2, "a b"),)
+for (st, re) in ((AZ, AZ[1:(end - 2)]),)
 
     @test Nucleus.Strin.get_not_end(st) == re
 
@@ -110,10 +60,8 @@ end
 
 # ---- #
 
-const S3 = "1234567890"
+for (um, re) in ((1, "A..."), (2, "A ..."), (51, AZ), (52, AZ))
 
-for (ma, re) in ((1, "1..."), (2, "12..."), (11, S3))
-
-    @test Nucleus.Strin.make_short(S3, ma) === re
+    @test Nucleus.Strin.make_short(AZ, um) === re
 
 end

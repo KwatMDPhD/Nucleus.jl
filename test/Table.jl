@@ -69,6 +69,6 @@ for (xl, sh) in ((joinpath(DA, "_.xlsx"), "HumanSpecific Genes"),)
 
     A2 = writ(A1)
 
-    @info "TODO" A1 A2
+    @warn "TODO" A1 A2
 
 end

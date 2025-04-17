@@ -10,7 +10,7 @@ include("_.jl")
 
 const C1_ = ["Aa", "22", "33", "44", "55", "66", "77", "88", "99", "Xx", "Jj", "Qq", "Kk"]
 
-const C2_ = ["Aa", "Kk"]
+const C2_ = ["Aa", "Kk", "Jo"]
 
 const BO_ = [
     true,
@@ -34,8 +34,8 @@ const R2_ = unique!((map(_ -> randstring(3), 1:100)))
 
 # ---- #
 
-# 115.751 ns (6 allocations: 400 bytes)
-# 969.333 μs (8 allocations: 98.48 KiB)
+# 124.026 ns (6 allocations: 400 bytes)
+# 975.416 μs (8 allocations: 98.48 KiB)
 
 for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, nothing))
 

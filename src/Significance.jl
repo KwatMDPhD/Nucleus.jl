@@ -4,7 +4,7 @@ using MultipleTesting: BenjaminiHochberg, adjust
 
 using ..Nucleus
 
-# TODO: Implement the Bayesian method.
+# TODO: Go Bayesian.
 
 function make(u1::Integer, u2)
 

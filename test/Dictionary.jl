@@ -9,24 +9,18 @@ include("_.jl")
 # 5.402 μs (401 allocations: 22.66 KiB)
 # 5.319 μs (393 allocations: 22.21 KiB)
 
-function make()
-
-    Dict("Aa" => 1)
-
-end
-
 for (st, an, re) in (
     ("Aa", 2, Dict("Aa" => 1, "Aa.2" => 2, "Aa.3" => 2)),
     ("Bb", 2, Dict("Aa" => 1, "Bb" => 2, "Bb.2" => 2)),
 )
 
-    di = make()
+    di = Dict("Aa" => 1)
 
     Nucleus.Dictionary.update!(di, st, an)
 
     Nucleus.Dictionary.update!(di, st, an)
 
-    #@btime Nucleus.Dictionary.update!(di, $st, $an) setup = di = make() evals = 100
+    #@btime Nucleus.Dictionary.update!(di, $st, $an) setup = di = Dict("Aa" => 1) evals = 100
 
     @test di == re
 
@@ -51,6 +45,11 @@ for (d1, d2, re) in (
     #@btime Nucleus.Dictionary.make($d1, $d2)
 
 end
+
+# ---- #
+# TODO
+
+Nucleus.Dictionary.make
 
 # ---- #
 

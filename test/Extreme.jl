@@ -1,4 +1,4 @@
-using Random: shuffle!
+using Random: shuffle
 
 using Test: @test
 
@@ -8,33 +8,34 @@ include("_.jl")
 
 # ---- #
 
-# 9.425 ns (2 allocations: 80 bytes)
-# 9.500 ns (2 allocations: 96 bytes)
-# 1.916 ns (0 allocations: 0 bytes)
+# 8.959 ns (2 allocations: 80 bytes)
+# 9.009 ns (2 allocations: 96 bytes)
+# 1.708 ns (0 allocations: 0 bytes)
 
-for (u1, u2, re) in ((5, 1, [1, 5]), (5, 2, [1, 2, 4, 5]), (5, 3, 1:5))
+const UM = 5
 
-    @test is_egal(Nucleus.Extreme.index(u1, u2), re)
+for (um, re) in ((1, [1, 5]), (2, [1, 2, 4, 5]), (3, 1:5))
 
-    #@btime Nucleus.Extreme.index($u1, $u2)
+    @test is_egal(Nucleus.Extreme.index(UM, um), re)
+
+    @btime Nucleus.Extreme.index(UM, $um)
 
 end
 
 # ---- #
 
-# 615.844 ns (8 allocations: 704 bytes)
-# 549.465 ns (8 allocations: 736 bytes)
-# 539.888 ns (6 allocations: 816 bytes)
+# 592.461 ns (8 allocations: 704 bytes)
+# 595.506 ns (8 allocations: 736 bytes)
+# 592.927 ns (6 allocations: 816 bytes)
 
-const ST_ = map(ch -> "$ch$(lowercase(ch))", 'A':'Z')
+const ST_ = map(up -> "$up$(lowercase(up))", 'A':'Z')
 
-const SH_ = shuffle!(copy(ST_))
+const SH_ = shuffle(ST_)
 
-for (an_, um, re) in
-    ((SH_, 1, ["Aa", "Zz"]), (SH_, 2, ["Aa", "Bb", "Yy", "Zz"]), (SH_, 14, ST_))
+for (um, re) in ((1, ["Aa", "Zz"]), (2, ["Aa", "Bb", "Yy", "Zz"]), (14, ST_))
 
-    @test is_egal(an_[Nucleus.Extreme.index(an_, um)], re)
+    @test is_egal(SH_[Nucleus.Extreme.index(SH_, um)], re)
 
-    #@btime Nucleus.Extreme.index($an_, $um)
+    @btime Nucleus.Extreme.index(SH_, $um)
 
 end

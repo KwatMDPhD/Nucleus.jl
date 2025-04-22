@@ -18,7 +18,7 @@ for (um, re) in ((1, [1, 5]), (2, [1, 2, 4, 5]), (3, 1:5))
 
     @test is_egal(Nucleus.Extreme.index(UM, um), re)
 
-    @btime Nucleus.Extreme.index(UM, $um)
+    #@btime Nucleus.Extreme.index(UM, $um)
 
 end
 
@@ -36,6 +36,6 @@ for (um, re) in ((1, ["Aa", "Zz"]), (2, ["Aa", "Bb", "Yy", "Zz"]), (14, ST_))
 
     @test is_egal(SH_[Nucleus.Extreme.index(SH_, um)], re)
 
-    @btime Nucleus.Extreme.index(SH_, $um)
+    #@btime Nucleus.Extreme.index(SH_, $um)
 
 end

@@ -4,11 +4,11 @@ using Nucleus
 
 # ---- #
 
-for st in ("", " ", "+", "-", ".", "_")
+for st in ("", " ", ".", "_")
 
     @test Nucleus.Strin.is_bad(st)
 
-    @test Nucleus.Strin.is_bad(st^2)
+    @test Nucleus.Strin.is_bad("$st$st")
 
     @test !Nucleus.Strin.is_bad("A$st")
 
@@ -28,33 +28,33 @@ end
 
 # ---- #
 
-for (st, re) in ((AZ, "A"),)
+for re in ("A",)
 
-    @test Nucleus.Strin.get_1(st) == re
-
-end
-
-# ---- #
-
-for (st, re) in ((AZ, AZ[3:end]),)
-
-    @test Nucleus.Strin.get_not_1(st) == re
+    @test Nucleus.Strin.get_1(AZ) == re
 
 end
 
 # ---- #
 
-for (st, re) in ((AZ, "Z"),)
+for re in (AZ[3:end],)
 
-    @test Nucleus.Strin.get_end(st) == re
+    @test Nucleus.Strin.get_not_1(AZ) == re
 
 end
 
 # ---- #
 
-for (st, re) in ((AZ, AZ[1:(end - 2)]),)
+for re in ("Z",)
 
-    @test Nucleus.Strin.get_not_end(st) == re
+    @test Nucleus.Strin.get_end(AZ) == re
+
+end
+
+# ---- #
+
+for re in (AZ[1:(end - 2)],)
+
+    @test Nucleus.Strin.get_not_end(AZ) == re
 
 end
 

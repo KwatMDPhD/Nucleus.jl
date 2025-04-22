@@ -27,6 +27,6 @@ for (bo_, nu_, re) in (
           -Nucleus.PairMap.make(FU, map(!, bo_), nu_) ===
           re
 
-    @btime Nucleus.PairMap.make(FU, $bo_, $nu_)
+    #@btime Nucleus.PairMap.make(FU, $bo_, $nu_)
 
 end

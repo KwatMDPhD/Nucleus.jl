@@ -20,7 +20,7 @@ for (st, an, re) in (
 
     foreach(_ -> Nucleus.Dictionary.update!(co, st, an), 1:2)
 
-    @btime Nucleus.Dictionary.update!(co, $st, $an) setup = co = copy(D1) evals = 100
+    #@btime Nucleus.Dictionary.update!(co, $st, $an) setup = co = copy(D1) evals = 100
 
     @test co == re
 
@@ -42,7 +42,7 @@ for (d1, d2, re) in (
 
     @test Nucleus.Dictionary.make(d1, d2) == re
 
-    @btime Nucleus.Dictionary.make($d1, $d2)
+    #@btime Nucleus.Dictionary.make($d1, $d2)
 
 end
 

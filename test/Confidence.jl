@@ -6,11 +6,6 @@ using Nucleus
 
 # ---- #
 
-# 15.155 ns (0 allocations: 0 bytes)
-# 27.931 ns (0 allocations: 0 bytes)
-# 188.876 ns (0 allocations: 0 bytes)
-# 1.567 μs (0 allocations: 0 bytes)
-
 for (um, re) in (
     (10, 0.6597957136428491),
     (100, 0.18754776361269151),
@@ -20,11 +15,7 @@ for (um, re) in (
 
     seed!(20240904)
 
-    ra_ = randn(um)
-
-    @test Nucleus.Confidence.make(ra_) === re
-
-    @btime Nucleus.Confidence.make($ra_)
+    @test Nucleus.Confidence.make(randn(um)) === re
 
 end
 

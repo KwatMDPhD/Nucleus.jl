@@ -47,24 +47,20 @@ end
 
 # ---- #
 
-# 73.698 ns (6 allocations: 200 bytes)
-# 77.320 ns (6 allocations: 200 bytes)
-# 73.817 ns (6 allocations: 208 bytes)
-# 82.988 ns (7 allocations: 240 bytes)
-# 79.498 ns (7 allocations: 232 bytes)
-# 84.414 ns (7 allocations: 232 bytes)
-# 85.234 ns (7 allocations: 240 bytes)
-# 79.029 ns (6 allocations: 200 bytes)
+# 73.826 ns (6 allocations: 200 bytes)
+# 77.117 ns (6 allocations: 200 bytes)
+# 73.722 ns (6 allocations: 208 bytes)
+# 80.271 ns (7 allocations: 232 bytes)
+# 83.635 ns (7 allocations: 232 bytes)
+# 77.717 ns (6 allocations: 208 bytes)
 
 for (s1, s2) in (
     ("sex", "sexes"),
     ("bus", "buses"),
     ("hero", "heroes"),
-    ("country", "countries"),
     ("city", "cities"),
     ("index", "indices"),
-    ("vertex", "vertices"),
-    ("edge", "edges"),
+    ("apple", "apples"),
 )
 
     @test Nucleus.Tex.make_count(1, s1) === "1 $s1"

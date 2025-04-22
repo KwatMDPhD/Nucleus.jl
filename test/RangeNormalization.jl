@@ -27,7 +27,7 @@ function test(fu!, nu_, re)
 
     fu!(co_)
 
-    @btime $fu!(co_) setup = co_ = copy($nu_)
+    #@btime $fu!(co_) setup = co_ = copy($nu_)
 
     @test isnothing(re) || is_egal(co_, re)
 

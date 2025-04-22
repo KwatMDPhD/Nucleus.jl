@@ -41,7 +41,7 @@ for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, nothing))
 
     @test isnothing(re) || is_egal(Nucleus.Collection.is_in(a1_, a2_), re)
 
-    @btime Nucleus.Collection.is_in($a1_, $a2_)
+    #@btime Nucleus.Collection.is_in($a1_, $a2_)
 
 end
 
@@ -60,11 +60,11 @@ for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, Nucleus.Collection.is_in(R1_,
 
     di = Dict(a1_[id] => id for id in 1:um)
 
-    @btime Dict($a1_[id] => id for id in 1:($um))
+    #@btime Dict($a1_[id] => id for id in 1:($um))
 
     Nucleus.Collection.is_in!(bo_, di, a2_)
 
-    @btime Nucleus.Collection.is_in!(bo_, $di, $a2_) setup = bo_ = falses($um)
+    #@btime Nucleus.Collection.is_in!(bo_, $di, $a2_) setup = bo_ = falses($um)
 
     @test is_egal(bo_, re)
 
@@ -89,7 +89,7 @@ for (an_, re) in (
 
     @test isnothing(re) || is_egal(Nucleus.Collection.index(an_), re)
 
-    @btime Nucleus.Collection.index($an_)
+    #@btime Nucleus.Collection.index($an_)
 
 end
 

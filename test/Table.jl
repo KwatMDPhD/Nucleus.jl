@@ -9,17 +9,17 @@ include("_.jl")
 # ---- #
 
 for (st, s1_, s2_, A, re) in ((
-    "C1",
-    ["R1", "R2"],
-    ["C2", "C3", "C4"],
+    "Co 1",
+    ["Ro 1", "Ro 2"],
+    ["Co 2", "Co 3", "Co 4"],
     [
         1 3 5
         2 4 6
     ],
-    DataFrame("C1" => ["R1", "R2"], "C2" => 1:2, "C3" => 3:4, "C4" => 5:6),
+    DataFrame("Co 1" => ["Ro 1", "Ro 2"], "Co 2" => 1:2, "Co 3" => 3:4, "Co 4" => 5:6),
 ),)
 
-    @test Nucleus.Table.make(st, s1_, s2_, A) == re
+    @test is_egal(Nucleus.Table.make(st, s1_, s2_, A), re)
 
 end
 

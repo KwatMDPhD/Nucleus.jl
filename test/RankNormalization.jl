@@ -47,7 +47,7 @@ for (nu_, pr_, re) in (
 
     Nucleus.RankNormalization.update!(co_, pr_)
 
-    @btime Nucleus.RankNormalization.update!(co_, $pr_) setup = co_ = copy($nu_)
+    #@btime Nucleus.RankNormalization.update!(co_, $pr_) setup = co_ = copy($nu_)
 
     @test isnothing(re) || is_egal(co_, re)
 
@@ -59,7 +59,7 @@ function test(fu, nu_, re)
 
     @test isnothing(re) || is_egal(fu(nu_), re)
 
-    @btime $fu($nu_)
+    #@btime $fu($nu_)
 
 end
 

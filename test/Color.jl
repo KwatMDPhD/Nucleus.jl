@@ -10,9 +10,9 @@ const H8 = "#ff0000ff"
 
 # ---- #
 
-for (co, re) in ((RGB(1, 0, 0), H8),)
+for co in (RGB(1, 0, 0), RGB(1, 0, 0.0))
 
-    @test Nucleus.Color.make(co) === re
+    @test Nucleus.Color.make(co) === H8
 
 end
 
@@ -22,9 +22,9 @@ const H6 = "#ff0000"
 
 # ---- #
 
-for (st, re) in ((H6, H8),)
+for st in ("red", H6)
 
-    @test Nucleus.Color.make(st) === re
+    @test Nucleus.Color.make(st) === H8
 
 end
 

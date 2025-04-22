@@ -34,21 +34,23 @@ const R2_ = unique!((map(_ -> randstring(3), 1:100)))
 
 # ---- #
 
-# 124.026 ns (6 allocations: 400 bytes)
-# 975.416 μs (8 allocations: 98.48 KiB)
+# 124.078 ns (6 allocations: 400 bytes)
+# 951.750 μs (8 allocations: 98.48 KiB)
 
 for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, nothing))
 
     @test isnothing(re) || is_egal(Nucleus.Collection.is_in(a1_, a2_), re)
 
-    #@btime Nucleus.Collection.is_in($a1_, $a2_)
+    @btime Nucleus.Collection.is_in($a1_, $a2_)
 
 end
 
 # ---- #
 
-# 18.161 ns (0 allocations: 0 bytes)
-# 675.164 ns (0 allocations: 0 bytes)
+# 123.313 ns (4 allocations: 720 bytes)
+# 22.358 ns (0 allocations: 0 bytes)
+# 1.324 ms (7 allocations: 2.13 MiB)
+# 685.403 ns (0 allocations: 0 bytes)
 
 for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, Nucleus.Collection.is_in(R1_, R2_)))
 
@@ -56,11 +58,13 @@ for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, Nucleus.Collection.is_in(R1_,
 
     bo_ = falses(um)
 
-    di = Dict(a1_[id] => id for id in eachindex(a1_))
+    di = Dict(a1_[id] => id for id in 1:um)
+
+    @btime Dict($a1_[id] => id for id in 1:($um))
 
     Nucleus.Collection.is_in!(bo_, di, a2_)
 
-    #@btime Nucleus.Collection.is_in!(bo_, $di, $a2_) setup = bo_ = falses($um)
+    @btime Nucleus.Collection.is_in!(bo_, $di, $a2_) setup = bo_ = falses($um)
 
     @test is_egal(bo_, re)
 
@@ -68,24 +72,24 @@ end
 
 # ---- #
 
-# 222.307 ns (10 allocations: 832 bytes)
-# 100.849 ns (10 allocations: 832 bytes)
-# 20.458 μs (197 allocations: 35.61 KiB)
-# 182.958 μs (278 allocations: 180.34 KiB)
+# 100.571 ns (10 allocations: 832 bytes)
+# 222.917 ns (10 allocations: 832 bytes)
+# 20.750 μs (197 allocations: 35.61 KiB)
+# 182.166 μs (280 allocations: 186.38 KiB)
 
 for (an_, re) in (
+    ([1, 1, 2, 2, 3, 3], Dict(1 => [1, 2], 2 => [3, 4], 3 => [5, 6])),
     (
-        ["Cc", "Bb", "Aa", "Aa", "Aa", "Bb", "Bb", "Cc", "Cc"],
-        Dict("Cc" => [1, 8, 9], "Bb" => [2, 6, 7], "Aa" => [3, 4, 5]),
+        ["Aa", "Bb", "Cc", "Cc", "Bb", "Aa", "Aa", "Bb", "Cc"],
+        Dict("Aa" => [1, 6, 7], "Bb" => [2, 5, 8], "Cc" => [3, 4, 9]),
     ),
-    ([1, 2, 3, 3, 2, 1], Dict(1 => [1, 6], 2 => [2, 5], 3 => [3, 4])),
     (map(_ -> randstring(1), 1:1000), nothing),
     (map(_ -> randstring(1), 1:10000), nothing),
 )
 
     @test isnothing(re) || is_egal(Nucleus.Collection.index(an_), re)
 
-    #@btime Nucleus.Collection.index($an_)
+    @btime Nucleus.Collection.index($an_)
 
 end
 

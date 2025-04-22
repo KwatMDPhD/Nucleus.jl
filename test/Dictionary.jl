@@ -6,49 +6,43 @@ include("_.jl")
 
 # ---- #
 
-# 5.402 μs (401 allocations: 22.66 KiB)
-# 5.319 μs (393 allocations: 22.21 KiB)
+# 5.469 μs (401 allocations: 22.66 KiB)
+# 5.344 μs (393 allocations: 22.21 KiB)
 
-function make()
-
-    Dict("Aa" => 1)
-
-end
+const D1 = Dict("Aa" => 1)
 
 for (st, an, re) in (
     ("Aa", 2, Dict("Aa" => 1, "Aa.2" => 2, "Aa.3" => 2)),
     ("Bb", 2, Dict("Aa" => 1, "Bb" => 2, "Bb.2" => 2)),
 )
 
-    di = make()
+    co = copy(D1)
 
-    Nucleus.Dictionary.update!(di, st, an)
+    foreach(_ -> Nucleus.Dictionary.update!(co, st, an), 1:2)
 
-    Nucleus.Dictionary.update!(di, st, an)
+    @btime Nucleus.Dictionary.update!(co, $st, $an) setup = co = copy(D1) evals = 100
 
-    #@btime Nucleus.Dictionary.update!(di, $st, $an) setup = di = make() evals = 100
-
-    @test di == re
+    @test co == re
 
 end
 
 # ---- #
 
-# 290.136 ns (16 allocations: 1.50 KiB)
-# 285.540 ns (16 allocations: 1.50 KiB)
+# 350.419 ns (16 allocations: 1.50 KiB)
+# 347.159 ns (16 allocations: 1.50 KiB)
 
-const D1 = Dict("Aa" => 1, "Bb" => Dict("Cc" => 1))
+const D2 = Dict("Aa" => 1, "Bb" => Dict("Cc" => 1, "Dd" => 1))
 
-const D2 = Dict("Aa" => 2, "Bb" => Dict("Cc" => 2))
+const D3 = Dict("Aa" => 2, "Bb" => Dict("Cc" => 2, "Ee" => 2))
 
 for (d1, d2, re) in (
-    (D1, D2, Dict("Aa" => 2, "Bb" => Dict("Cc" => 2))),
-    (D2, D1, Dict("Aa" => 1, "Bb" => Dict("Cc" => 1))),
+    (D2, D3, Dict("Aa" => 2, "Bb" => Dict("Cc" => 2, "Dd" => 1, "Ee" => 2))),
+    (D3, D2, Dict("Aa" => 1, "Bb" => Dict("Cc" => 1, "Dd" => 1, "Ee" => 2))),
 )
 
     @test Nucleus.Dictionary.make(d1, d2) == re
 
-    #@btime Nucleus.Dictionary.make($d1, $d2)
+    @btime Nucleus.Dictionary.make($d1, $d2)
 
 end
 
@@ -59,22 +53,14 @@ Nucleus.Dictionary.make
 
 # ---- #
 
+const D4 = Dict("1" => 1, "2" => "2")
+
+# ---- #
+
 const DA = pkgdir(Nucleus, "data", "Dictionary")
 
 for (fi, re) in (
-    (
-        joinpath(DA, "_.json"),
-        Dict(
-            "1" => "1",
-            "3" => "3",
-            "5" => "5",
-            "7" => "7",
-            "8" => 8,
-            "6" => 6,
-            "4" => 4,
-            "2" => 2,
-        ),
-    ),
+    (joinpath(DA, "_.json"), D4),
     (
         joinpath(DA, "_.toml"),
         Dict(
@@ -104,22 +90,10 @@ end
 
 const JS = joinpath(TE, "_.json")
 
-for di in (
-    Dict(
-        "1" => "1",
-        "2" => 2,
-        "3" => "3",
-        "4" => 4,
-        "5" => "5",
-        "6" => 6,
-        "7" => "7",
-        "8" => 8,
-        "9" => "9",
-    ),
-)
+for re in (D4,)
 
-    Nucleus.Dictionary.writ(JS, di)
+    Nucleus.Dictionary.writ(JS, re)
 
-    @test Nucleus.Dictionary.rea(JS) == di
+    @test Nucleus.Dictionary.rea(JS) == re
 
 end

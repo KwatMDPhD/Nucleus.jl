@@ -24,32 +24,19 @@ for (um, re) in (
 
     @test Nucleus.Confidence.make(ra_) === re
 
-    #@btime Nucleus.Confidence.make($ra_)
+    @btime Nucleus.Confidence.make($ra_)
 
 end
 
 # ---- #
 
-# 185.419 ns (0 allocations: 0 bytes)
-# 185.295 ns (0 allocations: 0 bytes)
-# 185.297 ns (0 allocations: 0 bytes)
-# 185.605 ns (0 allocations: 0 bytes)
-# 185.544 ns (0 allocations: 0 bytes)
-
-seed!(20240904)
+seed!(20250421)
 
 const RA_ = randn(1000)
 
-for (pr, re) in (
-    (0, 0.0),
-    (0.001, 3.9474552118205106e-5),
-    (0.1, 0.003957845794082521),
-    (0.9, 0.05180651944483268),
-    (1, Inf),
-)
+for (pr, re) in
+    ((0, 0.0), (0.05, 0.0019629982115993367), (0.95, 0.061355501313357), (1, Inf))
 
     @test Nucleus.Confidence.make(RA_, pr) === re
-
-    #@btime Nucleus.Confidence.make(RA_, $pr)
 
 end

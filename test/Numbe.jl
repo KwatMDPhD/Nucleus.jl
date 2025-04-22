@@ -14,7 +14,7 @@ for (nu_, r1, r2) in
 
     ne_, po_ = Nucleus.Numbe.ge(nu_)
 
-    #@btime Nucleus.Numbe.ge($nu_)
+    @btime Nucleus.Numbe.ge($nu_)
 
     @test isnothing(r1) || is_egal(ne_, r1)
 

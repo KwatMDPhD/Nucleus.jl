@@ -26,6 +26,14 @@ end
 
 # ---- #
 
+for (di, re) in ((pkgdir(Nucleus), "test/Path.jl"),)
+
+    @test Nucleus.Path.text(JL, di) === re
+
+end
+
+# ---- #
+
 for pa in (TE,)
 
     Nucleus.Path.rea(pa)

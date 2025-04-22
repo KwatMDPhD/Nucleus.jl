@@ -34,10 +34,12 @@ const H1 = 800
 
 const H2 = 1000
 
+const TI = "title" => Dict("text" => "Title")
+
 const RA = -1, 1
 
 const AX = Dict(
-    "title" => Dict("text" => "Title"),
+    TI,
     "range" => RA,
     "tickvals" => RA,
     "ticktext" => (randstring(20), randstring(40)),
@@ -52,8 +54,8 @@ for (tr_, la) in (
         Dict(
             "height" => H2,
             "width" => H2,
-            "title" => Dict("text" => "Title"),
-            "yaxis" => merge(AX),
+            TI,
+            "yaxis" => AX,
             "xaxis" => merge(AX, Dict("tickangle" => 90)),
         ),
     ),

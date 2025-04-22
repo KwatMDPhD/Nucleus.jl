@@ -9,10 +9,10 @@ include("_.jl")
 const HT = joinpath(TE, "_.html")
 
 for (sr_, sc, re) in ((
-    ("SRC 1", "SRC 2"),
+    ("Sr 1", "Sr 2"),
     """
-    SCRIPT LINE 1
-    SCRIPT LINE 2""",
+    Sc 1
+    Sc 2""",
     14,
 ),)
 

@@ -16,11 +16,11 @@ end
 
 # ---- #
 
-const R1_ = [-4, -3, -2, -1, -0.0, 0, 1, 2, 3, 4]
+const N1_ = [-4, -3, -2, -1, -0.0, 0, 1, 2, 3, 4]
 
-const R2_ = randn(1000)
+const R1_ = randn(1000)
 
-const R3_ = randn(100000)
+const R2_ = randn(100000)
 
 # ---- #
 
@@ -28,16 +28,16 @@ const R3_ = randn(100000)
 # 95.213 ns (11 allocations: 512 bytes)
 # 22.219 ms (19 allocations: 48.41 KiB)
 
-const NU_ = [-1, -0.0, 0, 1]
+const N2_ = [-1, -0.0, 0, 1]
 
 const PV_ = [0.4, 0.6, 0.6, 0.7]
 
 const QV_ = fill(0.7, 4)
 
 for (eq, nu_, ra_, r1, r2) in (
-    (<=, NU_, R1_, PV_, QV_),
-    (>=, NU_, R1_, reverse(PV_), QV_),
-    (<=, R2_, R3_, nothing, nothing),
+    (<=, N2_, N1_, PV_, QV_),
+    (>=, N2_, N1_, reverse(PV_), QV_),
+    (<=, R1_, R2_, nothing, nothing),
 )
 
     pv_, qv_ = Nucleus.Significance.make(eq, nu_, ra_)
@@ -58,12 +58,12 @@ end
 for (nu_, ra_, r1, r2, r3) in (
     (
         [-0.0, 0, -1, 1, -2, 2, -3, 3, -4, 4],
-        R1_,
+        N1_,
         [3, 5, 7, 9, 1, 2, 4, 6, 8, 10],
         [1, 0.75, 0.5, 0.25, 1, 1, 2 / 3, 0.5, 1 / 3, 1 / 6],
         ones(10),
     ),
-    (R2_, R3_, nothing, nothing, nothing),
+    (R1_, R2_, nothing, nothing, nothing),
 )
 
     in_, pv_, qv_ = Nucleus.Significance.make(nu_, ra_)

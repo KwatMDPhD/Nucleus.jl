@@ -16,13 +16,13 @@ end
 
 # ---- #
 
-const AZ = join('A':'Z', ' ')
+const ST = join('A':'Z', ' ')
 
 # ---- #
 
 for (id, re) in ((1, "A"), (2, "B"), (26, "Z"))
 
-    @test Nucleus.Strin.ge(AZ, id) == re
+    @test Nucleus.Strin.ge(ST, id) == re
 
 end
 
@@ -30,15 +30,15 @@ end
 
 for re in ("A",)
 
-    @test Nucleus.Strin.get_1(AZ) == re
+    @test Nucleus.Strin.get_1(ST) == re
 
 end
 
 # ---- #
 
-for re in (AZ[3:end],)
+for re in (ST[3:end],)
 
-    @test Nucleus.Strin.get_not_1(AZ) == re
+    @test Nucleus.Strin.get_not_1(ST) == re
 
 end
 
@@ -46,22 +46,22 @@ end
 
 for re in ("Z",)
 
-    @test Nucleus.Strin.get_end(AZ) == re
+    @test Nucleus.Strin.get_end(ST) == re
 
 end
 
 # ---- #
 
-for re in (AZ[1:(end - 2)],)
+for re in (ST[1:(end - 2)],)
 
-    @test Nucleus.Strin.get_not_end(AZ) == re
+    @test Nucleus.Strin.get_not_end(ST) == re
 
 end
 
 # ---- #
 
-for (um, re) in ((1, "A..."), (2, "A ..."), (51, AZ), (52, AZ))
+for (um, re) in ((1, "A..."), (2, "A ..."), (51, ST), (52, ST))
 
-    @test Nucleus.Strin.make_short(AZ, um) === re
+    @test Nucleus.Strin.make_short(ST, um) === re
 
 end

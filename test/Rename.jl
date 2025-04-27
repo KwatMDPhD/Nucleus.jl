@@ -4,9 +4,9 @@ using Nucleus
 
 # ---- #
 
-const DI = Dict(st => lowercase(st) for st in ("$up$up" for up in 'A':'Z'))
+const DI = Dict("$(lowercase(up))$up" => "$up$(lowercase(up))" for up in 'A':'Z')
 
-for (st, re) in (("AA", "aa"), ("ZZ", "zz"), ("??", "_??"))
+for (st, re) in (("aA", "Aa"), ("zZ", "Zz"), ("??", "_??"))
 
     @test Nucleus.Rename.ge(DI, st) === re
 
@@ -14,7 +14,7 @@ end
 
 # ---- #
 
-for st_ in (("_Aa", "_Bb"), ("_Cc", "Dd"), ("Ee", "Ff"))
+for st_ in (("_aA", "_bB"), ("_cC", "Dd"), ("Ee", "Ff"))
 
     Nucleus.Rename.lo(st_)
 

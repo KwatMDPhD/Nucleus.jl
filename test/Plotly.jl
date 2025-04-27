@@ -6,16 +6,16 @@ using Nucleus
 
 # ---- #
 
-const RE = "#ff0000"
+const H1 = "#ff0000"
 
-const GR = "#00ff00"
+const H2 = "#00ff00"
 
-const BL = "#0000ff"
+const H3 = "#0000ff"
 
 for (st_, re) in (
-    ((RE,), ((0, RE), (1, RE))),
-    ((RE, GR), ((0.0, RE), (1.0, GR))),
-    ((RE, GR, BL), ((0.0, RE), (0.5, GR), (1.0, BL))),
+    ((H1,), ((0, H1), (1, H1))),
+    ((H1, H2), ((0.0, H1), (1.0, H2))),
+    ((H1, H2, H3), ((0.0, H1), (0.5, H2), (1.0, H3))),
 )
 
     @test Nucleus.Plotly.make_colorscale(st_) === re
@@ -30,9 +30,9 @@ const LA = Dict(
     "title" => Dict("text" => "🤠"),
 )
 
-const H1 = 800
+const E1 = 800
 
-const H2 = 1000
+const E2 = 1000
 
 const TI = "title" => Dict("text" => "Title")
 
@@ -47,13 +47,13 @@ const AX = Dict(
 
 for (tr_, la) in (
     ((), LA),
-    ((), merge(LA, Dict("height" => H1, "width" => H1))),
-    ((), merge(LA, Dict("height" => H2, "width" => H2))),
+    ((), merge(LA, Dict("height" => E1, "width" => E1))),
+    ((), merge(LA, Dict("height" => E2, "width" => E2))),
     (
         (Dict("y" => RA, "x" => RA, "marker" => Dict("size" => 80)),),
         Dict(
-            "height" => H2,
-            "width" => H2,
+            "height" => E2,
+            "width" => E2,
             TI,
             "yaxis" => AX,
             "xaxis" => merge(AX, Dict("tickangle" => 90)),

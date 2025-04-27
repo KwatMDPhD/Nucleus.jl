@@ -8,9 +8,9 @@ include("_.jl")
 
 # ---- #
 
-const C1_ = ["Aa", "22", "33", "44", "55", "66", "77", "88", "99", "Xx", "Jj", "Qq", "Kk"]
+const S1_ = ["Aa", "22", "33", "44", "55", "66", "77", "88", "99", "Xx", "Jj", "Qq", "Kk"]
 
-const C2_ = ["Aa", "Kk", "Jo"]
+const S2_ = ["Aa", "Kk", "Jo"]
 
 const BO_ = [
     true,
@@ -37,7 +37,7 @@ const R2_ = unique!((map(_ -> randstring(3), 1:100)))
 # 124.078 ns (6 allocations: 400 bytes)
 # 951.750 μs (8 allocations: 98.48 KiB)
 
-for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, nothing))
+for (a1_, a2_, re) in ((S1_, S2_, BO_), (R1_, R2_, nothing))
 
     @test isnothing(re) || is_egal(Nucleus.Collection.is_in(a1_, a2_), re)
 
@@ -52,7 +52,7 @@ end
 # 1.324 ms (7 allocations: 2.13 MiB)
 # 685.403 ns (0 allocations: 0 bytes)
 
-for (a1_, a2_, re) in ((C1_, C2_, BO_), (R1_, R2_, Nucleus.Collection.is_in(R1_, R2_)))
+for (a1_, a2_, re) in ((S1_, S2_, BO_), (R1_, R2_, Nucleus.Collection.is_in(R1_, R2_)))
 
     um = lastindex(a1_)
 

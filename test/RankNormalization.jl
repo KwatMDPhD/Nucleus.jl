@@ -29,14 +29,14 @@ const R2_ = randn(10000)
 # 7.233 μs (5 allocations: 8.20 KiB)
 # 142.417 μs (5 allocations: 96.20 KiB)
 
-const ZE_ = zeros(Int, 10)
+const I3_ = zeros(Int, 10)
 
-const ON_ = ones(Int, 10)
+const I4_ = ones(Int, 10)
 
 for (nu_, pr_, re) in (
-    (ZE_, (1,), ON_),
-    (ZE_, (0.5, 1), ON_),
-    (I2_, (1,), ON_),
+    (I3_, (1,), I4_),
+    (I3_, (0.5, 1), I4_),
+    (I2_, (1,), I4_),
     (I2_, (0.5, 1), [1, 1, 1, 1, 1, 2, 2, 2, 2, 2]),
     (I2_, (1 / 3, 2 / 3, 1), [1, 1, 1, 1, 2, 2, 3, 3, 3, 3]),
     (R1_, 0:0.1:1, nothing),

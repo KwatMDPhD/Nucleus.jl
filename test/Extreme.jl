@@ -28,14 +28,14 @@ end
 # 595.506 ns (8 allocations: 736 bytes)
 # 592.927 ns (6 allocations: 816 bytes)
 
-const ST_ = map(up -> "$up$(lowercase(up))", 'A':'Z')
+const S1_ = map(up -> "$up$(lowercase(up))", 'A':'Z')
 
-const SH_ = shuffle(ST_)
+const S2_ = shuffle(S1_)
 
-for (um, re) in ((1, ["Aa", "Zz"]), (2, ["Aa", "Bb", "Yy", "Zz"]), (14, ST_))
+for (um, re) in ((1, ["Aa", "Zz"]), (2, ["Aa", "Bb", "Yy", "Zz"]), (14, S1_))
 
-    @test is_egal(SH_[Nucleus.Extreme.index(SH_, um)], re)
+    @test is_egal(S2_[Nucleus.Extreme.index(S2_, um)], re)
 
-    #@btime Nucleus.Extreme.index(SH_, $um)
+    #@btime Nucleus.Extreme.index(S2_, $um)
 
 end

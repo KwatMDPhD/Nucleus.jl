@@ -68,12 +68,12 @@ end
 # 3.323 μs (0 allocations: 0 bytes)
 # 30.833 μs (0 allocations: 0 bytes)
 
-const L3 = log2(3)
+const N1 = log2(3)
 
-for (nu_, re) in ((F1_, [0, 1, L3]), (
+for (nu_, re) in ((F1_, [0, 1, N1]), (
     F,
     [
-        0 L3 log2(5)
+        0 N1 log2(5)
         1 2 log2(6)
     ],
 ), (R1_, nothing), (R2_, nothing))
@@ -90,11 +90,11 @@ end
 # 333.896 ns (0 allocations: 0 bytes)
 # 2.833 μs (0 allocations: 0 bytes)
 
-const N1 = 0.2672612419124244
+const N2 = 0.2672612419124244
 
-const N2 = 0.8017837257372732
+const N3 = 0.8017837257372732
 
-const N3 = 1.3363062095621219
+const N4 = 1.3363062095621219
 
 for (nu_, re) in (
     (F1_, [-1, 0, 1.0]),
@@ -102,8 +102,8 @@ for (nu_, re) in (
     (
         F,
         [
-            -N3 -N1 N2
-            -N2 N1 N3
+            -N4 -N2 N3
+            -N3 N2 N4
         ],
     ),
     (R1_, nothing),

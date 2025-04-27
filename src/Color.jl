@@ -12,9 +12,9 @@ const IN = "#4e40d8"
 
 const VI = "#9017e6"
 
-const CH = "#a40522"
+const SC = "#a40522"
 
-const MO = "#f47983"
+const PE = "#f47983"
 
 const TU = "#20d9ba"
 

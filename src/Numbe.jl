@@ -2,6 +2,12 @@ module Numbe
 
 using Printf: @sprintf
 
+function make(nu)
+
+    sign(nu) * sqrt(abs(nu))
+
+end
+
 function ge(nu_)
 
     ne_ = similar(nu_, 0)

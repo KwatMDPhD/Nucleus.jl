@@ -6,6 +6,14 @@ include("_.jl")
 
 # ---- #
 
+for (nu, re) in ((-4, -2.0),)
+
+    @test Nucleus.Numbe.make(nu) === re
+
+end
+
+# ---- #
+
 # 26.942 ns (4 allocations: 256 bytes)
 # 137.500 μs (32 allocations: 1.73 MiB)
 

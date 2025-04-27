@@ -6,33 +6,31 @@ function is_bad(st)
 
 end
 
-const DE = ' '
-
-function ge(st, id, de = DE)
+function ge(st, id, de = isspace)
 
     split(st, de; limit = id + 1)[id]
 
 end
 
-function get_1(st, de = DE)
+function get_1(st, de = isspace)
 
     ge(st, 1, de)
 
 end
 
-function get_not_1(st, de = DE)
+function get_not_1(st, de = isspace)
 
     split(st, de; limit = 2)[2]
 
 end
 
-function get_end(st, de = DE)
+function get_end(st, de = isspace)
 
     rsplit(st, de; limit = 2)[2]
 
 end
 
-function get_not_end(st, de = DE)
+function get_not_end(st, de = isspace)
 
     rsplit(st, de; limit = 2)[1]
 

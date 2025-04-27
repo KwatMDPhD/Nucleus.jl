@@ -16,7 +16,7 @@ end
 
 # ---- #
 
-const ST = join('A':'Z', ' ')
+const ST = join('A':'Z', '\t')
 
 # ---- #
 
@@ -60,7 +60,7 @@ end
 
 # ---- #
 
-for (um, re) in ((1, "A..."), (2, "A ..."), (51, ST), (52, ST))
+for (um, re) in ((1, "A..."), (2, "A\t..."), (51, ST), (52, ST))
 
     @test Nucleus.Strin.make_short(ST, um) === re
 

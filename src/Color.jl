@@ -24,9 +24,9 @@ const RE = "#ff1993"
 
 const BL = "#1992ff"
 
-const A1 = "#00936e"
+const SP = "#00936e"
 
-const A2 = "#ffd96a"
+const FA = "#ffd96a"
 
 const S1 = "#8c1515"
 

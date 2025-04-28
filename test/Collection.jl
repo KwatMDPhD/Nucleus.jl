@@ -34,8 +34,8 @@ const R2_ = unique!((map(_ -> randstring(3), 1:100)))
 
 # ---- #
 
-# 124.078 ns (6 allocations: 400 bytes)
-# 951.750 μs (8 allocations: 98.48 KiB)
+# 124.306 ns (6 allocations: 400 bytes)
+# 980.583 μs (8 allocations: 98.48 KiB)
 
 for (a1_, a2_, re) in ((S1_, S2_, BO_), (R1_, R2_, nothing))
 
@@ -47,10 +47,10 @@ end
 
 # ---- #
 
-# 123.313 ns (4 allocations: 720 bytes)
+# 122.937 ns (4 allocations: 720 bytes)
 # 22.358 ns (0 allocations: 0 bytes)
-# 1.324 ms (7 allocations: 2.13 MiB)
-# 685.403 ns (0 allocations: 0 bytes)
+# 1.354 ms (7 allocations: 2.13 MiB)
+# 696.262 ns (0 allocations: 0 bytes)
 
 for (a1_, a2_, re) in ((S1_, S2_, BO_), (R1_, R2_, Nucleus.Collection.is_in(R1_, R2_)))
 
@@ -72,10 +72,10 @@ end
 
 # ---- #
 
-# 100.571 ns (10 allocations: 832 bytes)
-# 222.917 ns (10 allocations: 832 bytes)
-# 20.750 μs (197 allocations: 35.61 KiB)
-# 182.166 μs (280 allocations: 186.38 KiB)
+# 106.069 ns (10 allocations: 832 bytes)
+# 231.606 ns (10 allocations: 832 bytes)
+# 21.500 μs (196 allocations: 35.25 KiB)
+# 184.708 μs (282 allocations: 192.41 KiB)
 
 for (an_, re) in (
     ([1, 1, 2, 2, 3, 3], Dict(1 => [1, 2], 2 => [3, 4], 3 => [5, 6])),

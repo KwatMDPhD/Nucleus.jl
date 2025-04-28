@@ -6,8 +6,8 @@ include("_.jl")
 
 # ---- #
 
-# 5.469 μs (401 allocations: 22.66 KiB)
-# 5.344 μs (393 allocations: 22.21 KiB)
+# 5.563 μs (401 allocations: 22.66 KiB)
+# 5.353 μs (393 allocations: 22.21 KiB)
 
 const D1 = Dict("Aa" => 1)
 
@@ -16,20 +16,20 @@ for (st, an, re) in (
     ("Bb", 2, Dict("Aa" => 1, "Bb" => 2, "Bb.2" => 2)),
 )
 
-    co = copy(D1)
+    di = copy(D1)
 
-    foreach(_ -> Nucleus.Dictionary.update!(co, st, an), 1:2)
+    foreach(_ -> Nucleus.Dictionary.update!(di, st, an), 1:2)
 
-    #@btime Nucleus.Dictionary.update!(co, $st, $an) setup = co = copy(D1) evals = 100
+    #@btime Nucleus.Dictionary.update!(di, $st, $an) setup = di = copy(D1) evals = 100
 
-    @test co == re
+    @test di == re
 
 end
 
 # ---- #
 
-# 350.419 ns (16 allocations: 1.50 KiB)
-# 347.159 ns (16 allocations: 1.50 KiB)
+# 353.588 ns (16 allocations: 1.50 KiB)
+# 353.479 ns (16 allocations: 1.50 KiB)
 
 const D2 = Dict("Aa" => 1, "Bb" => Dict("Cc" => 1, "Dd" => 1))
 
@@ -94,6 +94,6 @@ for re in (D4,)
 
     Nucleus.Dictionary.writ(JS, re)
 
-    @test Nucleus.Dictionary.rea(JS) == re
+    @test is_egal(Nucleus.Dictionary.rea(JS), re)
 
 end

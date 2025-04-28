@@ -4,9 +4,9 @@ using Nucleus
 
 # ---- #
 
-# 33.199 ns (7 allocations: 256 bytes)
-# 7.448 μs (9 allocations: 129.52 KiB)
-# 12.833 μs (9 allocations: 138.19 KiB)
+# 33.877 ns (7 allocations: 256 bytes)
+# 7.469 μs (9 allocations: 129.52 KiB)
+# 13.250 μs (9 allocations: 138.19 KiB)
 
 const FU = Nucleus.PairMetric.make_mean_difference
 

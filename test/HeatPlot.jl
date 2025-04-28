@@ -7,12 +7,12 @@ Nucleus.HeatPlot.make
 
 # ---- #
 
-const P = [
+const N = [
     1 3 5
     2 4 6
 ]
 
-for N in (P, -P)
+for N in (N, -N)
 
     Nucleus.HeatPlot.writ("", ("Aa", "Bb"), ("Cc", "Dd", "Ee"), N)
 

@@ -30,13 +30,13 @@ const R2_ = randn(1000)
 
 # ---- #
 
+# 10.594 ns (0 allocations: 0 bytes)
+# 10.583 ns (0 allocations: 0 bytes)
 # 10.802 ns (0 allocations: 0 bytes)
-# 10.802 ns (0 allocations: 0 bytes)
+# 10.583 ns (0 allocations: 0 bytes)
 # 10.594 ns (0 allocations: 0 bytes)
-# 10.803 ns (0 allocations: 0 bytes)
-# 10.594 ns (0 allocations: 0 bytes)
-# 10.594 ns (0 allocations: 0 bytes)
-# 487.821 ns (0 allocations: 0 bytes)
+# 10.595 ns (0 allocations: 0 bytes)
+# 488.031 ns (0 allocations: 0 bytes)
 
 const S1 = 4.090909090909091
 
@@ -67,7 +67,7 @@ end
 
 # 6.583 ns (0 allocations: 0 bytes)
 # 6.583 ns (0 allocations: 0 bytes)
-# 126.353 ns (0 allocations: 0 bytes)
+# 126.256 ns (0 allocations: 0 bytes)
 
 for (n1_, n2_, re) in
     (([1, 1], [4, 4], 2.0), ([1, 1], [256, 256], 8.0), (R1_, R2_, nothing))

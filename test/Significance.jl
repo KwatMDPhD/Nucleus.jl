@@ -24,9 +24,9 @@ const R2_ = randn(100000)
 
 # ---- #
 
-# 93.760 ns (11 allocations: 512 bytes)
-# 95.213 ns (11 allocations: 512 bytes)
-# 22.219 ms (19 allocations: 48.41 KiB)
+# 93.158 ns (11 allocations: 512 bytes)
+# 96.283 ns (11 allocations: 512 bytes)
+# 22.433 ms (19 allocations: 48.41 KiB)
 
 const N2_ = [-1, -0.0, 0, 1]
 
@@ -52,8 +52,8 @@ end
 
 # ---- #
 
-# 366.749 ns (44 allocations: 2.28 KiB)
-# 11.286 ms (95 allocations: 1.82 MiB)
+# 363.615 ns (44 allocations: 2.28 KiB)
+# 11.341 ms (95 allocations: 1.82 MiB)
 
 for (nu_, ra_, r1, r2, r3) in (
     (

@@ -34,29 +34,22 @@ const E1 = 800
 
 const E2 = 1000
 
+const AN_ = randstring(8), randstring(32)
+
 const TI = "title" => Dict("text" => "Title")
-
-const RA = -1, 1
-
-const AX = Dict(
-    TI,
-    "range" => RA,
-    "tickvals" => RA,
-    "ticktext" => (randstring(20), randstring(40)),
-)
 
 for (tr_, la) in (
     ((), LA),
     ((), merge(LA, Dict("height" => E1, "width" => E1))),
     ((), merge(LA, Dict("height" => E2, "width" => E2))),
     (
-        (Dict("y" => RA, "x" => RA, "marker" => Dict("size" => 80)),),
+        (Dict("y" => AN_, "x" => AN_, "marker" => Dict("size" => 80)),),
         Dict(
             "height" => E2,
             "width" => E2,
             TI,
-            "yaxis" => AX,
-            "xaxis" => merge(AX, Dict("tickangle" => 90)),
+            "yaxis" => Dict(TI),
+            "xaxis" => Dict(TI, "tickangle" => 90),
         ),
     ),
 )

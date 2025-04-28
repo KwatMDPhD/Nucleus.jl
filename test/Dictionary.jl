@@ -6,8 +6,8 @@ include("_.jl")
 
 # ---- #
 
-# 5.563 μs (401 allocations: 22.66 KiB)
-# 5.353 μs (393 allocations: 22.21 KiB)
+# 5.445 μs (401 allocations: 22.66 KiB)
+# 5.310 μs (393 allocations: 22.21 KiB)
 
 const D1 = Dict("Aa" => 1)
 
@@ -18,7 +18,11 @@ for (st, an, re) in (
 
     di = copy(D1)
 
-    foreach(_ -> Nucleus.Dictionary.update!(di, st, an), 1:2)
+    for _ in 1:2
+
+        Nucleus.Dictionary.update!(di, st, an)
+
+    end
 
     #@btime Nucleus.Dictionary.update!(di, $st, $an) setup = di = copy(D1) evals = 100
 

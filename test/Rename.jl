@@ -2,9 +2,11 @@ using Test: @test
 
 using Nucleus
 
+include("_.jl")
+
 # ---- #
 
-const DI = Dict("$(lowercase(up))$up" => "$up$(lowercase(up))" for up in 'A':'Z')
+const DI = Dict("$(lowercase(ch))$ch" => text(ch) for ch in 'A':'Z')
 
 for (st, re) in (("aA", "Aa"), ("zZ", "Zz"), ("??", "_??"))
 

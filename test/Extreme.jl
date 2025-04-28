@@ -16,11 +16,11 @@ end
 
 # ---- #
 
-# 653.157 ns (8 allocations: 704 bytes)
-# 548.503 ns (8 allocations: 736 bytes)
-# 652.559 ns (6 allocations: 816 bytes)
+# 800.933 ns (8 allocations: 704 bytes)
+# 602.201 ns (8 allocations: 736 bytes)
+# 668.284 ns (6 allocations: 816 bytes)
 
-const AN_ = map(up -> "$up$(lowercase(up))", 'A':'Z')
+const AN_ = map(text, 'A':'Z')
 
 for (um, re) in ((1, ["Aa", "Zz"]), (2, ["Aa", "Bb", "Yy", "Zz"]), (14, AN_))
 

@@ -60,7 +60,7 @@ end
 
 function rea(fi; ke_...)
 
-    @assert isfile(fi)
+    @assert isfile(fi) fi
 
     mm_ = mmap(fi)
 

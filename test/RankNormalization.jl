@@ -21,13 +21,13 @@ const R2_ = randn(10000)
 
 # ---- #
 
-# 20.477 ns (2 allocations: 144 bytes)
-# 27.234 ns (2 allocations: 144 bytes)
-# 20.625 ns (2 allocations: 144 bytes)
+# 20.603 ns (2 allocations: 144 bytes)
 # 27.108 ns (2 allocations: 144 bytes)
-# 33.040 ns (2 allocations: 144 bytes)
-# 7.552 μs (5 allocations: 8.20 KiB)
-# 145.958 μs (5 allocations: 96.20 KiB)
+# 20.603 ns (2 allocations: 144 bytes)
+# 27.151 ns (2 allocations: 144 bytes)
+# 32.738 ns (2 allocations: 144 bytes)
+# 7.350 μs (5 allocations: 8.20 KiB)
+# 140.667 μs (5 allocations: 96.20 KiB)
 
 const N4_ = zeros(Int, 10)
 
@@ -43,13 +43,13 @@ for (n1_, pr_, re) in (
     (R2_, 0:0.1:1, nothing),
 )
 
-    n2_ = copy(n1_)
+    co_ = copy(n1_)
 
-    Nucleus.RankNormalization.update!(n2_, pr_)
+    Nucleus.RankNormalization.update!(co_, pr_)
 
-    #@btime Nucleus.RankNormalization.update!(n2_, $pr_) setup = n2_ = copy($n1_)
+    #@btime Nucleus.RankNormalization.update!(co_, $pr_) setup = co_ = copy($n1_)
 
-    @test isnothing(re) || is_egal(n2_, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 

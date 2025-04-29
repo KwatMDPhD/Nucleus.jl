@@ -23,24 +23,24 @@ const R2_ = randn(10000)
 
 function test(fu!, n1_, re)
 
-    n2_ = copy(n1_)
+    co_ = copy(n1_)
 
-    fu!(n2_)
+    fu!(co_)
 
-    #@btime $fu!(n2_) setup = n2_ = copy($n1_)
+    #@btime $fu!(co_) setup = co_ = copy($n1_)
 
-    @test isnothing(re) || is_egal(n2_, re)
+    @test isnothing(re) || is_egal(co_, re)
 
 end
 
 # ---- #
 
 # 3.916 ns (0 allocations: 0 bytes)
-# 3.917 ns (0 allocations: 0 bytes)
+# 3.916 ns (0 allocations: 0 bytes)
 # 4.375 ns (0 allocations: 0 bytes)
 # 5.291 ns (0 allocations: 0 bytes)
-# 691.520 ns (0 allocations: 0 bytes)
-# 6.382 μs (0 allocations: 0 bytes)
+# 687.121 ns (0 allocations: 0 bytes)
+# 6.236 μs (0 allocations: 0 bytes)2 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     ([-1, 1], [0, 2]),
@@ -64,9 +64,9 @@ end
 # ---- #
 
 # 19.957 ns (0 allocations: 0 bytes)
-# 24.030 ns (0 allocations: 0 bytes)
-# 3.281 μs (0 allocations: 0 bytes)
-# 30.709 μs (0 allocations: 0 bytes)
+# 23.988 ns (0 allocations: 0 bytes)
+# 3.276 μs (0 allocations: 0 bytes)
+# 30.542 μs (0 allocations: 0 bytes)
 
 const PO = log2(3)
 
@@ -84,11 +84,11 @@ end
 
 # ---- #
 
-# 17.852 ns (0 allocations: 0 bytes)
-# 18.788 ns (0 allocations: 0 bytes)
-# 21.084 ns (0 allocations: 0 bytes)
-# 334.459 ns (0 allocations: 0 bytes)
-# 2.833 μs (0 allocations: 0 bytes)
+# 17.869 ns (0 allocations: 0 bytes)
+# 18.829 ns (0 allocations: 0 bytes)
+# 21.083 ns (0 allocations: 0 bytes)
+# 334.270 ns (0 allocations: 0 bytes)
+# 2.838 μs (0 allocations: 0 bytes)
 
 const N1 = 0.2672612419124244
 
@@ -116,11 +116,11 @@ end
 
 # ---- #
 
-# 16.325 ns (0 allocations: 0 bytes)
-# 19.747 ns (0 allocations: 0 bytes)
-# 26.914 ns (0 allocations: 0 bytes)
+# 16.307 ns (0 allocations: 0 bytes)
+# 19.790 ns (0 allocations: 0 bytes)
+# 26.956 ns (0 allocations: 0 bytes)
 # 3.620 μs (0 allocations: 0 bytes)
-# 35.250 μs (0 allocations: 0 bytes)
+# 35.333 μs (0 allocations: 0 bytes)
 
 for (nu_, re) in (
     (PO_, [0, 0.5, 1]),
@@ -143,9 +143,9 @@ end
 # ---- #
 
 # 7.250 ns (0 allocations: 0 bytes)
-# 9.041 ns (0 allocations: 0 bytes)
-# 147.919 ns (0 allocations: 0 bytes)
-# 1.271 μs (0 allocations: 0 bytes)
+# 9.042 ns (0 allocations: 0 bytes)
+# 147.216 ns (0 allocations: 0 bytes)
+# 1.258 μs (0 allocations: 0 bytes)
 
 for (po_, re) in (
     (PO_, [0, 0.3333333333333333, 0.6666666666666666]),

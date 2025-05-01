@@ -30,6 +30,7 @@ for st in (
     "Table",
     "Tex",
     "Time",
+    "TimelinePlot",
 )
 
     @info "🎬 Testing $st"

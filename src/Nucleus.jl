@@ -28,6 +28,7 @@ for st in (
     "Table",
     "Tex",
     "Time",
+    "TimelinePlot",
 )
 
     include("$st.jl")

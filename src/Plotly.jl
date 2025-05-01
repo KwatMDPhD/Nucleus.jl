@@ -24,8 +24,10 @@ end
 
 function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
 
+    au = "automargin" => true
+
     ax = Dict(
-        "automargin" => true,
+        au,
         "title" => Dict("font" => Dict("size" => 24)),
         "zeroline" => false,
         "showgrid" => false,
@@ -47,7 +49,7 @@ function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
                     ],
                 ),
                 "layout" => Dict(
-                    "title" => Dict("font" => Dict("size" => 32)),
+                    "title" => Dict(au, "font" => Dict("size" => 32)),
                     "yaxis" => ax,
                     "xaxis" => ax,
                 ),

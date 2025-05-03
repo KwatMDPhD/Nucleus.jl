@@ -20,11 +20,17 @@ function update!(di, st, an)
 
 end
 
+function make(un)
+
+    un == Union{Dict{String, Int64}, Dict{String, String}} ? Dict{String, Any} : un
+
+end
+
 function make(d1::AbstractDict, d2::AbstractDict)
 
     d3 = Dict{
-        Union{eltype(keys(d1)), eltype(keys(d2))},
-        Union{eltype(values(d1)), eltype(values(d2))},
+        make(Union{eltype(keys(d1)), eltype(keys(d2))}),
+        make(Union{eltype(values(d1)), eltype(values(d2))}),
     }()
 
     for an in union(keys(d1), keys(d2))

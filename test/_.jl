@@ -10,8 +10,8 @@ function text(ch)
 
 end
 
-function is_egal(a1_, a2_)
+function is_egal(a1, a2)
 
-    eltype(a1_) === eltype(a2_) && a1_ == a2_
+    typeof(a1) === typeof(a2) && a1 == a2
 
 end

@@ -4,22 +4,22 @@ using Nucleus
 
 # ---- #
 
-# 33.877 ns (7 allocations: 256 bytes)
-# 7.469 μs (9 allocations: 129.52 KiB)
-# 13.250 μs (9 allocations: 138.19 KiB)
+# 36.422 ns (6 allocations: 224 bytes)
+# 13.041 μs (9 allocations: 138.19 KiB)
+# 7.458 μs (9 allocations: 129.52 KiB)
 
 const FU = Nucleus.PairMetric.make_mean_difference
 
 const UM = 10000
 
-const R1_ = convert(BitVector, rand(0:1, UM))
+const R1_ = rand(Bool, UM)
 
 const R2_ = randn(UM)
 
 for (bo_, nu_, re) in (
-    (BitVector((0, 1, 0, 1)), [1, 2, 1, 2], 1.0),
+    ([false, true, false, true], [1, 2, 1, 2], 1.0),
     (R1_, R2_, nothing),
-    (convert(Vector{Bool}, R1_), R2_, nothing),
+    (convert(BitVector, R1_), R2_, nothing),
 )
 
     @test isnothing(re) ||

@@ -36,9 +36,15 @@ function get_not_end(st, de = isspace)
 
 end
 
-function make_short(st, um)
+function text(st, um)
 
     lastindex(st) <= um ? st : "$(st[1:um])..."
+
+end
+
+function text(an_)
+
+    join(an_, " · ")
 
 end
 

@@ -12,18 +12,8 @@ const N = [
     2 4 6
 ]
 
-# ---- #
-
 for N in (N, -N)
 
     Nucleus.HeatPlot.writ("", ("Aa", "Bb"), ("Cc", "Dd", "Ee"), N)
-
-end
-
-# ---- #
-
-for N in (N, -N)
-
-    Nucleus.HeatPlot.writ("", N)
 
 end

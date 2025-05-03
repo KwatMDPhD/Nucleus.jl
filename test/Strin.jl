@@ -10,7 +10,7 @@ for st in ("", " ", ".", "_")
 
     @test Nucleus.Strin.is_bad("$st$st")
 
-    @test !Nucleus.Strin.is_bad("A$st")
+    @test !Nucleus.Strin.is_bad("Aa$st")
 
 end
 
@@ -62,6 +62,14 @@ end
 
 for (um, re) in ((1, "A..."), (2, "A\t..."), (51, ST), (52, ST))
 
-    @test Nucleus.Strin.make_short(ST, um) === re
+    @test Nucleus.Strin.text(ST, um) === re
+
+end
+
+# ---- #
+
+for (an_, re) in ((1:3, "1 · 2 · 3"),)
+
+    @test Nucleus.Strin.text(an_) === re
 
 end

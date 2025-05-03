@@ -21,19 +21,25 @@ function make(yc_, xc_, N; co = Nucleus.Plotly.make_colorscale(Nucleus.ColorSche
 
 end
 
+function make(an_)
+
+    "title" => Dict("text" => lastindex(an_))
+
+end
+
 function writ(ht, yc_, xc_, N, la = Dict{String, Any}(); ke_...)
 
     Nucleus.Plotly.writ(
         ht,
         (make(yc_, xc_, N; ke_...),),
-        Nucleus.Dictionary.make(Dict("yaxis" => Dict("autorange" => "reversed")), la),
+        Nucleus.Dictionary.make(
+            Dict(
+                "yaxis" => Dict("autorange" => "reversed", make(yc_)),
+                "xaxis" => Dict(make(xc_)),
+            ),
+            la,
+        ),
     )
-
-end
-
-function writ(ht, N, la = Dict{String, Any}(); ke_...)
-
-    writ(ht, axes(N)..., N, la; ke_...)
 
 end
 

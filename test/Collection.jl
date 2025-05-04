@@ -100,3 +100,8 @@ for (nu_, re) in (([-1, 0], (-1,)), ([0, 1], (1,)), ([-1, 0, 1], (-1, 1)))
     @test Nucleus.Collection.get_extreme(nu_) === re
 
 end
+
+# ---- #
+# TODO
+
+Nucleus.Collection.make

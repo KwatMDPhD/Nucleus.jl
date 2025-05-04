@@ -68,4 +68,26 @@ function get_extreme(nu_)
 
 end
 
+function make(an_)
+
+    d1 = Dict{String, Int}()
+
+    d2 = Dict{Int, String}()
+
+    un_ = unique(an_)
+
+    for id in eachindex(un_)
+
+        un = un_[id]
+
+        d1[un] = id
+
+        d2[id] = un
+
+    end
+
+    d1, d2
+
+end
+
 end

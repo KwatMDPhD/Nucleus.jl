@@ -12,7 +12,7 @@ function make_colorscale(st_)
 
         st = st_[1]
 
-        ((0, st), (1, st))
+        (0, st), (1, st)
 
     else
 

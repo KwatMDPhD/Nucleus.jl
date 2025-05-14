@@ -6,7 +6,7 @@ using Nucleus
 
 for (st, re) in ((" A  B   ", "A B"),)
 
-    @test Nucleus.Tex.update_space(st) === re
+    @test Nucleus.Tex.text_strip(st) === re
 
 end
 

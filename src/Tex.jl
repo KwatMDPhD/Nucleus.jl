@@ -1,6 +1,6 @@
 module Tex
 
-function update_space(st)
+function text_strip(st)
 
     replace(strip(st), r" +" => ' ')
 

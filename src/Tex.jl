@@ -6,13 +6,13 @@ function update_space(st)
 
 end
 
-function make_low(st)
+function text_low(st)
 
     replace(lowercase(st), r"[^._0-9a-z]" => '_')
 
 end
 
-function make_title(st)
+function text_title(st)
 
     st = titlecase(st; strict = false)
 
@@ -61,7 +61,7 @@ function make_title(st)
 
 end
 
-function make_count(um, st)
+function text_count(um, st)
 
     if 1 < abs(um)
 

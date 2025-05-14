@@ -20,7 +20,7 @@ const S2 = "    DNA   RNA  protein "
 
 for (st, re) in ((S1, "_less__is___more____"), (S2, "____dna___rna__protein_"))
 
-    @test Nucleus.Tex.make_low(st) === re
+    @test Nucleus.Tex.text_low(st) === re
 
 end
 
@@ -41,7 +41,7 @@ for (st, re) in (
     ("this_is_a_pen.", "This Is a Pen."),
 )
 
-    @test Nucleus.Tex.make_title(st) === re
+    @test Nucleus.Tex.text_title(st) === re
 
 end
 
@@ -63,10 +63,10 @@ for (s1, s2) in (
     ("apple", "apples"),
 )
 
-    @test Nucleus.Tex.make_count(1, s1) === "1 $s1"
+    @test Nucleus.Tex.text_count(1, s1) === "1 $s1"
 
-    @test Nucleus.Tex.make_count(2, s1) === "2 $s2"
+    @test Nucleus.Tex.text_count(2, s1) === "2 $s2"
 
-    #@btime Nucleus.Tex.make_count(2, $s1)
+    #@btime Nucleus.Tex.text_count(2, $s1)
 
 end

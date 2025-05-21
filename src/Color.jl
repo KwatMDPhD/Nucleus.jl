@@ -28,10 +28,6 @@ const SP = "#00936e"
 
 const FA = "#ffd96a"
 
-const S1 = "#8c1515"
-
-const S2 = "#175e54"
-
 const OR = "#fc7f31"
 
 function make(co::Colorant)

@@ -16,6 +16,14 @@ function make(st, s1_, s2_, A)
 
 end
 
+function ge(A)
+
+    st_ = names(A)
+
+    st_[1], A[!, 1], st_[2:end], Matrix(A[!, 2:end])
+
+end
+
 function make_dictionary(A, st_, st)
 
     di = Dict{String, String}()

@@ -14,8 +14,8 @@ end
 
 # ---- #
 
-# 26.857 ns (4 allocations: 256 bytes)
-# 138.333 μs (32 allocations: 1.73 MiB)
+# 25.953 ns (4 allocations: 256 bytes)
+# 137.583 μs (32 allocations: 1.73 MiB)
 
 for (nu_, r1, r2) in
     (([-2, 1, 0, -1, 2], [-2, -1], [1, 0, 2]), (randn(100000), nothing, nothing))

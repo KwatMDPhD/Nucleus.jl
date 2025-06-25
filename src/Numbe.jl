@@ -10,9 +10,11 @@ end
 
 function ge(nu_)
 
-    ne_ = similar(nu_, 0)
+    ty = eltype(nu_)
 
-    po_ = similar(nu_, 0)
+    ne_ = ty[]
+
+    po_ = ty[]
 
     for nu in nu_
 

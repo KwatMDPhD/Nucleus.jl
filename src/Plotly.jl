@@ -4,6 +4,12 @@ using JSON: json
 
 using ..Nucleus
 
+function make_title(t1, t2 = "")
+
+    "title" => Dict("text" => t1, "subtitle" => Dict("text" => t2))
+
+end
+
 function make_colorscale(st_)
 
     um = lastindex(st_)

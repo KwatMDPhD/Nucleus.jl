@@ -4,7 +4,7 @@ using StatsBase: mean
 
 using ..Nucleus
 
-function writ(ht, s1_, s2_, N, na, nu_, di, la = Dict{String, Any}())
+function writ(ht, s1_, N, na, nu_, s2_, he_, la = Dict{String, Any}())
 
     in_ = sortperm(map(mean, eachrow(N)))
 
@@ -16,7 +16,11 @@ function writ(ht, s1_, s2_, N, na, nu_, di, la = Dict{String, Any}())
 
     tr_ = Dict{String, Any}[]
 
-    for un in unique(s2_)
+    un_ = unique(s2_)
+
+    for id in eachindex(un_)
+
+        un = un_[id]
 
         in_ = findall(==(un), s2_)
 
@@ -30,7 +34,7 @@ function writ(ht, s1_, s2_, N, na, nu_, di, la = Dict{String, Any}())
                 "jitter" => 1,
                 "y" => vec(N[:, in_]),
                 "x" => repeat(s1_, lastindex(in_)),
-                "marker" => Dict("color" => di[un]),
+                "marker" => Dict("color" => he_[id]),
             ),
         )
 

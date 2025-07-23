@@ -27,7 +27,7 @@ function writ(ht, s1_, N, na, nu_, s2_, he_, la = Dict{String, Any}())
         push!(
             tr_,
             Dict(
-                "name" => un,
+                "name" => "$un ($(lastindex(in_)))",
                 "type" => "box",
                 "boxpoints" => "all",
                 "pointpos" => 0,

@@ -6,7 +6,6 @@ using Nucleus
 
 for st in (
     "Animation",
-    "BoxPlot",
     "BubblePlot",
     "Collection",
     "Color",

@@ -6,9 +6,9 @@ function is_bad(st)
 
 end
 
-function ge(st, id, de = isspace)
+function ge(st, nd, de = isspace)
 
-    split(st, de; limit = id + 1)[id]
+    split(st, de; limit = nd + 1)[nd]
 
 end
 

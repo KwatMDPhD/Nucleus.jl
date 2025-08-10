@@ -10,11 +10,11 @@ function is_in!(bo_, di, an_)
 
     for an in an_
 
-        id = get(di, an, nothing)
+        nd = get(di, an, nothing)
 
-        if !isnothing(id)
+        if !isnothing(nd)
 
-            bo_[id] = true
+            bo_[nd] = true
 
         end
 
@@ -26,9 +26,9 @@ function index(an_)
 
     di = Dict{eltype(an_), Vector{Int}}()
 
-    for id in eachindex(an_)
+    for nd in eachindex(an_)
 
-        an = an_[id]
+        an = an_[nd]
 
         if !haskey(di, an)
 
@@ -36,7 +36,7 @@ function index(an_)
 
         end
 
-        push!(di[an], id)
+        push!(di[an], nd)
 
     end
 
@@ -76,13 +76,13 @@ function make(an_)
 
     un_ = unique(an_)
 
-    for id in eachindex(un_)
+    for nd in eachindex(un_)
 
-        un = un_[id]
+        un = un_[nd]
 
-        d1[un] = id
+        d1[un] = nd
 
-        d2[id] = un
+        d2[nd] = un
 
     end
 

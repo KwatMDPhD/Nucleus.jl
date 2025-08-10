@@ -79,7 +79,7 @@ for fi in (joinpath(DA, "_.tsv"), GZ)
 
     A2 = writ(A1)
 
-    @test all(id -> isequal(A1[!, id], A2[!, id]), axes(A1, 2))
+    @test all(nd -> isequal(A1[!, nd], A2[!, nd]), axes(A1, 2))
 
 end
 

@@ -20,9 +20,9 @@ const ST = join('A':'Z', '\t')
 
 # ---- #
 
-for (id, re) in ((1, "A"), (2, "B"), (26, "Z"))
+for (nd, re) in ((1, "A"), (2, "B"), (26, "Z"))
 
-    @test Nucleus.Strin.ge(ST, id) == re
+    @test Nucleus.Strin.ge(ST, nd) == re
 
 end
 

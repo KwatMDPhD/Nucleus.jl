@@ -8,11 +8,11 @@ using ..Nucleus
 
 function update!(di, st, an)
 
-    id = 1
+    nd = 1
 
     while haskey(di, st)
 
-        st = "$(isone(id) ? st : Nucleus.Strin.get_not_end(st, '.')).$(id += 1)"
+        st = "$(isone(nd) ? st : Nucleus.Strin.get_not_end(st, '.')).$(nd += 1)"
 
     end
 

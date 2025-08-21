@@ -67,7 +67,7 @@ const D4 = Dict("1" => 1, "2" => "2")
 
 # ---- #
 
-const DA = pkgdir(Nucleus, "data", "Dictionary")
+const DA = pkgdir(Nucleus, "da", "Dictionary")
 
 for (fi, re) in (
     (joinpath(DA, "_.json"), D4),

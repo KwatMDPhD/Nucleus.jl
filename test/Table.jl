@@ -47,7 +47,7 @@ end
 
 # ---- #
 
-const DA = pkgdir(Nucleus, "data", "Table")
+const DA = pkgdir(Nucleus, "da", "Table")
 
 const GZ = joinpath(DA, "_.tsv.gz")
 

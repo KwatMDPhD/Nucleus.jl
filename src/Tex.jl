@@ -12,9 +12,9 @@ function text_low(st)
 
 end
 
-function text_title(st)
+function text_title(s1)
 
-    st = titlecase(st; strict = false)
+    s2 = uppercasefirst(s1)
 
     for pa in (
         '_' => ' ',
@@ -53,11 +53,11 @@ function text_title(st)
         r"(?<= )with(?= )"i => "with",
     )
 
-        st = replace(st, pa)
+        s2 = replace(s2, pa)
 
     end
 
-    st
+    s2
 
 end
 

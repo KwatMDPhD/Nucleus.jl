@@ -60,16 +60,16 @@ end
 
 # ---- #
 
-for (um, re) in ((1, "A..."), (2, "A\t..."), (51, ST), (52, ST))
+for (st, re) in (("1 A 2 a 3 . _", "Aa"), (ST, join('A':'Z')))
 
-    @test Nucleus.Strin.text(ST, um) === re
+    @test Nucleus.Strin.text_letter(st) === re
 
 end
 
 # ---- #
 
-for (an_, re) in ((1:3, "1 · 2 · 3"),)
+for (um, re) in ((1, "A..."), (2, "A\t..."), (51, ST), (52, ST))
 
-    @test Nucleus.Strin.text(an_) === re
+    @test Nucleus.Strin.text_limit(ST, um) === re
 
 end

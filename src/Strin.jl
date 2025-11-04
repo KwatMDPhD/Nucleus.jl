@@ -36,15 +36,23 @@ function get_not_end(st, de = isspace)
 
 end
 
-function text(st, um)
+function text_letter(st)
 
-    lastindex(st) <= um ? st : "$(st[1:um])..."
+    join(ch for ch in st if isletter(ch))
 
 end
 
-function text(an_)
+function text_limit(st, um)
 
-    join(an_, " · ")
+    if lastindex(st) <= um
+
+        return st
+
+    end
+
+    st = st[1:um]
+
+    "$st..."
 
 end
 

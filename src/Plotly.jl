@@ -62,11 +62,17 @@ function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
         la,
     )
 
+    j1 = json(tr_)
+
+    j2 = json(la)
+
+    j3 = json(co)
+
     Nucleus.HTM.writ(
         ht,
         ("https://cdn.plot.ly/plotly-3.0.1.min.js",),
         """
-        Plotly.newPlot("nu", $(json(tr_)), $(json(la)), $(json(co)))""",
+        Plotly.newPlot("nu", $j1, $j2, $j3)""",
     )
 
 end

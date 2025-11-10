@@ -6,16 +6,6 @@ include("_.jl")
 
 # ---- #
 
-const PV = 0.1
-
-for (um, re) in ((0, PV), (1, PV), (2, 0.2))
-
-    @test Nucleus.Significance.make(um, 10) === re
-
-end
-
-# ---- #
-
 const N1_ = [-4, -3, -2, -1, -0.0, 0, 1, 2, 3, 4]
 
 const R1_ = randn(1000)
@@ -24,15 +14,15 @@ const R2_ = randn(100000)
 
 # ---- #
 
-# 91.824 ns (11 allocations: 512 bytes)
-# 95.697 ns (11 allocations: 512 bytes)
-# 22.227 ms (19 allocations: 48.41 KiB)
+# 86.716 ns (11 allocations: 512 bytes)
+# 87.910 ns (11 allocations: 512 bytes)
+# 6.935 ms (19 allocations: 48.41 KiB)
 
 const N2_ = [-1, -0.0, 0, 1]
 
-const PV_ = [0.4, 0.6, 0.6, 0.7]
+const PV_ = [0.4, 0.6000000000000001, 0.6000000000000001, 0.7000000000000001]
 
-const QV_ = fill(0.7, 4)
+const QV_ = fill(0.7000000000000001, 4)
 
 for (eq, nu_, ra_, r1, r2) in (
     (<=, N2_, N1_, PV_, QV_),
@@ -52,8 +42,8 @@ end
 
 # ---- #
 
-# 364.229 ns (44 allocations: 2.28 KiB)
-# 11.272 ms (95 allocations: 1.82 MiB)
+# 379.103 ns (46 allocations: 2.38 KiB)
+# 3.609 ms (101 allocations: 1.84 MiB)
 
 for (nu_, ra_, r1, r2, r3) in (
     (

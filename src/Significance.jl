@@ -4,19 +4,41 @@ using MultipleTesting: BenjaminiHochberg, adjust
 
 using ..Nucleus
 
-# TODO: Go Bayesian.
+# TODO: Go Bayesian
 
-function make(u1::Integer, u2)
+function make(fu, nu_, ra_)
 
-    (iszero(u1) ? 1 : u1) / u2
+    u1 = inv(lastindex(ra_))
+
+    pv_ = map(nu_) do nu
+
+        u2 = count(fu(nu), ra_)
+
+        if iszero(u2)
+
+            u2 = 1
+
+        end
+
+        u1 * u2
+
+    end
+
+    pv_, adjust(pv_, BenjaminiHochberg())
 
 end
 
-function make(eq, nu_, ra_)
+function make(fu, nu_, in_, ra_)
 
-    pv_ = map(nu -> make(count(eq(nu), ra_), lastindex(ra_)), nu_)
+    if isempty(in_)
 
-    pv_, adjust(pv_, BenjaminiHochberg())
+        Float64[], Float64[]
+
+    else
+
+        make(fu, nu_[in_], ra_)
+
+    end
 
 end
 
@@ -26,11 +48,11 @@ function make(nu_, ra_)
 
     i2_ = findall(>=(0), nu_)
 
-    ne_, po_ = Nucleus.Numbe.ge(ra_)
+    r1_, r2_ = Nucleus.Numbe.ge(ra_)
 
-    p1_, q1_ = isempty(i1_) ? (Float64[], Float64[]) : make(<=, nu_[i1_], ne_)
+    p1_, q1_ = make(<=, nu_, i1_, r1_)
 
-    p2_, q2_ = isempty(i2_) ? (Float64[], Float64[]) : make(>=, nu_[i2_], po_)
+    p2_, q2_ = make(>=, nu_, i2_, r2_)
 
     vcat(i1_, i2_), vcat(p1_, p2_), vcat(q1_, q2_)
 

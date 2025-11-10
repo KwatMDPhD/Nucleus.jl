@@ -34,6 +34,12 @@ function make(fu, nu_, in_, ra_)
 
         Float64[], Float64[]
 
+    elseif isempty(ra_)
+
+        um = lastindex(in_)
+
+        fill(NaN, um), fill(NaN, um)
+
     else
 
         make(fu, nu_[in_], ra_)

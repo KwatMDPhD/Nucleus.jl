@@ -4,9 +4,17 @@ using JSON: json
 
 using ..Nucleus
 
-function make_title(t1, t2 = "")
+function make_title(s1, s2 = "")
 
-    "title" => Dict("text" => t1, "subtitle" => Dict("text" => t2))
+    "title" => Dict("text" => s1, "subtitle" => Dict("text" => s2))
+
+end
+
+function text(an, an_)
+
+    um = lastindex(an_)
+
+    "$an ($um)"
 
 end
 
@@ -70,9 +78,9 @@ function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
 
     Nucleus.HTM.writ(
         ht,
-        ("https://cdn.plot.ly/plotly-3.0.1.min.js",),
+        ("https://cdn.plot.ly/plotly-3.2.0.min.js",),
         """
-        Plotly.newPlot("nu", $j1, $j2, $j3)""",
+        Plotly.newPlot("Nu", $j1, $j2, $j3)""",
     )
 
 end

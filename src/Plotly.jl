@@ -53,7 +53,8 @@ function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
                     "heatmap" => [
                         Dict(
                             "colorbar" => Dict(
-                                "len" => 0.56,
+                                "len" => 240,
+                                "lenmode" => "pixels",
                                 "thickness" => 16,
                                 "outlinewidth" => 0,
                             ),

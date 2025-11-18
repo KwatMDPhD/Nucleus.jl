@@ -52,7 +52,7 @@ function make_dictionary(A, st_, st)
 
             end
 
-            for sp in eachsplit(s2, '|')
+            for sp in eachsplit(string(s2), '|')
 
                 di[sp] = s1
 

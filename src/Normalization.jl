@@ -1,26 +1,62 @@
 module Normalization
 
-using ..Nucleus
+using StatsBase: competerank, denserank, mean, quantile, std, tiedrank
 
-function update_0_clamp!(nu_, st = 3)
+function update!(nu_, pr_)
 
-    if allequal(nu_)
+    qu_ = quantile(nu_, pr_)
 
-        @warn "All $(nu_[1])."
-
-        fill!(nu_, 0)
-
-    else
-
-        clamp!(Nucleus.RangeNormalization.update_0!(nu_), -st, st)
-
-    end
+    map!(nu -> findfirst(>=(nu), qu_), nu_, nu_)
 
 end
 
-function make_125254_01(nu_)
+function make_125254(nu_)
 
-    Nucleus.RangeNormalization.update_01!(Nucleus.RankNormalization.make_125254(nu_))
+    tiedrank(nu_)
+
+end
+
+function update_shift!(nu_)
+
+    mi = minimum(nu_)
+
+    map!(nu -> nu - mi, nu_, nu_)
+
+end
+
+function update_log2!(nu_)
+
+    mi = minimum(nu_)
+
+    map!(nu -> log2(nu - mi + 1), nu_, nu_)
+
+end
+
+function update_z!(nu_)
+
+    me = mean(nu_)
+
+    iv = inv(std(nu_))
+
+    map!(nu -> (nu - me) * iv, nu_, nu_)
+
+end
+
+function update_01!(nu_)
+
+    mi, ma = extrema(nu_)
+
+    iv = inv(ma - mi)
+
+    map!(nu -> (nu - mi) * iv, nu_, nu_)
+
+end
+
+function update_sum!(po_)
+
+    iv = inv(sum(po_))
+
+    map!(po -> po * iv, po_, po_)
 
 end
 

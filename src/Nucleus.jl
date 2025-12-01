@@ -20,8 +20,6 @@ for st in (
     "PairMetric",
     "Path",
     "Plotly",
-    "RangeNormalization",
-    "RankNormalization",
     "Rename",
     "Significance",
     "Strin",

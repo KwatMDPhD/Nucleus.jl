@@ -2,7 +2,7 @@
 
 julia_version = "1.12.2"
 manifest_format = "2.0"
-project_hash = "1e534a3167a96bcbc8f239cfa61ae47d38f8e0cb"
+project_hash = "9d5bd921a92c7d3457227584e2fd50fea505e39c"
 
 [[deps.Public]]
 path = "."

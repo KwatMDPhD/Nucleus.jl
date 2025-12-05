@@ -310,7 +310,7 @@ uuid = "f8716d33-7c4a-5097-896f-ce0ecbd3ef6b"
 version = "0.6.0"
 
 [[deps.Nucleus]]
-deps = ["CSV", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distributions", "Mmap", "MultipleTesting", "OrderedCollections", "Printf", "Random", "StatsBase", "TOML", "Test", "XLSX"]
+deps = ["CSV", "CodecZlib", "ColorSchemes", "Colors", "DataFrames", "Dates", "Distributions", "JSON", "Mmap", "MultipleTesting", "OrderedCollections", "Printf", "Random", "StatsBase", "TOML", "Test", "XLSX"]
 path = "."
 uuid = "cd814215-3b54-4e50-ac5e-8a2c7852bc16"
 version = "0.1.0"

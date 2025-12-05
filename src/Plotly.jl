@@ -71,7 +71,7 @@ function writ(ht, tr_, la = Dict{String, Any}(), co = Dict{String, Any}())
         la,
     )
 
-    j1 = json(tr_)
+    j1 = json(tr_; allownan = true)
 
     j2 = json(la)
 

@@ -2,6 +2,20 @@ module Public
 
 # ----------------------------------------------------------------------------------------------- #
 
+using CSV: read
+
+using CodecZlib: GzipDecompressor, transcode
+
+using DataFrames: DataFrame
+
+using JSON: parsefile
+
+using Mmap: mmap
+
+using TOML: parsefile as parsefile2
+
+using XLSX: readtable
+
 # =============================================================================================== #
 # String
 # =============================================================================================== #
@@ -179,6 +193,42 @@ end
 function read_path(pa)
 
     run(`open --background $pa`; wait = false)
+
+end
+
+# =============================================================================================== #
+# Table
+# =============================================================================================== #
+
+function read_table(pa; ke_...)
+
+    @assert isfile(pa) pa
+
+    in_ = mmap(pa)
+
+    read(if endswith(pa, "gz")
+
+        transcode(GzipDecompressor, in_)
+
+    else
+
+        in_
+
+    end, DataFrame; ke_...)
+
+end
+
+function read_sheet(pa, st; ke_...)
+
+    DataFrame(readtable(pa, st; infer_eltypes = true, ke_...))
+
+end
+
+function make_part(A)
+
+    st_ = names(A)
+
+    st_[1], A[!, 1], st_[2:end], Matrix(A[!, 2:end])
 
 end
 

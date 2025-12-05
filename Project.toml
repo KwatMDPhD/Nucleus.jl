@@ -1,4 +1,22 @@
 name = "Public"
 uuid = "c947c6f8-4499-4aba-9a07-9ad9f868b827"
-authors = ["KwatMDPhD"]
 version = "0.1.0"
+authors = ["KwatMDPhD"]
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+CodecZlib = "944b1d66-785c-5afd-91f1-9de20f533193"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Mmap = "a63ad114-7e13-5084-954f-fe012c677804"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
+
+[compat]
+CSV = "0.10.15"
+CodecZlib = "0.7.8"
+DataFrames = "1.8.1"
+JSON = "1.3.0"
+Mmap = "1.11.0"
+TOML = "1.0.3"
+XLSX = "0.10.4"
